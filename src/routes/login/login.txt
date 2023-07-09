@@ -1,0 +1,83 @@
+import { } from "./login.css"
+import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
+
+export const Login = () => {
+
+  const [useremail, setUseremail] = useState("")
+  const [userpwd, setUserPwd] = useState("")
+  const navigate = useNavigate();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log("clieked")
+    loginPostApiCall(useremail, userpwd);
+  }
+
+  async function loginPostApiCall(email, pswd) {
+    const loginPayload = {
+      username: email,
+      password: pswd,
+    };
+
+    const requestsType = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginPayload),
+    };
+
+    try {
+      const loginPostApiRes = await fetch('http://localhost:8670/admin/login', requestsType);
+      const jsonLoginPostApiRes = await loginPostApiRes.json();
+      if (loginPostApiRes.status === 200) {
+        localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
+        localStorage.setItem("user", JSON.stringify(jsonLoginPostApiRes.user.name));
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
+      }
+      if (loginPostApiRes.status == 401) {
+        alert("you are Invalid Your whole life was Invalid")
+      }
+    } catch (error) {
+      alert(" bhai err milgya", error)
+    }
+  }
+
+
+  return (
+    <>
+      <div className="parent clearfix">
+        <div className="bg-illustration">
+          <img src="https://i.ibb.co/Pcg0Pk1/logo.png" alt="logo" />
+          <div className="burger-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+        <div className="login">
+          <div className="container">
+            <h1>Login to access to<br />your account</h1>
+            <div className="login-form">
+              <form action="" onSubmit={(e) => handleSubmit(e)} >
+                <input type="email" placeholder="E-mail Address" onChange={(e) => setUseremail(e.target.value)} />
+                <input type="password" placeholder="Password" onChange={(e) => setUserPwd(e.target.value)} />
+                <div className="remember-form">
+                  <input type="checkbox" />
+                  <span>Remember me</span>
+                </div>
+                <div className="forget-pass">
+                  <a href="#">Forgot Password ?</a>
+                </div>
+                <button type="submit">LOG-IN</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
