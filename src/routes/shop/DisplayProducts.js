@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 
 function DisplayProduct({ displaydata }) {
-  console.log("disss",displaydata )
   return (
     <>
       {displaydata.map((prods,index) => {

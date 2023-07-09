@@ -54,10 +54,8 @@ function Shop() {
           StringSplited == "Children's Clothing" ||
           StringSplited == "Sunglasses"
         ) { tempstr = "Fashion" }
-        console.log("response",await `${ProdcutsWrtCate}/${tempstr}/${encoded}`)
         if (!tempstr || !encoded) return;
         let response = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${tempstr}/${encoded}`);
-        console.log("response",response)
         setDisplaydata(response?.data)
       }
     } catch (error) {
