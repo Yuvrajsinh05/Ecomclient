@@ -54,9 +54,10 @@ function Cart() {
     async function paymentVerification(razorpay_payment_id,razorpay_order_id,razorpay_signature) {
 
         const data = {
-            razorpay_payment_id,
-            razorpay_order_id,
-            razorpay_signature
+           "razorpay_payment_id" : razorpay_payment_id,
+           "razorpay_order_id" : razorpay_order_id,
+           "razorpay_signature":razorpay_signature,
+           "email":localStorage.getItem('ecomuseremail')
         }
         let verify = await postApiCall(Payment.paymentVerify, data)
     }
@@ -73,11 +74,12 @@ function Cart() {
             image: "https://example.com/your_logo",
             order_id: consekey?.data?.order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             handler: function (response) {
+                console.log("reponse",response)
                paymentVerification(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature)
             },
             prefill: {
-                "name": "Yuvrajsinh Jadav",
-                "email": "yuvrajsinh73598@gmail.com",
+                "name": localStorage.getItem('user'),
+                "email": localStorage.getItem('ecomuseremail'),
                 "contact": "9510533350"
             },
             notes: {

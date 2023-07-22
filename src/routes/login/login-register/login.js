@@ -39,6 +39,7 @@ export const Login = ({ setLogin }) => {
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
         localStorage.setItem("user", jsonLoginPostApiRes.user.name);
         localStorage.setItem("ecomuserId", jsonLoginPostApiRes.user._id);
+        localStorage.setItem("ecomuseremail", jsonLoginPostApiRes.user.email);
         dispatch(logIn(true))
         dispatch(userState(jsonLoginPostApiRes))
         setTimeout(() => {
