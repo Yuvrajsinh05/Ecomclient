@@ -37,7 +37,3 @@ console.log("inner trigger")
 
 export default App;
 
-
-
-{/* <Route path="/Contact" element={<Contact/>} />
-<Route path="/PaymentSuccess/" element={<PaymentSuccess/>} /> */}

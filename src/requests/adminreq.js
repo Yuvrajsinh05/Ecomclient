@@ -2,6 +2,8 @@
 // const baseUrl = 'http://localhost:8670'
 const baseUrl = 'https://node-ecom-j08j.onrender.com'
 
+
+
 export const UserAuth = {
     login: `${baseUrl}/admin/login` , 
     register: `${baseUrl}/admin/register`, 
@@ -19,6 +21,7 @@ export const HomeCorousel = {
 export const ProductCalls = {
     getallmobiles : `${baseUrl}/admin/mobiles`,
     getallComputers : `${baseUrl}/admin/computer&Accessories`,
+    getallFashion : `${baseUrl}/admin/fashion`,
 }
 
 export const CustomerCart = {
@@ -37,4 +40,12 @@ export const Payment = {
     doPay :`${baseUrl}/admin/doPay`,
     getKey :`${baseUrl}/admin/getKey`,
 
+}
+
+
+
+export const dashboardClothing = {
+    MensCloth : `${baseUrl}/admin/Fashion/Men's%20Clothing`,
+    WomensCloth : `${baseUrl}/admin/Fashion/Women's%20Clothing`,
+    Kids :`${baseUrl}/admin/Fashion/Children's%20Clothing`
 }

@@ -30,10 +30,13 @@ function Details() {
     }
 
 
+    console.log("proDetail",proDetail)
+
     async function handlecartmenu(e) {
         e.preventDefault();
         let data = {
             product_id: productId,
+            product_name:proDetail?.name ,
             quantity: counter,
             price: proDetail?.price
         }

@@ -66,9 +66,9 @@ function Cart() {
         const getKey = await getApiCall(Payment.getKey)
         var options = {
             key: getKey.key, // Enter the Key ID generated from the Dashboard
-            amount: "50000", // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            amount:totalAmont*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: "INR",
-            name: "Acme Corp",
+            name: "Pay to Yuvrajsinh",
             description: "Test Transaction",
             image: "https://example.com/your_logo",
             order_id: consekey?.data?.order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
@@ -76,9 +76,9 @@ function Cart() {
                paymentVerification(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature)
             },
             prefill: {
-                "name": "Gaurav Kumar",
-                "email": "gaurav.kumar@example.com",
-                "contact": "9000090000"
+                "name": "Yuvrajsinh Jadav",
+                "email": "yuvrajsinh73598@gmail.com",
+                "contact": "9510533350"
             },
             notes: {
                 "address": "Razorpay Corporate Office"
@@ -190,10 +190,12 @@ function Cartcomponent({ cart, handleCartrmv }) {
     }
 
 
+    // console.log("handlecartrmv",handleCartrmv , cart)
+
     return (
         <>
             <tr>
-                <td className="align-middle"><img src="img/product-1.jpg" alt="" style={{ width: "50px" }} /> {cart?.product_id}</td>
+                <td className="align-middle"><img src="img/product-1.jpg" alt="" style={{ width: "50px" }} /> {cart?.product_name || "N/A"}</td>
                 <td className="align-middle">{` ₹ ${(cart?.price)} `}</td>
                 <td className="align-middle">
                     <div className="input-group quantity mx-auto" style={{ width: "100px" }}>

@@ -12,9 +12,9 @@
   
   .container-login{
     /* padding: ; */
-    width: 40%;
-    margin: auto;
-    margin-top: 5rem;
+    margin: auto !important;
+    margin-top: 2rem !important;
+    padding: 2rem;
   }
   body {
     background-color: #fff;

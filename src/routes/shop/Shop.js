@@ -55,6 +55,7 @@ function Shop() {
           StringSplited == "Sunglasses"
         ) { tempstr = "Fashion" }
         if (!tempstr || !encoded) return;
+        console.log("......",`${ProdcutsWrtCate.getProductsById}/${tempstr}/${encoded}`)
         let response = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${tempstr}/${encoded}`);
         setDisplaydata(response?.data)
       }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { getApiCall } from "../../../requests/requests";
-import { ProductCalls } from "../../../requests/adminreq";
+import { ProductCalls, dashboardClothing } from "../../../requests/adminreq";
 import { Link ,Outlet} from "react-router-dom"
 
 export const Products = () => {
@@ -13,17 +13,19 @@ export const Products = () => {
     }, [])
 
     const getFeaturedProducts = async () => {
-        let mobiles = await getApiCall(ProductCalls.getallmobiles)
-        let computers = await getApiCall(ProductCalls.getallComputers)
-  
+        let mens = await getApiCall(dashboardClothing.MensCloth)
+        let womens = await getApiCall(dashboardClothing.WomensCloth)
+        let kids = await getApiCall(dashboardClothing.Kids)
+
+        console.log("mens..",mens,womens,kids)
         let temp = []
         let displayFeatures = []
 
-        for (var i = 0; i < mobiles?.data?.length; i++) {
-            temp.push(mobiles?.data[i])
+        for (var i = 0; i < mens?.data?.length; i++) {
+            temp.push(mens?.data[i])
         }
-        for (var i = 0; i < computers?.data?.length; i++) {
-            temp.push(computers?.data[i])
+        for (var i = 0; i < womens?.data?.length; i++) {
+            temp.push(womens?.data[i])
         }
         for (var i = 0; i < temp?.length; i++) {
             for (var j = 0; displayFeatures?.length < 8; j++) {
@@ -60,7 +62,7 @@ function FeaturedCard({fpro}) {
             <div className="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div className="product-item bg-light mb-4">
                     <div className="product-img position-relative overflow-hidden">
-                        <img style={{height:"280px"}} className="img-fluid w-100" src={fpro?.imageUrl} alt="" />
+                        <img style={{height:"280px"}} className="img-fluid w-100" src={fpro?.image} alt="" />
                         <div className="product-action">
                             <Link className="btn btn-outline-dark btn-square" to={`/shopdetail/${fpro?._id}`}><i className="fa fa-shopping-cart"></i></Link>
                             <Link className="btn btn-outline-dark btn-square" href=""><i className="far fa-heart"></i></Link>

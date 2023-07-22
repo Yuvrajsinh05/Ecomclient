@@ -37,7 +37,7 @@ export default function Carousel() {
                                         <div className="p-3" style={{ maxWidth: "700px" }}>
                                             <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[0]?.category}</h1>
                                             <p className="mx-md-5 px-5 animate__animated animate__bounceIn">{sliders[0]?.description}</p>
-                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to="#">Shop Now</Link>
+                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to={'/shop?%20Women%27s%20Clothing'}>Shop Now</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@ export default function Carousel() {
                                         <div className="p-3" style={{ maxWidth: "700px" }}>
                                             <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[1]?.category}</h1>
                                             <p className="mx-md-5 px-5 animate__animated animate__bounceIn">{sliders[1]?.description}</p>
-                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to="#">Shop Now</Link>
+                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to={'/shop?%20Men%27s%20Clothing'}>Shop Now</Link>
                                         </div>
                                     </div>
                                 </div>
@@ -57,7 +57,7 @@ export default function Carousel() {
                                         <div className="p-3" style={{ maxWidth: "700px" }}>
                                             <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[2]?.category}</h1>
                                             <p className="mx-md-5 px-5 animate__animated animate__bounceIn">{sliders[2]?.description}</p>
-                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to="#">Shop Now</Link>
+                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to={'/shop?%20Children%27s%20Clothing'}>Shop Now</Link>
                                         </div>
                                     </div>
                                 </div>

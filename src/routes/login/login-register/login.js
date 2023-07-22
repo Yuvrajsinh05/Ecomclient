@@ -58,7 +58,7 @@ export const Login = ({ setLogin }) => {
   return (
     <div className="tab-pane fade show active" id="pills-login">
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div className="text-center mb-3">
+        {/* <div className="text-center mb-3">
           <p>Sign in with:</p>
           <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-facebook-f"></i>
@@ -75,20 +75,20 @@ export const Login = ({ setLogin }) => {
           <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-github"></i>
           </button>
-        </div>
+        </div> */}
 
-        <p className="text-center">or:</p>
+        {/* <p className="text-center">or:</p> */}
 
         {/* <!-- Email input --> */}
         <label className="form-label" htmlFor="loginName">Email or username</label>
         <div className="form-outline mb-4">
-          <input type="email" id="loginName" onChange={(e) => setUseremail(e.target.value)} className="form-control" />
+          <input type="email" id="loginName" style={{backgroundColor:'#E8F0FE'}} onChange={(e) => setUseremail(e.target.value)} className="form-control" />
         </div>
 
         {/* <!-- Password input --> */}
         <label className="form-label" htmlFor="loginPassword">Password</label>
         <div className="form-outline mb-4">
-          <input type="password" id="loginPassword" onChange={(e) => setUserPwd(e.target.value)} className="form-control" />
+          <input type="password" id="loginPassword"  style={{backgroundColor:'#E8F0FE'}} onChange={(e) => setUserPwd(e.target.value)} className="form-control" />
 
         </div>
 
