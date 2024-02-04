@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 const PaymentSuccess = () => {
-console.log("payment component")
+
     const seachQuery = useSearchParams()[0]
     const navigate =useNavigate();
     const referenceNum = seachQuery.get("reference")

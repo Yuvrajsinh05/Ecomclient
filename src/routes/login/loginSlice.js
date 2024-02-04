@@ -1,29 +1,50 @@
-import { createSlice } from '@reduxjs/toolkit'
+// loginSlice.js
+import { createSlice } from '@reduxjs/toolkit';
 
-export const loginSlice = createSlice({
-  name: 'LoginState',
-  initialState: {
-    isLogin: false,
-    userObj: {}
-  },
-  reducers: {
-    logIn: state => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.isLogin = true
-    },
-    logOut: state => {
-      state.isLogin = false
-    },
-    userState: (state, action) => {
-      state.userObj = { ...state.userObj, ...action.payload.user };
-    }
+// Function to load user from local storage
+const loadUserFromStorage = () => {
+  const storedToken = localStorage.getItem('ecomtoken');
+  return storedToken ? decodeToken(storedToken) : null;
+};
+
+// Function to decode JWT token
+const decodeToken = (token) => {
+  try {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    return decodedToken;
+  } catch (error) {
+    console.error('Error decoding JWT token:', error);
+    return null;
   }
-})
+};
 
-// Action creators are generated for each case reducer function
-export const { logIn, logOut, userState } = loginSlice.actions
+// Initial state with user data from local storage
+const initialState = {
+  user: loadUserFromStorage(),
+  isAuthenticated: !!loadUserFromStorage(),
+};
 
-export default loginSlice.reducer
+const loginSlice = createSlice({
+  name: 'login',
+  initialState,
+  reducers: {
+    // Action to handle successful login
+    loginSuccess: (state, action) => {
+      state.user = action.payload;
+      state.isAuthenticated = true;
+      localStorage.setItem('ecomtoken', action.payload.token);
+    },
+    // Action to handle logout
+    logout: (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+      localStorage.removeItem('ecomtoken');
+    },
+  },
+});
+
+// Export actions for dispatch
+export const { loginSuccess, logout } = loginSlice.actions;
+
+// Export the reducer
+export default loginSlice.reducer;

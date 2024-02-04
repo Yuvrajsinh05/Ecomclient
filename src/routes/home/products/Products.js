@@ -13,28 +13,30 @@ export const Products = () => {
     }, [])
 
     const getFeaturedProducts = async () => {
-        let mens = await getApiCall(dashboardClothing.MensCloth)
-        let womens = await getApiCall(dashboardClothing.WomensCloth)
-        let kids = await getApiCall(dashboardClothing.Kids)
-
-        console.log("mens..",mens,womens,kids)
-        let temp = []
-        let displayFeatures = []
-
+        let mens = await getApiCall(dashboardClothing.MensCloth);
+        let womens = await getApiCall(dashboardClothing.WomensCloth);
+        let kids = await getApiCall(dashboardClothing.Kids);
+    
+        let temp = [];
+        let displayFeatures = [];
+    
         for (var i = 0; i < mens?.data?.length; i++) {
-            temp.push(mens?.data[i])
+            temp.push(mens?.data[i]);
         }
         for (var i = 0; i < womens?.data?.length; i++) {
-            temp.push(womens?.data[i])
+            temp.push(womens?.data[i]);
         }
-        for (var i = 0; i < temp?.length; i++) {
-            for (var j = 0; displayFeatures?.length < 8; j++) {
-                displayFeatures?.push(temp[Math.floor(Math.random() * temp.length)])
-            }
-        }
-        setFeaturedProds(temp)
-        setDisplayFeatd(displayFeatures)
-    }
+    
+        // Shuffle the array to get a random order
+        temp = temp.sort(() => Math.random() - 0.5);
+
+        // Ensure uniqueness while selecting the first 8 elements
+        displayFeatures = Array.from(new Set(temp)).slice(0, 8);
+    
+        setFeaturedProds(temp);
+        setDisplayFeatd(displayFeatures);
+    };
+    
 
 
     return (
@@ -66,8 +68,8 @@ function FeaturedCard({fpro}) {
                         <div className="product-action">
                             <Link className="btn btn-outline-dark btn-square" to={`/shopdetail/${fpro?._id}`}><i className="fa fa-shopping-cart"></i></Link>
                             <Link className="btn btn-outline-dark btn-square" href=""><i className="far fa-heart"></i></Link>
-                            <Link className="btn btn-outline-dark btn-square" href=""><i className="fa fa-sync-alt"></i></Link>
-                            <Link className="btn btn-outline-dark btn-square" href=""><i className="fa fa-search"></i></Link>
+                            {/* <Link className="btn btn-outline-dark btn-square" href=""><i className="fa fa-sync-alt"></i></Link> */}
+                            {/* <Link className="btn btn-outline-dark btn-square" href=""><i className="fa fa-search"></i></Link> */}
                         </div>
                     </div>
                     <div className="text-center py-4">

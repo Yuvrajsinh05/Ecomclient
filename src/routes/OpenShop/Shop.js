@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Filterby from "./Filterby";
+// import Filterby from "./Filterby";
 import { useEffect } from "react";
 import { useNavigate  } from "react-router-dom";
 import { getApiCall } from "../../requests/requests";
@@ -7,15 +7,17 @@ import DisplayProduct from "./DisplayProducts";
 import { Header } from "../../components/header/header";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
-import { ProdcutsWrtCate } from "../../requests/adminreq";
+import { ProdcutsWrtCate, ProductCalls } from "../../requests/adminreq";
 import { useSelector } from "react-redux";
 
-function Shop() {
+function OpenShop() {
   const isAuthenticated = useSelector(state => state.login.isAuthenticated);
   const [displaydata, setDisplaydata] = useState([])
-  const [filter, setFilter] = useState([])
+  // const [filter, setFilter] = useState([])
   const location = useLocation();
   const navigate = useNavigate()
+
+
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -26,20 +28,21 @@ function Shop() {
 
   useEffect(()=>{
     fungetApiCall()
-  },[location])
+  },[])
 
 
 
 
   async function fungetApiCall() {
-    let categoryName = location?.state?.state2?.Categories
-    let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
-    if(categoryName && SubcategoryName ){
-      let FetchProducts = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${categoryName}/${encodeURI(SubcategoryName)}`)
+    // let categoryName = location?.state?.state2?.Categories
+    // let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
+    // if(categoryName && SubcategoryName ){
+
+      let FetchProducts = await getApiCall(`${ProductCalls.getallProducts}?idNameFashion=${location.state}`)
       setDisplaydata(FetchProducts?.data)
-      setFilter(location?.state?.state1)
+      // setFilter(location?.state?.state1)
     }
-  }
+  // }
 
 
   return (
@@ -64,9 +67,9 @@ function Shop() {
       <div className="container-fluid">
         <div className="row px-xl-5">
 
-          <Filterby  filter={filter}/>
+          {/* <Filterby  filter={filter}/> */}
 
-          <div className="col-lg-9 col-md-8">
+          <div className="col-lg-12  col-md-8">
             <div className="row pb-3">
               <div className="col-12 pb-1">
                 <div className="d-flex align-items-center justify-content-between mb-4">
@@ -124,7 +127,7 @@ function Shop() {
               </div>
 
 
-              <DisplayProduct displaydata={displaydata} />
+              <DisplayProduct displaydata={displaydata || []} />
 
             </div>
           </div>
@@ -134,4 +137,4 @@ function Shop() {
   );
 }
 
-export default Shop;
+export default OpenShop;

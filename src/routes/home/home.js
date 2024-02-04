@@ -12,15 +12,16 @@ import { Link } from "react-router-dom"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function Home() {
-
+  const isAuthenticated = useSelector(state => state.login.isAuthenticated);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!window.localStorage.ecomtoken) {
+    if (!isAuthenticated) {
       navigate('/')
     }
   }, [])
-  console.log("home component")
+
+  
   return (
     <>
       <Header />
@@ -29,8 +30,8 @@ export default function Home() {
         <Featured />
         <CategoriesComp />
         <Products />
-        <Offer />
-        <Products />
+        {/* <Offer /> */}
+        {/* <Products /> */}
         <Link onClick={() => {
           window.scrollTo(0, 0)
         }} className="btn btn-primary back-to-top"><i className="fa fa-angle-double-up"></i></Link>

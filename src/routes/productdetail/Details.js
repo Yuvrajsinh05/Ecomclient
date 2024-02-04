@@ -5,21 +5,25 @@ import { Header } from '../../components/header/header';
 import { useNavigate } from "react-router-dom";
 import { CustomerCart, ProdcutsWrtCate } from '../../requests/adminreq';
 import { Link } from "react-router-dom"
+import { useSelector } from 'react-redux';
 
 
 function Details() {
-    console.log("details component")
+    const isAuthenticated = useSelector(state => state.login.isAuthenticated);
     const { productId } = useParams();
     const [proDetail, setProDetail] = useState([])
     const [counter, setCounter] = useState(1)
     const navigate = useNavigate()
+
+   
+
 
     useEffect(() => {
         getProdDetail()
     }, [])
 
     useEffect(()=>{
-        if(!window.localStorage.ecomtoken){
+        if(!isAuthenticated){
             navigate('/')
         }
    },[])
@@ -28,9 +32,6 @@ function Details() {
         let res = await getApiCall(`${ProdcutsWrtCate.getProductDetailById}/${productId}`)
         setProDetail(res?.data[0])
     }
-
-
-    console.log("proDetail",proDetail)
 
     async function handlecartmenu(e) {
         e.preventDefault();

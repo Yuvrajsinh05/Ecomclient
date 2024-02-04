@@ -2,11 +2,12 @@ import { useState } from "react"
 import { } from "./login.css"
 import { Register } from "./login-register/register"
 import { Login } from "./login-register/login"
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { Link } from "react-router-dom"
 
 export const Login_register = () => {
     const [login, setLogin] = useState(true)
-    console.log("login component")
+    // console.log("login component")
     return (
         <div className="row">
             <div className="col-lg-6 col-md-8 col-sm-12 container-login">
@@ -23,7 +24,10 @@ export const Login_register = () => {
 
                 {/* <!-- Pills content --> */}
                 <div className="tab-content">
-                    {login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
+                    <GoogleOAuthProvider clientId="1001055247183-29hb4bg0ga12tq5656ftjdo31b3f3msv.apps.googleusercontent.com">
+
+                        {login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
+                    </GoogleOAuthProvider>
                 </div>
                 {/* <!-- Pills content --> */}
             </div>

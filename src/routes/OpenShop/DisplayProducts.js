@@ -1,9 +1,14 @@
 import { Link } from "react-router-dom"
+import { likeProductAsync } from '../../fetures/likedProductsSlice';
+import { useDispatch ,useSelector } from 'react-redux';
+// impor
+
+
 
 function DisplayProduct({ displaydata }) {
   return (
     <>
-      {displaydata.map((prods,index) => {
+      {displaydata?.map((prods,index) => {
         return (
           <DisplayItem prods={prods} key={prods._id} />
         )
@@ -18,13 +23,25 @@ export default DisplayProduct
 
 
 function DisplayItem({prods}) {
+// const dispatch = useDispatch()
+const dispatch = useDispatch();
+
+const handleLikeProduct = async () => {
+  try {
+    await dispatch(likeProductAsync(prods._id));
+  } catch (error) {
+    console.error('Error liking product:', error);
+    // Handle errors or display an error message
+  }
+};
+
   return (
     <>
-      <div  className="col-lg-3 col-md-4 col-sm-4 pb-1" >
-        <div className="product-item bg-light mb-4">
+      <div style={{height:'320px'}} className="col-lg-2 col-md-4 col-sm-4 pb-1" >
+        <div  className="product-item bg-light mb-4">
           <div className="product-img position-relative overflow-hidden">
             <img
-              className="img-fluid w-100" style={{ height: "370px" }}
+              className="img-fluid w-100" style={{ height: "200px" }}
               src={prods?.image || prods?.imageUrl}
               alt=""
             />
@@ -32,15 +49,10 @@ function DisplayItem({prods}) {
               <Link className="btn btn-outline-dark btn-square" to={`/shopdetail/${prods?._id}`}>
                 <i className="fa fa-shopping-cart"></i>
               </Link>
-              <Link className="btn btn-outline-dark btn-square" to="">
-                <i className="far fa-heart"></i>
+              <Link onClick={handleLikeProduct} className="btn btn-outline-dark btn-square" to="">
+                <i className="far fa-heart fa-solid"></i>
               </Link>
-              <Link className="btn btn-outline-dark btn-square" to="">
-                <i className="fa fa-sync-alt"></i>
-              </Link>
-              <Link className="btn btn-outline-dark btn-square" to="">
-                <i className="fa fa-search"></i>
-              </Link>
+  
             </div>
           </div>
           <div className="text-center py-4">

@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CustomerCart, Payment } from '../../requests/adminreq';
+import { useSelector } from 'react-redux';
 
 
 function Cart() {
-
+    const isAuthenticated = useSelector(state => state.login.isAuthenticated);
     const [cartData, setCartData] = useState([])
     const [totalAmont, setTotalAmont] = useState(0)
     const [totalSingleAmount, setTotalSingleAmount] = useState(0)
@@ -18,10 +19,15 @@ function Cart() {
 
 
     useEffect(()=>{
-        if(!window.localStorage.ecomtoken){
+        if(!isAuthenticated){
             navigate('/')
         }
    },[])
+
+   useEffect(() => {
+    getcustomercart()
+}, [])
+
 
     async function getcustomercart() {
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${localStorage.getItem('ecomuserId')}`)
@@ -33,13 +39,6 @@ function Cart() {
 
     }
 
-
-
-    useEffect(() => {
-        getcustomercart()
-    }, [])
-
-
     async function handleCartrmv(dlt) {
         let Fltitems = cartData[0].items.filter((data, key) => data?.product_id != dlt.product_id)
         const data = {
@@ -47,51 +46,9 @@ function Cart() {
         }
         let updateItems = await postApiCall(`${CustomerCart.UpdateCartById}?id=${localStorage.getItem('ecomuserId')}`, data)
         getcustomercart()
-
     }
 
 
-    async function paymentVerification(razorpay_payment_id,razorpay_order_id,razorpay_signature) {
-
-        const data = {
-           "razorpay_payment_id" : razorpay_payment_id,
-           "razorpay_order_id" : razorpay_order_id,
-           "razorpay_signature":razorpay_signature,
-           "email":localStorage.getItem('ecomuseremail')
-        }
-        let verify = await postApiCall(Payment.paymentVerify, data)
-    }
-    const handleCheckout = async (value) => {
-        const data = { amount: value }
-        const consekey = await postApiCall(Payment.doPay, data)
-        const getKey = await getApiCall(Payment.getKey)
-        var options = {
-            key: getKey.key, // Enter the Key ID generated from the Dashboard
-            amount:totalAmont*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
-            currency: "INR",
-            name: "Pay to Yuvrajsinh",
-            description: "Test Transaction",
-            image: "https://example.com/your_logo",
-            order_id: consekey?.data?.order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-            handler: function (response) {
-                console.log("reponse",response)
-               paymentVerification(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature)
-            },
-            prefill: {
-                "name": localStorage.getItem('user'),
-                "email": localStorage.getItem('ecomuseremail'),
-                "contact": "9510533350"
-            },
-            notes: {
-                "address": "Razorpay Corporate Office"
-            },
-            theme: {
-                "color": "#3399cc"
-            }
-        };
-        const razor = new window.Razorpay(options);
-        razor.open();
-    }
 
     return (
         <>
@@ -158,7 +115,7 @@ function Cart() {
                                     <h5>Total</h5>
                                     <h5>₹{totalAmont}</h5>
                                 </div>
-                                <button className="btn btn-block btn-primary font-weight-bold my-3 py-3" onClick={() => handleCheckout(totalAmont)} >Proceed To Checkout</button>
+                                <button className="btn btn-block btn-primary font-weight-bold my-3 py-3" onClick={() => navigate('/checkout', {state:{"Amount":totalAmont}})} >Proceed To Checkout</button>
                             </div>
                         </div>
                     </div>
@@ -171,6 +128,8 @@ function Cart() {
 
 function Cartcomponent({ cart, handleCartrmv }) {
 
+
+    
     const [counter, setCounter] = useState(cart?.quantity || 0)
     function handleraddcounter(e) {
         e.preventDefault();
@@ -190,9 +149,6 @@ function Cartcomponent({ cart, handleCartrmv }) {
             alert("fuck you dumb!!!")
         }
     }
-
-
-    // console.log("handlecartrmv",handleCartrmv , cart)
 
     return (
         <>

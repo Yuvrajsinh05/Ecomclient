@@ -1,10 +1,19 @@
-import React from 'react'
-import Filterbycolor from './Filterbycolor'
+import React, { useEffect, useState } from 'react'
+import FilterbyBrand from './FilterbyBrand'
 import Filterbyprice from './Filterbyprice'
 import Filterbysize from './Filterbysize'
 
-function Filterby() {
-  
+function Filterby({filter}) {
+  const [Brands , setBrands] = useState([])
+  const [Range , setRange] = useState([])
+
+  useEffect(()=>{
+     if(filter.lenght!=0){
+      setBrands(filter?.Brands)
+      setRange(filter?.Range)
+     }
+  },[filter])
+
   return (
     <>
         <div className="col-lg-3 col-md-4">
@@ -12,17 +21,17 @@ function Filterby() {
               <span className="bg-secondary pr-3">Filter by price</span>
             </h5>
 
-           <Filterbyprice/>
+           <Filterbyprice Range={Range}/>
 
             <h5 className="section-title position-relative text-uppercase mb-3">
               <span className="bg-secondary pr-3">Filter by Brand</span>
             </h5>
-           <Filterbycolor/>
+           <FilterbyBrand Brands={Brands} />
 
-            <h5 className="section-title position-relative text-uppercase mb-3">
-              <span className="bg-secondary pr-3">Filter by size</span>
-            </h5>
-          <Filterbysize/>
+            {/* <h5 className="section-title position-relative text-uppercase mb-3"> */}
+              {/* <span className="bg-secondary pr-3">Filter by size</span> */}
+            {/* </h5> */}
+          {/* <Filterbysize/> */}
           </div>
     </>
   )

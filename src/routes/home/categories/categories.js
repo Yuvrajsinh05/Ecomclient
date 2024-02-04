@@ -42,7 +42,7 @@ export const CategoriesComp = () => {
                     {/* till here  */}
 
 
-                    {categories.map((cat, index) => {
+                    {categories?.map((cat, index) => {
                         return (
                             <div className="col-lg-3 col-md-4 col-sm-6 pb-1" key={index}>
                                 <Link className="text-decoration-none" href="">
@@ -52,7 +52,7 @@ export const CategoriesComp = () => {
                                         </div>
                                         <div className="flex-fill pl-3">
                                             <h6>{cat?.Categories}</h6>
-                                            <small className="text-body">100 Products</small>
+                                            <small className="text-body">{cat?.count} Products</small>
                                         </div>
                                     </div>
                                 </Link>

@@ -35,6 +35,7 @@ export const Register = ({setLogin}) => {
         };
         try {
             const loginPostApiRes = await fetch(UserAuth.register, requestsType);
+            // console.log("loginpostapi",loginPostApiRes)
             const jsonLoginPostApiRes = await loginPostApiRes.json();
         } catch (error) {
             alert("something", error)
@@ -92,7 +93,7 @@ export const Register = ({setLogin}) => {
         <>
             <div className="tab-panel" id="pills-register">
                 <form onSubmit={(e) => handleSubmitRegister(e)}>
-                    {/* <div className="text-center mb-3">
+                    <div className="text-center mb-3">
                         <p>Sign up with:</p>
                         <button type="button" className="btn btn-link btn-floating mx-1">
                             <i className="fab fa-facebook-f"></i>
@@ -109,9 +110,9 @@ export const Register = ({setLogin}) => {
                         <button type="button" className="btn btn-link btn-floating mx-1">
                             <i className="fab fa-github"></i>
                         </button>
-                    </div> */}
+                    </div>
 
-                    {/* <p className="text-center">or:</p> */}
+                    <p className="text-center">or:</p>
                     <div className="grid-container">
                         {!foundOtpMatch ? (<>
                             <div className="grid-item">

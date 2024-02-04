@@ -2,13 +2,13 @@ import { useEffect, useState } from "react"
 import { Images } from "../../../assets/images"
 import { HomeCorousel } from "../../../requests/adminreq"
 import { getApiCall } from "../../../requests/requests"
-import { Link } from "react-router-dom"
-// import pornnhub from "pornnhub";
+import { useNavigate ,Link} from "react-router-dom"
+
 
 export default function Carousel() {
  
     const [sliders , setSliders]= useState([])
-
+    let  navigate = useNavigate();
     useEffect(()=>{
         getslider()
     },[])
@@ -17,7 +17,7 @@ export default function Carousel() {
         let res = await getApiCall(HomeCorousel.getHomecorousel)
         setSliders(res)
     }
- 
+    
     return (
         <>
             <div className="container-fluid mb-3">
@@ -35,9 +35,9 @@ export default function Carousel() {
                                     <img className="position-absolute w-100 h-100" src={sliders[0]?.imageUrl|| Images.carousel_1} style={{ objectFit: "cover" }} />
                                     <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                         <div className="p-3" style={{ maxWidth: "700px" }}>
-                                            <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[0]?.category}</h1>
+                                            <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[0]?.Name}</h1>
                                             <p className="mx-md-5 px-5 animate__animated animate__bounceIn">{sliders[0]?.description}</p>
-                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to={'/shop?%20Women%27s%20Clothing'}>Shop Now</Link>
+                                            <p onClick={()=>{navigate('/OpenShop' , {state:sliders[0]?.Name})}} className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" >Shop Now</p>
                                         </div>
                                     </div>
                                 </div>
@@ -45,9 +45,9 @@ export default function Carousel() {
                                     <img className="position-absolute w-100 h-100" src={sliders[1]?.imageUrl|| Images.carousel_2}  style={{ objectFit: "cover" }} />
                                     <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                         <div className="p-3" style={{ maxWidth: "700px" }}>
-                                            <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[1]?.category}</h1>
+                                            <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[1]?.Name}</h1>
                                             <p className="mx-md-5 px-5 animate__animated animate__bounceIn">{sliders[1]?.description}</p>
-                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to={'/shop?%20Men%27s%20Clothing'}>Shop Now</Link>
+                                            <p className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" onClick={()=>navigate('/OpenShop',{state:sliders[1]?.Name})}>Shop Now</p>
                                         </div>
                                     </div>
                                 </div>
@@ -55,9 +55,9 @@ export default function Carousel() {
                                     <img className="position-absolute w-100 h-100" src={sliders[2]?.imageUrl|| Images.carousel_3}  style={{ objectFit: "cover" }} />
                                     <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                         <div className="p-3" style={{ maxWidth: "700px" }}>
-                                            <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[2]?.category}</h1>
+                                            <h1 className="display-4 text-white mb-3 animate__animated animate__fadeInDown">{sliders[2]?.Name}</h1>
                                             <p className="mx-md-5 px-5 animate__animated animate__bounceIn">{sliders[2]?.description}</p>
-                                            <Link className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp" to={'/shop?%20Children%27s%20Clothing'}>Shop Now</Link>
+                                            <p className="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"onClick={()=>navigate('/OpenShop',{state:sliders[2]?.Name})}>Shop Now</p>
                                         </div>
                                     </div>
                                 </div>

@@ -4,12 +4,11 @@ import { getApiCall } from "../../requests/requests"
 import { FilterHead } from "./Filterhead"
 import { Link } from 'react-router-dom';
 import { Categories } from '../../requests/adminreq'
-import { useNavigate } from "react-router-dom";
+
 
 export const Header = () => {
     
     const [categories, setCategories] = useState([])
-
 
     useEffect(() => {
         getCategories()
@@ -30,8 +29,7 @@ export const Header = () => {
     )
 }
 
-function ConfigHead() {
-    const navigate = useNavigate();
+export function ConfigHead() {
     return (
         <>
             <div className="container-fluid">
@@ -50,12 +48,7 @@ function ConfigHead() {
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                 <div className="dropdown-menu dropdown-menu-right">
                                     <button className="dropdown-item" type="button">My Profile</button>
-                                    <button className="dropdown-item" type="button" onClick={
-                                        ()=>{
-                                         localStorage.clear()
-                                         navigate('/')
-                                        }
-                                    }>Log Out</button>
+                                    <button className="dropdown-item" type="button">Log Out</button>
                                 </div>
                             </div>
                             <div className="btn-group mx-2">

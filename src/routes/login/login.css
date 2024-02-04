@@ -388,3 +388,9 @@
       opacity: 1;
     }
   }
+
+  .Faicon{
+    border: 2px solid red !important;
+    text-align: center !important;
+    display: contents !important;
+  }
