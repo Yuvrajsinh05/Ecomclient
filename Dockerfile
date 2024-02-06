@@ -1,16 +1,20 @@
-FROM node:16.15.0
+# Use the official Node.js image as the base image
+FROM node:14
 
-RUN npm install -g nodemon
+# Set the working directory
+WORKDIR /app/frontend
 
-WORKDIR /app
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-COPY package.json .
-
+# Install dependencies
 RUN npm install
 
+# Copy the rest of the application code
 COPY . .
 
+# Expose the port your app will run on
 EXPOSE 3000
 
-CMD ["npm" , "start"]
-
+# Start the frontend application
+CMD ["npm", "start"]

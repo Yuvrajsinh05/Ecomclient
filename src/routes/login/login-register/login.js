@@ -61,10 +61,15 @@ export const Login = ({ setLogin }) => {
 
 
   const login = useGoogleLogin({
-    onSuccess: tokenResponse => fetchGoogleUserInfo(tokenResponse.access_token),
+     
+    onSuccess: tokenResponse => 
+    
+    {fetchGoogleUserInfo(tokenResponse.access_token)
+    console.log("token gettting")},
   });
 
   async function fetchGoogleUserInfo(access_token) {
+    console.log("fetchGoogleUserInfo access_token",access_token)
     const userinfoEndpoint = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
     try {
