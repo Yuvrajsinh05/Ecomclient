@@ -7,13 +7,16 @@ function Filterby({filter}) {
   const [Brands , setBrands] = useState([])
   const [Range , setRange] = useState([])
 
+  console.log("priceranfe",filter)
   useEffect(()=>{
-     if(filter.lenght!=0){
+     if(filter?.length!=0){
       setBrands(filter?.Brands)
-      setRange(filter?.Range)
+      setRange(filter?.PriceRange)
      }
   },[filter])
 
+
+  console.log("filter",filter)
   return (
     <>
         <div className="col-lg-3 col-md-4">

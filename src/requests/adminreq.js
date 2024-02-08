@@ -1,6 +1,6 @@
 
-// const baseUrl = 'http://localhost:8670'
-const baseUrl = 'https://node-ecom-j08j.onrender.com'
+const baseUrl = 'http://localhost:8670'
+// const baseUrl = 'https://node-ecom-j08j.onrender.com'
 
 export const UserAuth = {
     login: `${baseUrl}/admin/login` , 

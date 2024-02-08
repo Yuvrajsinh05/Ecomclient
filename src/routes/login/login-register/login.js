@@ -60,13 +60,24 @@ export const Login = ({ setLogin }) => {
   }
 
 
-  const login = useGoogleLogin({
+  const clientId = '850331087777-lhbkstmsqvlr01vnqqh4pq5r22uv8vkt.apps.googleusercontent.com';
 
+  const login = useGoogleLogin({
+    clientId,
     onSuccess: tokenResponse => {
-      console.log("token gettting  call-1", tokenResponse.access_token)
-      fetchGoogleUserInfo(tokenResponse.access_token)
+      console.log("Token received successfully:", tokenResponse); // Log token response
+      fetchGoogleUserInfo(tokenResponse.access_token);
     },
   });
+
+  const handleLogin = async () => {
+    console.log("calllaclllcalllcall")
+    const response = await login();
+    console.log("Login response:", response); // Log login response
+  };
+
+
+  
 
   async function fetchGoogleUserInfo(access_token) {
     console.log("fetchGoogleUserInfo access_token", access_token)
@@ -132,7 +143,7 @@ export const Login = ({ setLogin }) => {
             <i className="fab fa-facebook-f  Faicon "></i>
           </button>
 
-          <button type="button" onClick={() => login()} className="btn btn-link btn-floating mx-1">
+          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1">
             <i className="fab fa-google Faicon"></i>
           </button>
 

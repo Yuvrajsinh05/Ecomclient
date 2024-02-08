@@ -30,14 +30,18 @@ function Shop() {
 
 
 
-
+  
   async function fungetApiCall() {
     let categoryName = location?.state?.state2?.Categories
     let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
     if(categoryName && SubcategoryName ){
+      const encodedStr = encodeURIComponent(SubcategoryName);
+      const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
+      
+      let FetchFilters = await getApiCall(url)
       let FetchProducts = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${categoryName}/${encodeURI(SubcategoryName)}`)
       setDisplaydata(FetchProducts?.data)
-      setFilter(location?.state?.state1)
+      setFilter(FetchFilters?.data[0])
     }
   }
 

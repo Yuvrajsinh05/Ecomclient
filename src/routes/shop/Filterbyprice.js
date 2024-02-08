@@ -1,6 +1,7 @@
 import React from 'react'
 
 function Filterbyprice({ Range }) {
+  // console.log("Range", Range)
   return (
     <>
       <div className="bg-light p-4 mb-30">
@@ -17,23 +18,23 @@ function Filterbyprice({ Range }) {
             {/* <span className="badge border font-weight-normal">1000</span> */}
           </div>
 
-          {Range?.map((price,index) => {
+          {Range && Object.entries(Range).map(([range, count], index) => {
             return (
-              <>
-                <div key={index} className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                  <input
-                    type="checkbox"
-                    className="custom-control-input"
-                    id={index}
-                  />
-                  <label className="custom-control-label" htmlFor={index}>
-                     {price}
-                  </label>
-                  {/* <span className="badge border text-dark font-weight-normal">-</span> */}
-                </div>
-              </>
-            )
+              <div key={index} className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                <input
+                  type="checkbox"
+                  className="custom-control-input"
+                  id={`checkbox-${index}`}
+                />
+                <label className="custom-control-label" htmlFor={`checkbox-${index}`}>
+                  {range}
+                </label>
+                <span className="badge border font-weight-normal" style={{ color: "black" }}>{count}</span>
+              </div>
+            );
           })}
+
+
         </form>
       </div>
     </>
