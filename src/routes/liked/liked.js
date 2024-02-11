@@ -29,7 +29,7 @@ export const Liked = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div className="container-fluid">
         <div className="row px-xl-5">
           <div className="col-12">

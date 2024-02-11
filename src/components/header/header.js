@@ -4,11 +4,12 @@ import { getApiCall } from "../../requests/requests"
 import { FilterHead } from "./Filterhead"
 import { Link } from 'react-router-dom';
 import { Categories } from '../../requests/adminreq'
-
+import { useLocation } from "react-router-dom";
 
 export const Header = () => {
-    
+
     const [categories, setCategories] = useState([])
+    const location = useLocation()
 
     useEffect(() => {
         getCategories()
@@ -21,11 +22,15 @@ export const Header = () => {
     }
 
     return (
-        <>
-            <ConfigHead />
-            <FilterHead categories={categories} />
-        </>
 
+        <>
+        {location.pathname !== '/' && (
+            <>
+                <ConfigHead />
+                <FilterHead categories={categories} />
+            </>
+        )}
+    </>
     )
 }
 
@@ -39,7 +44,7 @@ export function ConfigHead() {
                             <Link to="/" className="text-body mr-3">Yuvraj</Link>
                             <Link to="/" className="text-body list-none mr-3">Contact</Link>
                             <Link to="/" className="text-body mr-3">Help</Link>
-                            <Link  to="/" className="text-body mr-3">FAQs</Link>
+                            <Link to="/" className="text-body mr-3">FAQs</Link>
                         </div>
                     </div>
                     <div className="col-lg-6 text-center text-lg-right">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 function DisplayProduct({ displaydata }) {
   return (
     <>
-      {displaydata.map((prods,index) => {
+      {displaydata?.map((prods,index) => {
         return (
           <DisplayItem prods={prods} key={prods._id} />
         )

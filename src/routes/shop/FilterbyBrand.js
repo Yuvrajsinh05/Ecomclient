@@ -18,9 +18,8 @@ function FilterbyBrand({ Brands }) {
             <span className="badge border font-weight-normal" style={{color:"black"}}>1000</span>
           </div>
 
-          {Brands && Object.entries(Brands).map(([brand, count], index) => {
+          {Brands && Object.entries(Brands)?.map(([brand, count], index) => {
               return (
-                <>
                   <div key={index} className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                     <input
                       type="checkbox"
@@ -32,7 +31,7 @@ function FilterbyBrand({ Brands }) {
                     </label>
                     <span className="badge border font-weight-normal" style={{ color: "black" }}>{count}</span>
                   </div>
-                </>
+
               )
             })
           }

@@ -34,8 +34,8 @@ function Cart() {
         setCartData(getcart?.data)
         setCartitems(getcart?.data[0]?.items)
         let addmount = 0
-        let totalamount = getcart?.data[0].items.map((it, key) => addmount += it?.price)
-        setTotalAmont(addmount)
+        let totalamount = getcart?.data[0].items?.map((it, key) => addmount += it?.price * it?.quantity)
+        setTotalAmont(addmount?.toFixed(2))
 
     }
 
@@ -52,7 +52,7 @@ function Cart() {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <div className="container-fluid">
                 <div className="row px-xl-5">
                     <div className="col-12">
@@ -80,9 +80,9 @@ function Cart() {
                             </thead>
                             <tbody className="align-middle">
 
-                                {cartItems.map((cart, index) => {
+                                {cartItems?.map((cart, index) => {
                                     return (
-                                        <Cartcomponent cart={cart} key={index} handleCartrmv={handleCartrmv} />
+                                        <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} handleCartrmv={handleCartrmv} />
                                     )
                                 })}
 
@@ -126,7 +126,7 @@ function Cart() {
     )
 }
 
-function Cartcomponent({ cart, handleCartrmv }) {
+function Cartcomponent({ cart, handleCartrmv ,getcustomercart}) {
 
 
     
@@ -136,6 +136,7 @@ function Cartcomponent({ cart, handleCartrmv }) {
         let count = parseInt(counter)
         count++
         setCounter(count)
+        // updatequantity()
     }
 
     function handlermvcounter(e) {
@@ -144,12 +145,31 @@ function Cartcomponent({ cart, handleCartrmv }) {
             let count = parseInt(counter)
             count--
             setCounter(count)
-
+            // updatequantity()
         } else {
             alert("fuck you dumb!!!")
         }
     }
 
+    useEffect(()=>{
+        updatequantity()
+    },[counter])
+
+
+    console.log("cartr",cart)
+    async function updatequantity(){
+        let body = {
+            "product_id" : cart.product_id,
+            "quantity" : counter,
+            "CustomerId" : localStorage.getItem('ecomuserId')
+        }
+
+        const updateQuantity = await postApiCall(CustomerCart.updatequantity ,body)
+        console.log("updateQuantity",updateQuantity)
+        getcustomercart()
+    }
+
+    
     return (
         <>
             <tr>
@@ -170,7 +190,7 @@ function Cartcomponent({ cart, handleCartrmv }) {
                         </div>
                     </div>
                 </td>
-                <td className="align-middle">{` ₹  ${(cart?.price * cart?.quantity)}`}</td>
+                <td className="align-middle">{` ₹  ${(cart?.price * cart?.quantity).toFixed(2)}`}</td>
                 <td className="align-middle"><button className="btn btn-sm btn-danger" onClick={() => { handleCartrmv(cart) }}><i className="fa fa-times"></i></button></td>
             </tr>
         </>

@@ -18,7 +18,7 @@ function Filterbyprice({ Range }) {
             {/* <span className="badge border font-weight-normal">1000</span> */}
           </div>
 
-          {Range && Object.entries(Range).map(([range, count], index) => {
+          {Range && Object.entries(Range)?.map(([range, count], index) => {
             return (
               <div key={index} className="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                 <input

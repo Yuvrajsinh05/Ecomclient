@@ -7,7 +7,7 @@ function Contact() {
 
     const navigate = useNavigate()
     useEffect(()=>{
-        if(window.localStorage.ecomtoken){
+        if(window?.localStorage?.ecomtoken){
           return true;
         }else{
          navigate('/')
@@ -20,7 +20,7 @@ function Contact() {
         <div className="row px-xl-5">
             <div className="col-12">
                 <nav className="breadcrumb bg-light mb-30">
-                    <Link className="breadcrumb-item text-dark" href="#">Home</Link>
+                    <Link className="breadcrumb-item text-dark" to="/">Home</Link>
                     <span className="breadcrumb-item active">Contact</span>
                 </nav>
             </div>

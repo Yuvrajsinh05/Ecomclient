@@ -24,7 +24,7 @@ export default function Home() {
   
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <div >
         <Carousel />
         <Featured />

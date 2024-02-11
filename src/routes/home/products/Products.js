@@ -2,6 +2,8 @@ import { useEffect, useState } from "react"
 import { getApiCall } from "../../../requests/requests";
 import { ProductCalls, dashboardClothing } from "../../../requests/adminreq";
 import { Link ,Outlet} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { likeProductAsync } from "../../../fetures/likedProductsSlice";
 
 export const Products = () => {
 
@@ -27,11 +29,12 @@ export const Products = () => {
             temp.push(womens?.data[i]);
         }
     
+        console.log("Temp",temp)
         // Shuffle the array to get a random order
         temp = temp.sort(() => Math.random() - 0.5);
 
         // Ensure uniqueness while selecting the first 8 elements
-        displayFeatures = Array.from(new Set(temp)).slice(0, 8);
+        displayFeatures = Array.from(new Set(temp)).slice(0, 12);
     
         setFeaturedProds(temp);
         setDisplayFeatd(displayFeatures);
@@ -44,7 +47,7 @@ export const Products = () => {
             <div className="container-fluid pt-5 pb-3">
                 <h2 className="section-title position-relative text-uppercase mx-xl-5 mb-4"><span className="bg-secondary pr-3">Featured Products</span></h2>
                 <div className="row px-xl-5">
-                    {displayFeatd.map((fpro, index) => {
+                    {displayFeatd?.map((fpro, index) => {
                         return(
                         <FeaturedCard fpro={fpro} key={index} />
                         )
@@ -59,15 +62,26 @@ export const Products = () => {
 
 
 function FeaturedCard({fpro}) {
+
+    let dispatch = useDispatch()
+
+    const handleLikeProduct = async () => {
+        try {
+          await dispatch(likeProductAsync(fpro._id));
+        } catch (error) {
+          console.error('Error liking product:', error);
+          // Handle errors or display an error message
+        }
+      };
     return (
         <>
-            <div className="col-lg-3 col-md-4 col-sm-6 pb-1">
+            <div className="col-lg-2 col-md-4 col-sm-6 pb-1">
                 <div className="product-item bg-light mb-4">
                     <div className="product-img position-relative overflow-hidden">
-                        <img style={{height:"280px"}} className="img-fluid w-100" src={fpro?.image} alt="" />
+                        <img style={{height:"200px"}} className="img-fluid w-100" src={fpro?.image} alt="" />
                         <div className="product-action">
                             <Link className="btn btn-outline-dark btn-square" to={`/shopdetail/${fpro?._id}`}><i className="fa fa-shopping-cart"></i></Link>
-                            <Link className="btn btn-outline-dark btn-square" href=""><i className="far fa-heart"></i></Link>
+                            <Link className="btn btn-outline-dark btn-square"  onClick={handleLikeProduct}><i className="far fa-heart"></i></Link>
                             {/* <Link className="btn btn-outline-dark btn-square" href=""><i className="fa fa-sync-alt"></i></Link> */}
                             {/* <Link className="btn btn-outline-dark btn-square" href=""><i className="fa fa-search"></i></Link> */}
                         </div>

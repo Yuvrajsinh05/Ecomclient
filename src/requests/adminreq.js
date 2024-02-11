@@ -31,6 +31,7 @@ export const CustomerCart = {
     getCartById :`${baseUrl}/admin/getcarts`, //admin/getcarts?id=641c677662885f4087a59307'
     UpdateCartById :`${baseUrl}/admin/updateItems`, //admin/UpdateCartById?id=641c677662885f4087a59307'
     createcart:`${baseUrl}/admin/createcart`,
+    updatequantity:`${baseUrl}/admin/updatequantity`,
     savedProducts:`${baseUrl}/admin/savedProducts`,
 }
 
