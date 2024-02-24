@@ -7,6 +7,7 @@ export const UserAuth = {
     register: `${baseUrl}/admin/register`, 
     isVerifiedRegister: `${baseUrl}/admin/isVerifiedRegister`,
     isGoogleLogin: `${baseUrl}/admin/isGoogleLogin`,
+    isGithubLogin: `${baseUrl}/admin/isGithubLogin`,
     
 }
 

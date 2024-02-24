@@ -1,18 +1,46 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 function Contact() {
-
-    const navigate = useNavigate()
-    useEffect(()=>{
-        if(window?.localStorage?.ecomtoken){
-          return true;
-        }else{
-         navigate('/')
+    const isAuthenticated = useSelector(state => state.login.isAuthenticated);
+    const navigate = useNavigate();
+    const [GeoLocation , setGeoLocationUrl] = useState("")
+    useEffect(() => {
+        if (!isAuthenticated) {
+          navigate('/')
         }
-   },[])
+        getGeoLocation()
+      }, [])
+    
+
+
+
+      const getGeoLocation = () => {
+        // Get the user's current location using the Geolocation API
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            console.log("position", position);
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            const ApiKey = 'AIzaSyAvGqZ7RFssm42x3wLkq7ZkTm8zPmGOjj8'
+            // Construct the embed URL with the user's current location
+            var embedUrl = `https://www.google.com/maps/embed/v1/place?key=${ApiKey}&q=record+stores&center=22.315008,73.1807744`;
+            // https://www.google.com/maps/embed/v1/place?key=AIzaSyAvGqZ7RFssm42x3wLkq7ZkTm8zPmGOjj8&q=record+stores&center=22.315008,73.1807744
+            
+            // Now you can use the embedUrl variable to embed the map with the user's current location
+            console.log("embedUrl", embedUrl); // You can replace this with whatever logic you need to embed the map in your application
+            setGeoLocationUrl(embedUrl);
+          },
+          function (error) {
+            // Handle any errors that occur when trying to retrieve the user's location
+            console.error("Error getting user location:", error);
+          }
+        );
+    };
+    
   return (
     <>
     
@@ -20,7 +48,7 @@ function Contact() {
         <div className="row px-xl-5">
             <div className="col-12">
                 <nav className="breadcrumb bg-light mb-30">
-                    <Link className="breadcrumb-item text-dark" to="/">Home</Link>
+                    <Link className="breadcrumb-item text-dark" href="#">Home</Link>
                     <span className="breadcrumb-item active">Contact</span>
                 </nav>
             </div>
@@ -62,17 +90,19 @@ function Contact() {
                         </div>
                     </form>
                 </div>
-            </div>
+            </div>{
+                console.log("GeoLocation",GeoLocation)
+            }
             <div className="col-lg-5 mb-5">
                 <div className="bg-light p-30 mb-30">
                     <iframe style={{width: "100%" ,  height: "250px"}}
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                    src={GeoLocation}
                     allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                 </div>
                 <div className="bg-light p-30 mb-3">
-                    <p className="mb-2"><i className="fa fa-map-marker-alt text-primary mr-3"></i>123 Street, New York, USA</p>
-                    <p className="mb-2"><i className="fa fa-envelope text-primary mr-3"></i>info@example.com</p>
-                    <p className="mb-2"><i className="fa fa-phone-alt text-primary mr-3"></i>+012 345 67890</p>
+                    <p className="mb-2"><i className="fa fa-map-marker-alt text-primary mr-3"></i>Sopanam 9</p>
+                    <p className="mb-2"><i className="fa fa-envelope text-primary mr-3"></i>yuvrajsinh73598@gmail.com</p>
+                    <p className="mb-2"><i className="fa fa-phone-alt text-primary mr-3"></i>+91 9510 53 3350</p>
                 </div>
             </div>
         </div>

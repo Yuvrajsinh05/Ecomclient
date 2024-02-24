@@ -6,6 +6,7 @@ import { loginSuccess } from "../loginSlice";
 import { UserAuth } from "../../../requests/adminreq";
 import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
+
 const axios = require('axios');
 
 export const Login = ({ setLogin }) => {
@@ -134,35 +135,32 @@ export const Login = ({ setLogin }) => {
   }
 
 
+  async function handleGithubLogin(){
+    const response = await axios.get(UserAuth.isGithubLogin)
+    console.log("Response",response)
+  }
+
+
+  // async function
   return (
     <div className="tab-pane fade show active" id="pills-login">
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="text-center mb-3 ">
           <p>Sign in with:</p>
-          <button type="button" className="btn btn-link btn-floating mx-1">
+          {/* <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-facebook-f  Faicon "></i>
-          </button>
+          </button> */}
 
           <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1">
             <i className="fab fa-google Faicon"></i>
           </button>
 
-          {/* <GoogleLogin
-            onSuccess={credentialResponse => {
-              console.log(credentialResponse);
-            }}
-            onError={() => {
-              console.log('Login Failed');
-            }}
-            useOneTap
-          />;
- */}
 
-          <button type="button" className="btn btn-link btn-floating mx-1">
+          {/* <button type="button" className="btn btn-link btn-floating mx-1">
             <i className="fab fa-twitter Faicon"></i>
-          </button>
+          </button> */}
 
-          <button type="button" className="btn btn-link btn-floating mx-1">
+          <button type="button"  onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1">
             <i className="fab fa-github Faicon"></i>
           </button>
         </div>

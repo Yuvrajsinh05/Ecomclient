@@ -1,10 +1,5 @@
-import React from "react";
-
-import {
-  Route,
-  Routes,
-  BrowserRouter,
-} from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Contact from "./routes/contact/Contact";
 import PaymentSuccess from "./routes/home/paymentsuccess/paymentsuccess";
 import Home from "./routes/home/home";
@@ -15,34 +10,57 @@ import Details from "./routes/productdetail/Details";
 import { Login_register } from "./routes/login/login-register";
 import store from "./fetures/store";
 import OpenShop from "./routes/OpenShop/Shop";
-import { Provider } from 'react-redux';
+import { Provider } from "react-redux";
 import { Liked } from "./routes/liked/liked";
 import { Header } from "./components/header/header";
 
+// ErrorBoundary functional component to catch errors within its child components
+function ErrorBoundary(props) {
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const errorHandler = (error, errorInfo) => {
+      console.error("Error caught by error boundary:", error, errorInfo);
+      setHasError(true);
+    };
+
+    // Add event listener for unhandled errors
+    window.addEventListener("error", errorHandler);
+
+    return () => {
+      // Clean up event listener
+      window.removeEventListener("error", errorHandler);
+    };
+  }, []); // Empty dependency array to run only once on mount
+
+  if (hasError) {
+    return <div>Something went wrong. Please try again later.</div>;
+  }
+
+  return props.children;
+}
 
 function App() {
-  
   return (
     <Provider store={store}>
-
       <BrowserRouter>
-        <Header />
-        <Routes>
-
-          <Route path="/" exact element={<Login_register />} />
-          <Route path="/dashboard" element={<Home />} />
-          <Route path="/Shop" element={<Shop />} />
-          <Route path="/OpenShop" element={<OpenShop />} />
-          <Route path="/shopdetail/:productId" element={<Details />} />
-          <Route path="/shoppingcart" element={<Cart />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/liked" element={<Liked />} />
-          <Route path="/Contact" element={<Contact />} />
-        </Routes>
+        <ErrorBoundary>
+          <Header />
+          <Routes>
+            <Route path="/" exact element={<Login_register />} />
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/Shop" element={<Shop />} />
+            <Route path="/OpenShop" element={<OpenShop />} />
+            <Route path="/shopdetail/:productId" element={<Details />} />
+            <Route path="/shoppingcart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/liked" element={<Liked />} />
+            <Route path="/Contact" element={<Contact />} />
+          </Routes>
+        </ErrorBoundary>
       </BrowserRouter>
     </Provider>
   );
 }
 
 export default App;
-
