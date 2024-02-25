@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch } from 'react-redux'
@@ -6,8 +6,9 @@ import { loginSuccess } from "../loginSlice";
 import { UserAuth } from "../../../requests/adminreq";
 import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
+import axios from 'axios';
 
-const axios = require('axios');
+
 
 export const Login = ({ setLogin }) => {
   const dispatch = useDispatch()
@@ -42,6 +43,7 @@ export const Login = ({ setLogin }) => {
       const jsonLoginPostApiRes = await loginPostApiRes.json();
       setAnything(jsonLoginPostApiRes)
       if (loginPostApiRes.status === 200) {
+        console.log("jsonLoginPostApiReslogincall", jsonLoginPostApiRes)
         console.log("user", jsonLoginPostApiRes)
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
         localStorage.setItem("user", jsonLoginPostApiRes.user.name);
@@ -59,6 +61,7 @@ export const Login = ({ setLogin }) => {
       alert("check you connection", error)
     }
   }
+  
 
 
   const clientId = '850331087777-lhbkstmsqvlr01vnqqh4pq5r22uv8vkt.apps.googleusercontent.com';
@@ -78,7 +81,7 @@ export const Login = ({ setLogin }) => {
   };
 
 
-  
+
 
   async function fetchGoogleUserInfo(access_token) {
     console.log("fetchGoogleUserInfo access_token", access_token)
@@ -114,6 +117,7 @@ export const Login = ({ setLogin }) => {
       try {
         const loginPostApiRes = await fetch(UserAuth.isGoogleLogin, requestsType);
         const jsonLoginPostApiRes = await loginPostApiRes.json();
+        console.log("google Logincall", jsonLoginPostApiRes)
         setAnything(jsonLoginPostApiRes)
         if (jsonLoginPostApiRes.status === 200) {
           localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
@@ -135,10 +139,53 @@ export const Login = ({ setLogin }) => {
   }
 
 
-  async function handleGithubLogin(){
-    const response = await axios.get(UserAuth.isGithubLogin)
-    console.log("Response",response)
+
+  useEffect(() => {
+    validUrl()
+  }, [])
+
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(window.location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  };
+
+  function validUrl() {
+    if (!window.location.search) return;
+    var token = getUrlParameter('token');
+    var name = getUrlParameter('name');
+    var email = getUrlParameter('email');
+    var UserId = getUrlParameter('_id');
+    var savedProducts = getUrlParameter('savedProducts');
+
+    const PayLoad = {
+      token : token ,
+      user :{
+        name: name,
+        email: email,
+        _id: UserId,
+        savedProducts:savedProducts.split(',')
+      }
+    }
+    if (token || name || email || UserId) {
+      localStorage.setItem("ecomtoken", token);
+      localStorage.setItem("user", name);
+      localStorage.setItem("ecomuserId", UserId);
+      dispatch(likeProductAsync(false, savedProducts.split(',')))
+      dispatch(loginSuccess(PayLoad))
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1000);
+    }
   }
+  async function handleGithubLogin() {
+    const response = await axios.get(UserAuth.isGithubLogin)
+    if (response.data.reDirect) {
+      window.location.href = response.data.reDirect
+    }
+  }
+
 
 
   // async function
@@ -160,7 +207,7 @@ export const Login = ({ setLogin }) => {
             <i className="fab fa-twitter Faicon"></i>
           </button> */}
 
-          <button type="button"  onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1">
+          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1">
             <i className="fab fa-github Faicon"></i>
           </button>
         </div>
