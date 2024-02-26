@@ -28,9 +28,6 @@ export const Products = () => {
         for (var i = 0; i < womens?.data?.length; i++) {
             temp.push(womens?.data[i]);
         }
-    
-        console.log("Temp",temp)
-        // Shuffle the array to get a random order
         temp = temp.sort(() => Math.random() - 0.5);
 
         // Ensure uniqueness while selecting the first 8 elements

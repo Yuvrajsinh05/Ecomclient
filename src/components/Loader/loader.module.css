@@ -1,0 +1,18 @@
+.centerLoader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    color: white;
+}
+
+.spinnerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spinnerContainer > * {
+    margin: 10px;
+}

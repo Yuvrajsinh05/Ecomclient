@@ -1,7 +1,6 @@
 import React from 'react'
 
 function FilterbyBrand({ Brands }) {
-  console.log("BrandsBrandsBrandsBrandsBrands",Brands)
   return (
     <>
       <div className="bg-light p-4 mb-30">

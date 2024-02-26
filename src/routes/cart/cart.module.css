@@ -1,0 +1,25 @@
+/* .centerLoader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    color: white;
+} */
+
+/* .spinnerContainer {
+    width: 100% !important;
+    border: 2px solid blue !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 280px;
+} */
+
+.spinnerContainer  {
+    /* margin: px; */
+    margin: auto;
+    padding-top: 3.5rem !important ;
+    height: 200px;
+}
+

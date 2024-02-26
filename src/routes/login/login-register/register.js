@@ -82,7 +82,6 @@ export const Register = ({setLogin}) => {
         try {
             const loginPostApiRes = await fetch(UserAuth.isVerifiedRegister, requestsType);
             const jsonLoginPostApiRes = await loginPostApiRes.json();
-            console.log("jsonLoginPostApiRes123123",jsonLoginPostApiRes)
            if(jsonLoginPostApiRes.message=="Created successfully"){
             setLogin(true)
            }else{

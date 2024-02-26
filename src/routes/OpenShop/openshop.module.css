@@ -1,3 +1,14 @@
 .cart_products{
     height: 250px !important;
 }
+
+
+.centerLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 2px solid black; */
+    text-align: center;
+    height:300px;
+    margin: auto;
+  }

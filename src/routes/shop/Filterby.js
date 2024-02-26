@@ -6,8 +6,6 @@ import Filterbysize from './Filterbysize'
 function Filterby({filter}) {
   const [Brands , setBrands] = useState([])
   const [Range , setRange] = useState([])
-
-  console.log("priceranfe",filter)
   useEffect(()=>{
      if(filter?.length!=0){
       setBrands(filter?.Brands)
@@ -15,8 +13,6 @@ function Filterby({filter}) {
      }
   },[filter])
 
-
-  console.log("filter",filter)
   return (
     <>
         <div className="col-lg-3 col-md-4">

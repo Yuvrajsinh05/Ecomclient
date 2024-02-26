@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Header } from '../../components/header/header'
-import { getApiCall ,postApiCall } from '../../requests/requests'
+import { getApiCall, postApiCall } from '../../requests/requests'
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CustomerCart, Payment } from '../../requests/adminreq';
 import { useSelector } from 'react-redux';
+import { Loader } from '../../components/Loader/loader';
+import { CircularProgress } from '@mui/material';
+import styles from "./cart.module.css"
 
 
 function Cart() {
     const isAuthenticated = useSelector(state => state.login.isAuthenticated);
-    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
     const [cartData, setCartData] = useState([])
     const [totalAmont, setTotalAmont] = useState(0)
     const [totalSingleAmount, setTotalSingleAmount] = useState(0)
@@ -19,15 +22,15 @@ function Cart() {
     const navigate = useNavigate()
 
 
-    useEffect(()=>{
-        if(!isAuthenticated){
+    useEffect(() => {
+        if (!isAuthenticated) {
             navigate('/')
         }
-   },[])
+    }, [])
 
-   useEffect(() => {
-    getcustomercart()
-}, [])
+    useEffect(() => {
+        getcustomercart()
+    }, [])
 
 
     async function getcustomercart() {
@@ -70,25 +73,38 @@ function Cart() {
                 <div className="row px-xl-5">
                     <div className="col-lg-8 table-responsive mb-5">
                         <table className="table table-light table-borderless table-hover text-center mb-0">
-                            <thead className="thead-dark">
-                                <tr>
-                                    <th>Products</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th>Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody className="align-middle">
+                                    <colgroup>
+                                        <col style={{ width: '30%' }} /> {/* Adjust the width as needed */}
+                                        <col style={{ width: '20%' }} />
+                                        <col style={{ width: '20%' }} />
+                                        <col style={{ width: '20%' }} />
+                                        <col style={{ width: '10%' }} />
+                                    </colgroup>
+                                    <thead className="thead-dark">
+                                        <tr>
+                                            <th>Products</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Total</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
 
-                                {cartItems?.map((cart, index) => {
-                                    return (
-                                        <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} CustomerId={CustomerId} handleCartrmv={handleCartrmv} />
-                                    )
-                                })}
+                                    {Array.isArray(cartItems) && cartItems.length !== 0 ? <tbody className="align-middle">
+                                        {cartItems?.map((cart, index) => (
+                                            <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} CustomerId={CustomerId} handleCartrmv={handleCartrmv} />
+                                        ))}
+                                    </tbody> : (
+                                    <tbody>
+                                        <tr>
+                                            <td width={100} colSpan="100" className={styles.spinnerContainer}>
+                                                <CircularProgress />
+                                            </td>
+                                        </tr>
+                                    </tbody>)}
 
-                            </tbody>
                         </table>
+
                     </div>
                     <div className="col-lg-4">
                         <form className="mb-30" action="">
@@ -116,7 +132,7 @@ function Cart() {
                                     <h5>Total</h5>
                                     <h5>₹{totalAmont}</h5>
                                 </div>
-                                <button className="btn btn-block btn-primary font-weight-bold my-3 py-3" onClick={() => navigate('/checkout', {state:{"Amount":totalAmont}})} >Proceed To Checkout</button>
+                                <button className="btn btn-block btn-primary font-weight-bold my-3 py-3" onClick={() => navigate('/checkout', { state: { "Amount": totalAmont } })} >Proceed To Checkout</button>
                             </div>
                         </div>
                     </div>
@@ -127,10 +143,10 @@ function Cart() {
     )
 }
 
-function Cartcomponent({ cart, handleCartrmv ,getcustomercart ,CustomerId}) {
+function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
 
 
-    
+
     const [counter, setCounter] = useState(cart?.quantity || 0)
     function handleraddcounter(e) {
         e.preventDefault();
@@ -152,25 +168,23 @@ function Cartcomponent({ cart, handleCartrmv ,getcustomercart ,CustomerId}) {
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         updatequantity()
-    },[counter])
+    }, [counter])
 
 
-    console.log("cartr",cart)
-    async function updatequantity(){
+    async function updatequantity() {
         let body = {
-            "product_id" : cart.product_id,
-            "quantity" : counter,
-            "CustomerId" :CustomerId
+            "product_id": cart.product_id,
+            "quantity": counter,
+            "CustomerId": CustomerId
         }
 
-        const updateQuantity = await postApiCall(CustomerCart.updatequantity ,body)
-        console.log("updateQuantity",updateQuantity)
+        const updateQuantity = await postApiCall(CustomerCart.updatequantity, body)
         getcustomercart()
     }
 
-    
+
     return (
         <>
             <tr>
@@ -183,7 +197,7 @@ function Cartcomponent({ cart, handleCartrmv ,getcustomercart ,CustomerId}) {
                                 <i className="fa fa-minus" ></i>
                             </button>
                         </div>
-                        < p className="form-control form-control-sm bg-secondary border-0 text-center">{counter}</p> 
+                        < p className="form-control form-control-sm bg-secondary border-0 text-center">{counter}</p>
                         <div className="input-group-btn">
                             <button className="btn btn-sm btn-primary btn-plus">
                                 <i className="fa fa-plus" onClick={(e) => handleraddcounter(e)}></i>

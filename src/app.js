@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter, useLocation } from "react-router-dom"; // Import useLocation here
 import Contact from "./routes/contact/Contact";
 import PaymentSuccess from "./routes/home/paymentsuccess/paymentsuccess";
 import Home from "./routes/home/home";
@@ -13,6 +13,7 @@ import OpenShop from "./routes/OpenShop/Shop";
 import { Provider } from "react-redux";
 import { Liked } from "./routes/liked/liked";
 import { Header } from "./components/header/header";
+import Footer from "./components/footer/Footer";
 
 // ErrorBoundary functional component to catch errors within its child components
 function ErrorBoundary(props) {
@@ -44,22 +45,36 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <ErrorBoundary>
-          <Header />
-          <Routes>
-            <Route path="/" exact element={<Login_register />} />
-            <Route path="/dashboard" element={<Home />} />
-            <Route path="/Shop" element={<Shop />} />
-            <Route path="/OpenShop" element={<OpenShop />} />
-            <Route path="/shopdetail/:productId" element={<Details />} />
-            <Route path="/shoppingcart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/liked" element={<Liked />} />
-            <Route path="/Contact" element={<Contact />} />
-          </Routes>
-        </ErrorBoundary>
+        <AppContent />
       </BrowserRouter>
     </Provider>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+  
+  useEffect(() => {
+    if(location.pathname=='/') return;
+    localStorage.setItem("lastRoute", location.pathname);
+  }, [location]);
+
+  return (
+    <ErrorBoundary>
+      <Header />
+      <Routes>
+        <Route path="/" exact element={<Login_register />} />
+        <Route path="/dashboard" element={<Home />} />
+        <Route path="/Shop" element={<Shop />} />
+        <Route path="/OpenShop" element={<OpenShop />} />
+        <Route path="/shopdetail/:productId" element={<Details />} />
+        <Route path="/shoppingcart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/liked" element={<Liked />} />
+        <Route path="/Contact" element={<Contact />} />
+      </Routes>
+      <Footer/>
+    </ErrorBoundary>
   );
 }
 

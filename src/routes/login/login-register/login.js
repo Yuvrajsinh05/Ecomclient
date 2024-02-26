@@ -21,7 +21,8 @@ export const Login = ({ setLogin }) => {
 
   useEffect(()=>{
    if(stateStore.login.isAuthenticated){
-    navigate("/dashboard")
+    const fetchRoute = localStorage.getItem('lastRoute')
+    navigate(fetchRoute)
    }
   },[stateStore])
   function handleSubmit(e) {
@@ -29,8 +30,6 @@ export const Login = ({ setLogin }) => {
     loginPostApiCall(useremail, userpwd);
   }
 
-
-   console.log("stateStore123",stateStore)
 
   async function loginPostApiCall(email, pswd) {
     const loginPayload = {
@@ -51,7 +50,6 @@ export const Login = ({ setLogin }) => {
       const jsonLoginPostApiRes = await loginPostApiRes.json();
       setAnything(jsonLoginPostApiRes)
       if (loginPostApiRes.status === 200) {
-        console.log("user", jsonLoginPostApiRes)
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
         dispatch(loginSuccess(jsonLoginPostApiRes))
         dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts , CustomerId))
@@ -74,22 +72,18 @@ export const Login = ({ setLogin }) => {
   const login = useGoogleLogin({
     clientId,
     onSuccess: tokenResponse => {
-      console.log("Token received successfully:", tokenResponse); // Log token response
       fetchGoogleUserInfo(tokenResponse.access_token);
     },
   });
 
   const handleLogin = async () => {
-    console.log("calllaclllcalllcall")
     const response = await login();
-    console.log("Login response:", response); // Log login response
   };
 
 
 
 
   async function fetchGoogleUserInfo(access_token) {
-    console.log("fetchGoogleUserInfo access_token", access_token)
     const userinfoEndpoint = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
     try {
@@ -98,8 +92,6 @@ export const Login = ({ setLogin }) => {
           Authorization: `Bearer ${access_token}`,
         },
       });
-
-      console.log("response", response)
       if (!response.ok) {
         throw new Error('Failed to fetch user information');
       }
@@ -122,7 +114,7 @@ export const Login = ({ setLogin }) => {
       try {
         const loginPostApiRes = await fetch(UserAuth.isGoogleLogin, requestsType);
         const jsonLoginPostApiRes = await loginPostApiRes.json();
-        console.log("google Logincall", jsonLoginPostApiRes)
+    
         setAnything(jsonLoginPostApiRes)
         if (jsonLoginPostApiRes.status === 200) {
           localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
@@ -134,7 +126,7 @@ export const Login = ({ setLogin }) => {
           }, 1000);
         }
       } catch (err) {
-        console.log("hola er", err)
+        console.log("Login Err:137", err)
       }
     } catch (error) {
       // console.error('Error fetching user information:', error);

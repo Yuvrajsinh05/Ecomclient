@@ -25,7 +25,6 @@ export const Liked = () => {
     setDisplaydata(fetchData?.data);
   }
 
-  console.log("likedProducts",likedProducts)
 
   return (
     <>

@@ -6,7 +6,6 @@ import { CustomerCart } from '../requests/adminreq';
 export const likeProductAsync = (productId, InitialSavedIds ,CustomerId) => async (dispatch) => {
   try {
     if (productId) {
-      console.log("prodidGot", productId)
       const headers = {
         "Content-Type": "application/json",
         "Authorization": localStorage.ecomtoken,

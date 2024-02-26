@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 // import Filterby from "./Filterby";
 import { useEffect } from "react";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getApiCall } from "../../requests/requests";
 import DisplayProduct from "./DisplayProducts";
 import { Header } from "../../components/header/header";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
 import { ProdcutsWrtCate, ProductCalls } from "../../requests/adminreq";
 import { useSelector } from "react-redux";
+import styles from './openshop.module.css';
+import  LinearProgress  from "@mui/material/LinearProgress";
 
 function OpenShop() {
   const isAuthenticated = useSelector(state => state.login.isAuthenticated);
@@ -26,9 +29,9 @@ function OpenShop() {
   }, [])
 
 
-  useEffect(()=>{
+  useEffect(() => {
     fungetApiCall()
-  },[])
+  }, [])
 
 
 
@@ -38,10 +41,10 @@ function OpenShop() {
     // let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
     // if(categoryName && SubcategoryName ){
 
-      let FetchProducts = await getApiCall(`${ProductCalls.getallProducts}?idNameFashion=${location.state}`)
-      setDisplaydata(FetchProducts?.data)
-      // setFilter(location?.state?.state1)
-    }
+    let FetchProducts = await getApiCall(`${ProductCalls.getallProducts}?idNameFashion=${location.state}`)
+    setDisplaydata(FetchProducts?.data)
+    // setFilter(location?.state?.state1)
+  }
   // }
 
 
@@ -126,8 +129,13 @@ function OpenShop() {
                 </div>
               </div>
 
+              {Array.isArray(displaydata) && displaydata.length != 0 ? <DisplayProduct displaydata={displaydata || []} /> :
+                <div className={styles.centerLoader}>
+                   <b><CircularProgress color="inherit" /></b>  
 
-              <DisplayProduct displaydata={displaydata || []} />
+                </div>
+              }
+
 
             </div>
           </div>
