@@ -34,19 +34,35 @@ function Cart() {
 
 
     async function getcustomercart() {
+        if (!CustomerId) return;
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         setCartData(getcart?.data)
-        setCartitems(getcart?.data[0]?.items)
+        setCartitems(getcart?.data.items)
+        console.log("getcart", getcart)
         let addmount = 0
-        let totalamount = getcart?.data[0]?.items?.map((it, key) => addmount += it?.price * it?.quantity)
+        let totalamount = getcart?.data?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
 
     }
 
     async function handleCartrmv(dlt) {
-        let Fltitems = cartData[0].items.filter((data, key) => data?.product_id != dlt.product_id)
+
+        console.log("cartData", cartData.items)
+        let Fltitems = cartData.items.filter((data, key) => data?._id != dlt._id)
+
+        // Prepare newTemp with modified data
+        let newTemp = Fltitems.map(data => ({
+            product_id: data._id,
+            product_name: data.name || data?.model,
+            Prodcategory: data.category,
+            Prodtype: data.type,
+            quantity: data.quantity,
+            price: data.price
+        }));
+
+        console.log("Fltitems.", newTemp)
         const data = {
-            items: Fltitems
+            items: newTemp
         }
         let updateItems = await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
         getcustomercart()
@@ -73,35 +89,37 @@ function Cart() {
                 <div className="row px-xl-5">
                     <div className="col-lg-8 table-responsive mb-5">
                         <table className="table table-light table-borderless table-hover text-center mb-0">
-                                    <colgroup>
-                                        <col style={{ width: '30%' }} /> {/* Adjust the width as needed */}
-                                        <col style={{ width: '20%' }} />
-                                        <col style={{ width: '20%' }} />
-                                        <col style={{ width: '20%' }} />
-                                        <col style={{ width: '10%' }} />
-                                    </colgroup>
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th>Products</th>
-                                            <th>Price</th>
-                                            <th>Quantity</th>
-                                            <th>Total</th>
-                                            <th>Remove</th>
-                                        </tr>
-                                    </thead>
+                            <colgroup>
+                                <col style={{ width: '10%' }} /> {/* Adjust the width as needed */}
+                                <col style={{ width: '20%' }} />
+                                <col style={{ width: '20%' }} />
+                                <col style={{ width: '20%' }} />
+                                <col style={{ width: '20%' }} />
+                                <col style={{ width: '10%' }} />
+                            </colgroup>
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th>Image</th>
+                                    <th>Products</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
 
-                                    {Array.isArray(cartItems) && cartItems.length !== 0 ? <tbody className="align-middle">
-                                        {cartItems?.map((cart, index) => (
-                                            <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} CustomerId={CustomerId} handleCartrmv={handleCartrmv} />
-                                        ))}
-                                    </tbody> : (
-                                    <tbody>
-                                        <tr>
-                                            <td width={100} colSpan="100" className={styles.spinnerContainer}>
-                                                <CircularProgress />
-                                            </td>
-                                        </tr>
-                                    </tbody>)}
+                            {Array.isArray(cartItems) && cartItems.length !== 0 ? <tbody className="align-middle">
+                                {cartItems?.map((cart, index) => (
+                                    <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} CustomerId={CustomerId} handleCartrmv={handleCartrmv} />
+                                ))}
+                            </tbody> : (
+                                <tbody>
+                                    <tr>
+                                        <td width={100} colSpan="100" className={styles.spinnerContainer}>
+                                            <CircularProgress />
+                                        </td>
+                                    </tr>
+                                </tbody>)}
 
                         </table>
 
@@ -175,7 +193,7 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
 
     async function updatequantity() {
         let body = {
-            "product_id": cart.product_id,
+            "product_id": cart._id,
             "quantity": counter,
             "CustomerId": CustomerId
         }
@@ -185,10 +203,12 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
     }
 
 
+    console.log("cart.,...", cart)
     return (
         <>
             <tr>
-                <td className="align-middle"><img src="img/product-1.jpg" alt="" style={{ width: "50px" }} /> {cart?.product_name || "N/A"}</td>
+                <td className="align-middle"><img src={cart?.image || cart?.imageUrl} alt="" style={{ width: "50px" }} /></td>
+                <td className="align-middle">{cart?.name || cart?.model || "N/A"}</td>
                 <td className="align-middle">{` ₹ ${(cart?.price)} `}</td>
                 <td className="align-middle">
                     <div className="input-group quantity mx-auto" style={{ width: "100px" }}>

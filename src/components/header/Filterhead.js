@@ -27,9 +27,7 @@ export function FilterHead({ categories }) {
 
     async function getcustomercart() {
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
-        if (getcart?.data && Array.isArray(getcart.data)) {
-            setCartData(getcart.data[0]);
-          }
+        setCartData(getcart?.data);
     }
 
     return (

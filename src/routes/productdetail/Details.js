@@ -40,13 +40,17 @@ function Details() {
             product_id: productId,
             product_name:proDetail?.name ,
             quantity: counter,
-            price: proDetail?.price
+            price: proDetail?.price,
+            Prodcategory:proDetail?.category,
+            Prodtype:proDetail?.type
         }
         let addCart = await postApiCall(`${CustomerCart.createcart}?id=${CustomerId}`, data)
         if (addCart.status == 200) {
             navigate('/shoppingcart')
         }
     }
+
+
 
     const handleraddcounter = (e) => {
         e.preventDefault();

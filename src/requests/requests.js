@@ -1,4 +1,5 @@
 export async function getApiCall(url) {
+  console.log("getApicall",url)
     try {
       const requestType = {
         headers: {

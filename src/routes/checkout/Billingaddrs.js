@@ -90,7 +90,7 @@ function Billingaddrs() {
     async function getCustomerCart() {
         let fetchCarts = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         let subtotal = 0;
-        fetchCarts.data[0]?.items?.map((prod) => {
+        fetchCarts.data?.items?.map((prod) => {
             subtotal = subtotal + (prod.quantity * prod.price)
         })
         setSubTotal(subtotal.toFixed(2))
