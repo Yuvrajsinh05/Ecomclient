@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getApiCall, postApiCall } from '../../requests/requests'
 import { CustomerCart, Payment } from '../../requests/adminreq'
+import { useSelector } from 'react-redux'
 
 
 
@@ -8,6 +9,7 @@ import { CustomerCart, Payment } from '../../requests/adminreq'
 
 
 function Billingaddrs() {
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
     const [cartProducts, setCartProducts] = useState()
     const [subtotal, setSubTotal] = useState()
     const [errors, setErrors] = useState({})
@@ -86,7 +88,7 @@ function Billingaddrs() {
     }
 
     async function getCustomerCart() {
-        let fetchCarts = await getApiCall(`${CustomerCart.getCartById}?id=${localStorage.getItem('ecomuserId')}`)
+        let fetchCarts = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         let subtotal = 0;
         fetchCarts.data[0].items?.map((prod) => {
             console.log("iner ", prod.quantity, prod.items)

@@ -18,9 +18,13 @@ export const Header = () => {
 
     const getCategories = async () => {
         let res = await getApiCall(Categories.getAllcategories)
-        setCategories(res)
+        if(Array.isArray(res)){
+            setCategories(res)
+        }
     }
 
+  
+    console.log("categories------26",categories)
     return (
 
         <>
@@ -28,6 +32,7 @@ export const Header = () => {
             <>
                 <ConfigHead />
                 <FilterHead categories={categories} />
+            
             </>
         )}
     </>

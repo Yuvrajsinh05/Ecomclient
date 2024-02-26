@@ -52,7 +52,6 @@ export async function getApiCall(url) {
             headers: {
                 'Content-Type': 'application/json',
                 "Authorization" : localStorage.ecomtoken ,
-                "customer" : localStorage.getItem('ecomuserId')
             },
             body: JSON.stringify(data)
         });

@@ -1,6 +1,6 @@
 // store.js
 import { configureStore } from '@reduxjs/toolkit';
-import loginReducer from "../routes/login/loginSlice";
+import loginReducer, { fetchUserFromStorage } from "../routes/login/loginSlice";
 // import likedProductsReducer from "../path-to-your-likedProducts-slice";
 import likedProductsReducer from "./likedProductsSlice"
 
@@ -12,4 +12,6 @@ const store = configureStore({
   },
 });
 
+
+store.dispatch(fetchUserFromStorage());
 export default store;

@@ -130,10 +130,10 @@ export const Liked = () => {
 function DisplayItem({ prods }) {
   // const dispatch = useDispatch()
   const dispatch = useDispatch();
-
+  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
   const handleLikeProduct = async () => {
     try {
-      await dispatch(likeProductAsync(prods?._id));
+      await dispatch(likeProductAsync(prods?._id , [] , CustomerId));
     } catch (error) {
       console.error('Error liking product:', error);
       // Handle errors or display an error message

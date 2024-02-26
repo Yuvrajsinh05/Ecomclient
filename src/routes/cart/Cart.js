@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 function Cart() {
     const isAuthenticated = useSelector(state => state.login.isAuthenticated);
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
     const [cartData, setCartData] = useState([])
     const [totalAmont, setTotalAmont] = useState(0)
     const [totalSingleAmount, setTotalSingleAmount] = useState(0)
@@ -30,11 +31,11 @@ function Cart() {
 
 
     async function getcustomercart() {
-        const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${localStorage.getItem('ecomuserId')}`)
+        const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         setCartData(getcart?.data)
         setCartitems(getcart?.data[0]?.items)
         let addmount = 0
-        let totalamount = getcart?.data[0].items?.map((it, key) => addmount += it?.price * it?.quantity)
+        let totalamount = getcart?.data[0]?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
 
     }
@@ -44,7 +45,7 @@ function Cart() {
         const data = {
             items: Fltitems
         }
-        let updateItems = await postApiCall(`${CustomerCart.UpdateCartById}?id=${localStorage.getItem('ecomuserId')}`, data)
+        let updateItems = await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
         getcustomercart()
     }
 
@@ -82,7 +83,7 @@ function Cart() {
 
                                 {cartItems?.map((cart, index) => {
                                     return (
-                                        <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} handleCartrmv={handleCartrmv} />
+                                        <Cartcomponent cart={cart} key={index} getcustomercart={getcustomercart} CustomerId={CustomerId} handleCartrmv={handleCartrmv} />
                                     )
                                 })}
 
@@ -126,7 +127,7 @@ function Cart() {
     )
 }
 
-function Cartcomponent({ cart, handleCartrmv ,getcustomercart}) {
+function Cartcomponent({ cart, handleCartrmv ,getcustomercart ,CustomerId}) {
 
 
     
@@ -161,7 +162,7 @@ function Cartcomponent({ cart, handleCartrmv ,getcustomercart}) {
         let body = {
             "product_id" : cart.product_id,
             "quantity" : counter,
-            "CustomerId" : localStorage.getItem('ecomuserId')
+            "CustomerId" :CustomerId
         }
 
         const updateQuantity = await postApiCall(CustomerCart.updatequantity ,body)

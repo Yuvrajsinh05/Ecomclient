@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { loginSuccess } from "../loginSlice";
 import { UserAuth } from "../../../requests/adminreq";
 import { Link } from "react-router-dom"
@@ -12,17 +12,25 @@ import axios from 'axios';
 
 export const Login = ({ setLogin }) => {
   const dispatch = useDispatch()
-
+  const stateStore = useSelector(state => state)
+  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
   const [useremail, setUseremail] = useState("")
   const [userpwd, setUserPwd] = useState("")
   const [anything, setAnything] = useState("")
   const navigate = useNavigate();
 
+  useEffect(()=>{
+   if(stateStore.login.isAuthenticated){
+    navigate("/dashboard")
+   }
+  },[stateStore])
   function handleSubmit(e) {
     e.preventDefault();
     loginPostApiCall(useremail, userpwd);
   }
 
+
+   console.log("stateStore123",stateStore)
 
   async function loginPostApiCall(email, pswd) {
     const loginPayload = {
@@ -43,13 +51,10 @@ export const Login = ({ setLogin }) => {
       const jsonLoginPostApiRes = await loginPostApiRes.json();
       setAnything(jsonLoginPostApiRes)
       if (loginPostApiRes.status === 200) {
-        console.log("jsonLoginPostApiReslogincall", jsonLoginPostApiRes)
         console.log("user", jsonLoginPostApiRes)
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
-        localStorage.setItem("user", jsonLoginPostApiRes.user.name);
-        localStorage.setItem("ecomuserId", jsonLoginPostApiRes.user._id);
         dispatch(loginSuccess(jsonLoginPostApiRes))
-        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.user?.savedProducts))
+        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts , CustomerId))
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
@@ -121,9 +126,8 @@ export const Login = ({ setLogin }) => {
         setAnything(jsonLoginPostApiRes)
         if (jsonLoginPostApiRes.status === 200) {
           localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
-          localStorage.setItem("user", jsonLoginPostApiRes.user.name);
-          localStorage.setItem("ecomuserId", jsonLoginPostApiRes.user._id);
-          dispatch(likeProductAsync(false, jsonLoginPostApiRes?.user?.savedProducts))
+          localStorage.setItem("ecomuserId", jsonLoginPostApiRes.Userdata._id);
+          dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts ,CustomerId))
           dispatch(loginSuccess(jsonLoginPostApiRes))
           setTimeout(() => {
             navigate("/dashboard");
@@ -171,8 +175,8 @@ export const Login = ({ setLogin }) => {
     if (token || name || email || UserId) {
       localStorage.setItem("ecomtoken", token);
       localStorage.setItem("user", name);
-      localStorage.setItem("ecomuserId", UserId);
-      dispatch(likeProductAsync(false, savedProducts.split(',')))
+
+      dispatch(likeProductAsync(false, savedProducts.split(','),CustomerId))
       dispatch(loginSuccess(PayLoad))
       setTimeout(() => {
         navigate("/dashboard");

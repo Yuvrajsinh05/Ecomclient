@@ -12,20 +12,24 @@ export function FilterHead({ categories }) {
     const [storedData, setStoredData] = useState([])
     const navigate = useNavigate()
     const likedProducts = useSelector(state => { return state?.likedProducts }); // Assuming 'likedProducts' is your slice name
-
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
+    console.log("categories filterHead 16",categories)
 
 
     useEffect(() => {
         setStoredData(likedProducts.likedProducts)
     }, [likedProducts])
+ 
     useEffect(() => {
         getcustomercart()
     }, [])
 
 
     async function getcustomercart() {
-        const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${localStorage.getItem('ecomuserId')}`)
-        setCartData(getcart?.data[0])
+        const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
+        if (getcart?.data && Array.isArray(getcart.data)) {
+            setCartData(getcart.data[0]);
+          }
     }
 
     return (
@@ -40,7 +44,7 @@ export function FilterHead({ categories }) {
                         </a>
                         <nav className="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style={{ width: "calc(100% - 30px)", zIndex: "999" }}>
                             <div className="navbar-nav w-100">
-                                {categories?.map((cate, index) => { return <Catemenu ParentCate={cate} categories={cate?.SubCategories} key={index} /> })}
+                                {categories.length!=0 &&  categories?.map((cate, index) => { return <Catemenu ParentCate={cate} categories={cate?.SubCategories} key={index} /> })}
                             </div>
                         </nav>
                     </div>

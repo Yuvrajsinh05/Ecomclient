@@ -17,6 +17,9 @@ export default function Carousel() {
         let res = await getApiCall(HomeCorousel.getHomecorousel)
         setSliders(res)
     }
+
+
+    
     
     return (
         <>

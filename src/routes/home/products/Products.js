@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { getApiCall } from "../../../requests/requests";
 import { ProductCalls, dashboardClothing } from "../../../requests/adminreq";
 import { Link ,Outlet} from "react-router-dom"
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
 
 export const Products = () => {
@@ -64,10 +64,10 @@ export const Products = () => {
 function FeaturedCard({fpro}) {
 
     let dispatch = useDispatch()
-
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
     const handleLikeProduct = async () => {
         try {
-          await dispatch(likeProductAsync(fpro._id));
+          await dispatch(likeProductAsync(fpro._id , [] ,CustomerId));
         } catch (error) {
           console.error('Error liking product:', error);
           // Handle errors or display an error message

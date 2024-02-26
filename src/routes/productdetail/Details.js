@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 
 function Details() {
     const isAuthenticated = useSelector(state => state.login.isAuthenticated);
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
     const { productId } = useParams();
     const [proDetail, setProDetail] = useState([])
     const [counter, setCounter] = useState(1)
@@ -41,7 +42,7 @@ function Details() {
             quantity: counter,
             price: proDetail?.price
         }
-        let addCart = await postApiCall(`${CustomerCart.createcart}?id=${localStorage.getItem('ecomuserId')}`, data)
+        let addCart = await postApiCall(`${CustomerCart.createcart}?id=${CustomerId}`, data)
         if (addCart.status == 200) {
             navigate('/shoppingcart')
         }

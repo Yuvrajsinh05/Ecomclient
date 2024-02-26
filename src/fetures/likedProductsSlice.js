@@ -3,7 +3,7 @@ import axios from 'axios';
 import { CustomerCart } from '../requests/adminreq';
 
 // Action creator using Redux Thunk
-export const likeProductAsync = (productId, InitialSavedIds) => async (dispatch) => {
+export const likeProductAsync = (productId, InitialSavedIds ,CustomerId) => async (dispatch) => {
   try {
     if (productId) {
       console.log("prodidGot", productId)
@@ -14,11 +14,9 @@ export const likeProductAsync = (productId, InitialSavedIds) => async (dispatch)
 
       const response = await axios.post(CustomerCart.savedProducts, {
         productId,
-        userId: localStorage.getItem('ecomuserId'),
+        userId: CustomerId,
       } ,{headers});
 
-      console.log("likeProductAsynctola", response?.data?.savedProducts)
-      // Dispatch a synchronous action after the API call is successful
       dispatch(likeProduct({ "savedProduct": response.data.savedProducts }));
     } else {
       dispatch(likeProduct({ "savedProduct": InitialSavedIds }))

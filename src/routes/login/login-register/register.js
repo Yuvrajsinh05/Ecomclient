@@ -11,10 +11,11 @@ export const Register = ({setLogin}) => {
     const [userReapetPassword, setUserReapetPassword] = useState("")
 
     function handleOtpMatch() {
-        if (username || useremail || userphone) {
-            setfoundOtpMatch(true)
-        } else (
+        if (!username || !useremail || !userphone) {
+            setfoundOtpMatch(false)
             alert("fill all details")
+        } else (
+            setfoundOtpMatch(true)
             // setfoundOtpMatch(false )
         )
 
@@ -37,6 +38,12 @@ export const Register = ({setLogin}) => {
             const loginPostApiRes = await fetch(UserAuth.register, requestsType);
             // console.log("loginpostapi",loginPostApiRes)
             const jsonLoginPostApiRes = await loginPostApiRes.json();
+            if(jsonLoginPostApiRes?.status == 500){
+                alert(jsonLoginPostApiRes.message)
+            }
+            
+
+            console.log("jsonLoginPostApiRescaledcales",jsonLoginPostApiRes)
         } catch (error) {
             alert("something", error)
         }
@@ -75,10 +82,13 @@ export const Register = ({setLogin}) => {
         try {
             const loginPostApiRes = await fetch(UserAuth.isVerifiedRegister, requestsType);
             const jsonLoginPostApiRes = await loginPostApiRes.json();
+            console.log("jsonLoginPostApiRes123123",jsonLoginPostApiRes)
            if(jsonLoginPostApiRes.message=="Created successfully"){
             setLogin(true)
+           }else{
+            alert(jsonLoginPostApiRes.message || "created or notcreated")
            }
-           alert(jsonLoginPostApiRes.message || "created or notcreated")
+       
         } catch (error) {
             alert("something")
         }
