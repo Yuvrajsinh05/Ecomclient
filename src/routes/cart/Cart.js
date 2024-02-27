@@ -37,8 +37,7 @@ function Cart() {
         if (!CustomerId) return;
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         setCartData(getcart?.data)
-        setCartitems(getcart?.data.items)
-        console.log("getcart", getcart)
+        setCartitems(getcart?.data?.items)
         let addmount = 0
         let totalamount = getcart?.data?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
@@ -46,8 +45,6 @@ function Cart() {
     }
 
     async function handleCartrmv(dlt) {
-
-        console.log("cartData", cartData.items)
         let Fltitems = cartData.items.filter((data, key) => data?._id != dlt._id)
 
         // Prepare newTemp with modified data

@@ -94,7 +94,7 @@ function Billingaddrs() {
             subtotal = subtotal + (prod.quantity * prod.price)
         })
         setSubTotal(subtotal.toFixed(2))
-        setCartProducts(fetchCarts?.data[0]?.items)
+        setCartProducts(fetchCarts?.data?.items)
     }
 
     function handleChage(e) {
@@ -182,7 +182,7 @@ function Billingaddrs() {
                                 {cartProducts?.map((prod, index) => {
                                     return (
                                         <div key={index} className="d-flex justify-content-between">
-                                            <p>{prod.product_name}<span style={{ color: 'black' }}><b>  x <b>{prod.quantity}</b> </b></span></p>
+                                            <p>{prod.name}<span style={{ color: 'black' }}><b>  x <b>{prod.quantity}</b> </b></span></p>
                                             <p>{prod.quantity * prod.price}</p>
                                         </div>
 
