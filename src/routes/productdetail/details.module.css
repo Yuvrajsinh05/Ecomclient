@@ -1,0 +1,10 @@
+.centerLoader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red !important; */
+    /* border: 2px solid black; */
+    text-align: center;
+    height:500px;
+    margin: auto;
+  }

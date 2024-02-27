@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { CustomerCart } from "../../requests/adminreq"
-import { getApiCall } from "../../requests/requests"
+import  {getApiCall}  from "../../requests/requests"
 // import { UseSelector } from "'react-redux'"
 import { useSelector } from "react-redux"
 
