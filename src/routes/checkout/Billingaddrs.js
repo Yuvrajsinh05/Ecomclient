@@ -41,6 +41,7 @@ function Billingaddrs() {
     }
 
     const handleCheckout = async (value) => {
+        if(!Array.isArray(cartProducts) || cartProducts.length==0){return alert("Your Cart Is Empty")}
         let valid = validateForm(form);
         if(!valid) return;
         let OrderAmount = {
@@ -183,7 +184,7 @@ function Billingaddrs() {
                                     return (
                                         <div key={index} className="d-flex justify-content-between">
                                             <p>{prod.name}<span style={{ color: 'black' }}><b>  x <b>{prod.quantity}</b> </b></span></p>
-                                            <p>{prod.quantity * prod.price}</p>
+                                            <p>{(prod.quantity * prod.price).toFixed(2)}</p>
                                         </div>
 
                                     )

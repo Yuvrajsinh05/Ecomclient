@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { CustomerCart } from "../../requests/adminreq"
-import  {getApiCall}  from "../../requests/requests"
+import { getApiCall } from "../../requests/requests"
 // import { UseSelector } from "'react-redux'"
 import { useSelector } from "react-redux"
 
@@ -12,14 +12,35 @@ export function FilterHead({ categories }) {
     const [storedData, setStoredData] = useState([])
     const navigate = useNavigate()
     const likedProducts = useSelector(state => { return state?.likedProducts }); // Assuming 'likedProducts' is your slice name
-    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
-    console.log("categories filterHead 16",categories)
+    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
+
+    const [isOpen, setIsOpen] = useState(true);
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        };
+
+        document.addEventListener('click', handleOutsideClick);
+
+        return () => {
+            document.removeEventListener('click', handleOutsideClick);
+        };
+    }, []);
+
+    const toggleDropdown = (event) => {
+        event.stopPropagation(); // Prevent event propagation
+        setIsOpen(!isOpen);
+    };
 
 
     useEffect(() => {
         setStoredData(likedProducts.likedProducts)
     }, [likedProducts])
- 
+
     useEffect(() => {
         getcustomercart()
     }, [])
@@ -30,22 +51,24 @@ export function FilterHead({ categories }) {
         setCartData(getcart?.data);
     }
 
+    console.log("isOpen", isOpen)
     return (
         <>
             <div className="container-fluid bg-dark mb-30">
                 <div className="row px-xl-5">
 
                     <div className="col-lg-3 d-none d-lg-block">
-                        <a className="btn d-flex align-items-center justify-content-between bg-primary w-100" data-toggle="collapse" href="#navbar-vertical" style={{ height: "65px", padding: "0 30px" }}>
+                        <a className="btn d-flex align-items-center justify-content-between bg-primary w-100" onClick={toggleDropdown} style={{ height: "65px", padding: "0 30px", cursor: 'pointer' }}>
                             <h6 className="text-dark m-0"><i className="fa fa-bars mr-2"></i>Categories</h6>
-                            <i className="fa fa-angle-down text-dark"></i>
+                            <i className={`fa ${isOpen ? 'fa-angle-up' : 'fa-angle-down'} text-dark`}></i>
                         </a>
-                        <nav className="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light" id="navbar-vertical" style={{ width: "calc(100% - 30px)", zIndex: "999" }}>
+                        <nav className={`collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light ${isOpen ? 'show' : ''}`} ref={dropdownRef} style={{ width: "calc(100% - 30px)", zIndex: "999" }}>
                             <div className="navbar-nav w-100">
-                                {categories.length!=0 &&  categories?.map((cate, index) => { return <Catemenu ParentCate={cate} categories={cate?.SubCategories} key={index} /> })}
+                                {categories.length !== 0 && categories?.map((cate, index) => <Catemenu ParentCate={cate} setIsOpen={setIsOpen} categories={cate?.SubCategories} key={index} />)}
                             </div>
                         </nav>
                     </div>
+
                     <div className="col-lg-9">
                         <nav className="navbar navbar-expand-lg bg-dark navbar-dark py-3 py-lg-0 px-0">
                             <a href="" className="text-decoration-none d-block d-lg-none">
@@ -70,13 +93,13 @@ export function FilterHead({ categories }) {
 
                                 </div>
                                 <div className="navbar-nav ml-auto py-0 d-none d-lg-block">
-                                    <p onClick={() => { navigate("/liked", { state:{LikedProductsIds:storedData}  }) }} className="btn px-0">
+                                    <p onClick={() => { navigate("/liked", { state: { LikedProductsIds: storedData } }) }} className="btn px-0">
                                         <i className="fas fa-heart text-primary"></i>
                                         <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{storedData.length}</span>
                                     </p>
-                                    <p onClick={()=>{navigate("/shoppingcart")}}className="btn px-0 ml-3">
+                                    <p onClick={() => { navigate("/shoppingcart") }} className="btn px-0 ml-3">
                                         <i className="fas fa-shopping-cart text-primary"></i>
-                                        <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{cartData?.items?.length}</span>
+                                        <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{cartData?.items?.length || 0}</span>
                                     </p>
                                 </div>
                             </div>
@@ -89,7 +112,7 @@ export function FilterHead({ categories }) {
     )
 }
 
-function Catemenu({ categories, ParentCate }) {
+function Catemenu({ categories, ParentCate, setIsOpen }) {
     let navigate = useNavigate()
     return (
         categories?.map((subcat, index) => {
@@ -100,7 +123,13 @@ function Catemenu({ categories, ParentCate }) {
                         <div className="dropdown-menu position-absolute rounded-0 border-0 m-0">
                             {subcat?.SubType?.map((subT, index) => {
                                 return (
-                                    <p onClick={() => navigate('/shop', { state: { state1: subT, state2: ParentCate } })} className="dropdown-item" key={index}>{subT?.Name}</p>
+                                    <p onClick={() => {
+                                        setIsOpen(false)
+                                        navigate('/shop', { state: { state1: subT, state2: ParentCate } })
+                                    }
+
+
+                                    } className="dropdown-item" key={index}>{subT?.Name}</p>
                                 )
                             })}
                         </div>
@@ -108,7 +137,10 @@ function Catemenu({ categories, ParentCate }) {
                 )
             } else {
                 return (
-                    <p onClick={() => navigate('/shop', { state: { state1: subcat, state2: ParentCate } })} key={index} className="nav-item nav-link">{subcat?.type}</p>
+                    <p onClick={() => {
+                        setIsOpen(false)
+                        navigate('/shop', { state: { state1: subcat, state2: ParentCate } })
+                    }} key={index} className="nav-item nav-link">{subcat?.type}</p>
                 )
             }
         }))

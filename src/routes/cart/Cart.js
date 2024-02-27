@@ -19,6 +19,7 @@ function Cart() {
     const [totalSingleAmount, setTotalSingleAmount] = useState(0)
     const [totalSingleAmountArray, setTotalAmountArray] = useState([])
     const [cartItems, setCartitems] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
 
 
@@ -35,12 +36,14 @@ function Cart() {
 
     async function getcustomercart() {
         if (!CustomerId) return;
+        setIsLoading(true)
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         setCartData(getcart?.data)
         setCartitems(getcart?.data?.items)
         let addmount = 0
         let totalamount = getcart?.data?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
+        setIsLoading(false)
 
     }
 
@@ -111,9 +114,10 @@ function Cart() {
                                 ))}
                             </tbody> : (
                                 <tbody>
+                                
                                     <tr>
                                         <td width={100} colSpan="100" className={styles.spinnerContainer}>
-                                            <CircularProgress />
+                                        {!isLoading ?<h4>No Cart Items Selected Yet</h4>  :  <CircularProgress />}  
                                         </td>
                                     </tr>
                                 </tbody>)}

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Filterby from "./Filterby";
 import { useEffect } from "react";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getApiCall } from "../../requests/requests";
 import DisplayProduct from "./DisplayProducts";
 import { Header } from "../../components/header/header";
@@ -9,11 +9,13 @@ import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
 import { ProdcutsWrtCate } from "../../requests/adminreq";
 import { useSelector } from "react-redux";
+import { CircularProgress } from "@mui/material";
 
 function Shop() {
   const isAuthenticated = useSelector(state => state.login.isAuthenticated);
   const [displaydata, setDisplaydata] = useState([])
   const [filter, setFilter] = useState([])
+  const [isLoader, setIsLoader] = useState(false)
   const location = useLocation();
   const navigate = useNavigate()
 
@@ -24,25 +26,27 @@ function Shop() {
   }, [])
 
 
-  useEffect(()=>{
+  useEffect(() => {
     fungetApiCall()
-  },[location])
+  }, [location])
 
 
 
-  
+
   async function fungetApiCall() {
+    setIsLoader(true)
     let categoryName = location?.state?.state2?.Categories
     let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
-    if(categoryName && SubcategoryName ){
+    if (categoryName && SubcategoryName) {
       const encodedStr = encodeURIComponent(SubcategoryName);
       const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
-      
+
       let FetchFilters = await getApiCall(url)
       let FetchProducts = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${categoryName}/${encodeURI(SubcategoryName)}`)
       setDisplaydata(FetchProducts?.data)
       setFilter(FetchFilters?.data[0])
     }
+    setIsLoader(false)
   }
 
 
@@ -68,7 +72,7 @@ function Shop() {
       <div className="container-fluid">
         <div className="row px-xl-5">
 
-          <Filterby  filter={filter}/>
+          <Filterby filter={filter} />
 
           <div className="col-lg-9 col-md-8">
             <div className="row pb-3">
@@ -127,8 +131,21 @@ function Shop() {
                 </div>
               </div>
 
+              {Array.isArray(displaydata) && displaydata.length !== 0 ? (
+                <DisplayProduct displaydata={displaydata} />
+              ) : (
+                !isLoader ? (
+                  <h4>No Product For This Category</h4>
+                ) : (
+                  <div style={{margin:'auto' , textAlign:'center', paddingTop:'6.5rem', height:'250px'}}>
+                    <CircularProgress color="inherit" />
 
-              <DisplayProduct displaydata={displaydata} />
+                  </div>
+
+                )
+              )}
+
+
 
             </div>
           </div>
