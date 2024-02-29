@@ -57,7 +57,7 @@ const handleLikeProduct = async () => {
             </div>
           </div>
           <div className="text-center py-4">
-            <Link className="h6 text-decoration-none text-truncate" to="">
+            <Link className="h6 text-decoration-none text-truncate" style={{display:'block'}} to="">
               {prods?.name || prods?.model}
             </Link>
             <div className="d-flex align-items-center justify-content-center mt-2">
