@@ -13,6 +13,7 @@ import OpenShop from "./routes/OpenShop/Shop";
 import { Provider } from "react-redux";
 import { Liked } from "./routes/liked/liked";
 import { Header } from "./components/header/header";
+import UserProfile from "./routes/Profile/profile";
 import Footer from "./components/footer/Footer";
 
 // ErrorBoundary functional component to catch errors within its child components
@@ -72,6 +73,7 @@ function AppContent() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/liked" element={<Liked />} />
         <Route path="/Contact" element={<Contact />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
       <Footer/>
     </ErrorBoundary>

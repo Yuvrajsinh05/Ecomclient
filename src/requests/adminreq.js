@@ -8,7 +8,8 @@ export const UserAuth = {
     isVerifiedRegister: `${baseUrl}/admin/isVerifiedRegister`,
     isGoogleLogin: `${baseUrl}/admin/isGoogleLogin`,
     isGithubLogin: `${baseUrl}/admin/isGithubLogin`,
-    userDetials : `${baseUrl}/admin/userDetails`
+    userDetials : `${baseUrl}/admin/userDetails`,
+    userOrders : `${baseUrl}/admin/orders`,
     
 }
 
@@ -55,4 +56,10 @@ export const dashboardClothing = {
     MensCloth : `${baseUrl}admin/Fashion/Men's%20Clothing`,
     WomensCloth : `${baseUrl}/admin/Fashion/Women's%20Clothing`,
     Kids :`${baseUrl}/admin/Fashion/Children's%20Clothing`
+}
+
+
+
+export const AdvanceApis = {
+    SendMSGToDiscord:`${baseUrl}/admin/sendMessage`
 }

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import { getApiCall } from "../../requests/requests"
 import { FilterHead } from "./Filterhead"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Categories } from '../../requests/adminreq'
 import { useLocation } from "react-router-dom";
 
@@ -10,6 +10,7 @@ export const Header = () => {
 
     const [categories, setCategories] = useState([])
     const location = useLocation()
+  
 
     useEffect(() => {
         getCategories()
@@ -40,6 +41,7 @@ export const Header = () => {
 }
 
 export function ConfigHead() {
+    const navigate = useNavigate()
     return (
         <>
             <div className="container-fluid">
@@ -57,7 +59,7 @@ export function ConfigHead() {
                             <div className="btn-group">
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                 <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">My Profile</button>
+                                    <button className="dropdown-item" onClick={()=>navigate('/profile')} type="button">My Profile</button>
                                     <button className="dropdown-item" type="button">Log Out</button>
                                 </div>
                             </div>

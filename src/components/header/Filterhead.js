@@ -14,7 +14,7 @@ export function FilterHead({ categories }) {
     const likedProducts = useSelector(state => { return state?.likedProducts }); // Assuming 'likedProducts' is your slice name
     const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
