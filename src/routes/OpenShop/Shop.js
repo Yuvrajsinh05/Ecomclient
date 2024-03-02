@@ -37,16 +37,9 @@ function OpenShop() {
 
 
   async function fungetApiCall() {
-    // let categoryName = location?.state?.state2?.Categories
-    // let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
-    // if(categoryName && SubcategoryName ){
-
     let FetchProducts = await getApiCall(`${ProductCalls.getallProducts}?idNameFashion=${location.state}`)
     setDisplaydata(FetchProducts?.data)
-    // setFilter(location?.state?.state1)
   }
-  // }
-
 
   return (
     <>

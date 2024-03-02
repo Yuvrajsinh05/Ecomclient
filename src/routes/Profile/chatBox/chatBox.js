@@ -3,60 +3,28 @@ import styles from "./profile.module.css"
 import io from 'socket.io-client';
 import { postApiCall } from "../../../requests/requests";
 import { AdvanceApis } from "../../../requests/adminreq";
-
+import { baseUrl } from "../../../requests/adminreq";
 
 
 
 export const ChatMessageBox = ({ UserName}) => {
     const messagesEndRef = useRef(null);
-    const [socketIntstance ,setSocketIntstance] = useState([])
     const [isChating, setIsChating] = useState(false)
     const [newMessage, setNewMessage] = useState("")
-    const [message, setMessages] = useState([
-        {
-          bot :"Hey How May I Help You !"
-        }
-        
-        // "Working on some projects.",
-        // "How about you?",
-        // "That's nice.",
-        // "I'm watching a movie.",
-        // "Which one?",
-        // "It's called Inception.",
-        // "I've heard of it.",
-        // "It's pretty good.",
-        // "Yeah, it's one of my favorites.",
-        // "I should watch it sometime.",
-        // "Definitely!",
-        // "What else do you like?",
-        // "I enjoy reading books.",
-        // "Me too!",
-        // "What genre do you prefer?",
-        // "I like fantasy and science fiction.",
-        // "Those are interesting genres.",
-        // "What about you?",
-        // "I prefer mystery and thriller.",
-    ])
+    const [message, setMessages] = useState([{bot :"Hey How May I Help You !"}])
 
     const handleSendMessage = async () => {
-      
         if (newMessage.trim() !== "") {
-            await postApiCall(AdvanceApis.SendMSGToDiscord,{Message :newMessage})
+            await postApiCall(AdvanceApis.SendMSGToDiscord,{Message :newMessage ,IDSock:socket.id})
             setMessages([...message, {user : newMessage}]);
             setNewMessage("");
         }
     };
 
-
-
-
-    console.log("message",message)
     useEffect(()=>{
         scrollToBottom()
     },[message])
 
-
-    console.log("message",message)
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
             handleSendMessage();
@@ -66,15 +34,11 @@ export const ChatMessageBox = ({ UserName}) => {
         messagesEndRef.current.scrollTop = messagesEndRef.current.scrollHeight;
     };
 
-    // Create a memoized socket instance
     const socket = useMemo(() => {
-        return io("http://localhost:8670"); // Change URL as needed
+        return io('https://ecombackend-303e.onrender.com');
     }, []);
 
     useEffect(() => {
-   
-
-        // Clean up socket connection when component unmounts
         return () => {
             socket.disconnect();
         };
@@ -82,14 +46,9 @@ export const ChatMessageBox = ({ UserName}) => {
 
 
     socket.on('reply',(replymes)=>{
-        setMessages([...message, {bot : replymes}]);
-      console.log("message.........",message)
+        setMessages([...message, {bot : replymes.MessageToSocket}]);
     })
     
-    // Emit "helo" event to the server
-    const sendHello = () => {
-        socket.emit("helo", "Hello World! How Are You Doing?");
-    };
 
     return (
         <>

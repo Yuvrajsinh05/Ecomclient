@@ -84,7 +84,7 @@ h2 {
 
 /* Container Styling */
 .container {
-    width: 65vw;
+    width: 70vw;
     margin: 20px auto;
     
     /* border: 2px solid red; */
@@ -96,9 +96,9 @@ h2 {
 }
 .containerOne {
     /* max-width: 800px; */
-    width: 70vw !important;
+    width: 28vw !important;
     margin: 20px auto;
-    
+    /* height: 200px; */
     /* border: 2px solid green; */
     padding: 20px;
     background-color: #fff;

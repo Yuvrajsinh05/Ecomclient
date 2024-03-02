@@ -23,8 +23,6 @@ export default function UserProfile() {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = userOrders.slice(indexOfFirstItem, indexOfLastItem);
-
-    // Change page
     const onPageChange = pageNumber => setCurrentPage(pageNumber);
 
 
@@ -48,7 +46,7 @@ export default function UserProfile() {
                 <div className={styles.containerOne}>
                     <UserProfileSection UserName={UserDetails?.Name} />
                 </div>
-                {/* <div className={styles.container}>
+                <div className={styles.container}>
                     <h2>User Profile</h2>
                     <div className={styles.user_details}>
                         <div>
@@ -110,7 +108,7 @@ export default function UserProfile() {
                         </table>
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
                     </div>
-                </div> */}
+                </div>
             </div>
         </>
     )

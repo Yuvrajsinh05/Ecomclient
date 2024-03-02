@@ -13,7 +13,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 export default function Home() {
   const isAuthenticated = useSelector(state => state.login.isAuthenticated);
-  // const isAuthenticated2 = (state =>  console.log("stateOFRedux",state));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,14 +24,11 @@ export default function Home() {
   
   return (
     <>
-      {/* <Header /> */}
       <div >
         <Carousel />
         <Featured />
         <CategoriesComp />
         <Products />
-        {/* <Offer /> */}
-        {/* <Products /> */}
         <Link onClick={() => {
           window.scrollTo(0, 0)
         }} className="btn btn-primary back-to-top"><i className="fa fa-angle-double-up"></i></Link>
