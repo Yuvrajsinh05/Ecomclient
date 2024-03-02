@@ -1,29 +1,34 @@
-import { useRef, useState , useEffect, useMemo} from "react"
+import { useRef, useState, useEffect, useMemo } from "react"
 import styles from "./profile.module.css"
 import io from 'socket.io-client';
 import { postApiCall } from "../../../requests/requests";
 import { AdvanceApis } from "../../../requests/adminreq";
 import { baseUrl } from "../../../requests/adminreq";
+import { useDispatch } from "react-redux";
+import { logout } from "../../login/loginSlice";
+import { useNavigate } from "react-router-dom";
 
 
 
-export const ChatMessageBox = ({ UserName}) => {
+export const ChatMessageBox = ({ UserName }) => {
     const messagesEndRef = useRef(null);
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const [isChating, setIsChating] = useState(false)
     const [newMessage, setNewMessage] = useState("")
-    const [message, setMessages] = useState([{bot :"Hey How May I Help You !"}])
+    const [message, setMessages] = useState([{ bot: "Hey How May I Help You !" }])
 
     const handleSendMessage = async () => {
         if (newMessage.trim() !== "") {
-            await postApiCall(AdvanceApis.SendMSGToDiscord,{Message :newMessage ,IDSock:socket.id})
-            setMessages([...message, {user : newMessage}]);
+            await postApiCall(AdvanceApis.SendMSGToDiscord, { Message: newMessage, IDSock: socket.id })
+            setMessages([...message, { user: newMessage }]);
             setNewMessage("");
         }
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         scrollToBottom()
-    },[message])
+    }, [message])
 
     const handleKeyPress = (e) => {
         if (e.key === "Enter") {
@@ -35,7 +40,7 @@ export const ChatMessageBox = ({ UserName}) => {
     };
 
     const socket = useMemo(() => {
-        return io('https://ecombackend-303e.onrender.com');
+        return io(baseUrl);
     }, []);
 
     useEffect(() => {
@@ -45,22 +50,22 @@ export const ChatMessageBox = ({ UserName}) => {
     }, [socket]);
 
 
-    socket.on('reply',(replymes)=>{
-        setMessages([...message, {bot : replymes.MessageToSocket}]);
+    socket.on('reply', (replymes) => {
+        setMessages([...message, { bot: replymes.MessageToSocket }]);
     })
-    
+
 
     return (
         <>
-         <div className={styles.userInfo}>
+            <div className={styles.userInfo}>
                 {/* <h2>User Profile</h2> */}
                 <p>Welcome, <b> {UserName}!</b></p>
 
 
                 <div ref={messagesEndRef} className={styles.MessageOverFLowCheck}>
 
-                {message.map((mess, index) => {
-                        
+                    {message.map((mess, index) => {
+
                         if (mess.user) {
                             return (
                                 <>
@@ -121,7 +126,11 @@ export const ChatMessageBox = ({ UserName}) => {
                     </div>
                 )}
                 <div className={styles.ButtonDiv}><button className={styles.actionBtn}>Delete Account</button></div>
-                <div className={styles.ButtonDiv}><button className={styles.actionBtn}>Log Out</button></div>
+                <div className={styles.ButtonDiv}>
+                    <button onClick={() => {
+                        dispatch(logout());
+                        navigate('/');
+                    }} className={styles.actionBtn}>Log Out</button></div>
             </div>
         </>
     )

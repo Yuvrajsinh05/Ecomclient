@@ -5,12 +5,13 @@ import { FilterHead } from "./Filterhead"
 import { Link, useNavigate } from 'react-router-dom';
 import { Categories } from '../../requests/adminreq'
 import { useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../routes/login/loginSlice";
 
 export const Header = () => {
 
     const [categories, setCategories] = useState([])
     const location = useLocation()
-  
 
     useEffect(() => {
         getCategories()
@@ -24,8 +25,6 @@ export const Header = () => {
         }
     }
 
-  
-    console.log("categories------26",categories)
     return (
 
         <>
@@ -42,6 +41,9 @@ export const Header = () => {
 
 export function ConfigHead() {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+
     return (
         <>
             <div className="container-fluid">
@@ -60,7 +62,7 @@ export function ConfigHead() {
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                 <div className="dropdown-menu dropdown-menu-right">
                                     <button className="dropdown-item" onClick={()=>navigate('/profile')} type="button">My Profile</button>
-                                    <button className="dropdown-item" type="button">Log Out</button>
+                                    <button className="dropdown-item" onClick={()=>dispatch(logout(),navigate('/'))} type="button">Log Out</button>
                                 </div>
                             </div>
                             <div className="btn-group mx-2">

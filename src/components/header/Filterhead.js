@@ -81,13 +81,6 @@ export function FilterHead({ categories }) {
                             <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div className="navbar-nav mr-auto py-0" id="navItems">
                                     <Link to="/OpenShop" style={{ color: "rgb(255,211,51)" }}>  <li className="nav-item nav-link">Shop</li>  </Link>
-                                    {/* <div className="nav-item dropdown">
-                                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" style={{ color: "rgb(245,245,245)" }}>Pages <i className="fa fa-angle-down mt-1"></i></a>
-                                        <div className="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                            <Link to="/shoppingcart" >   <li className="dropdown-item" >Shopping Cart</li> </Link>
-                                            <Link to="/checkout">  <li className="dropdown-item">Checkout</li>  </Link>
-                                        </div>
-                                    </div> */}
                                     <Link to="/shoppingcart" style={{ color: "rgb(255,211,51)" }}>   <li className="nav-item nav-link">Shopping Cart</li> </Link>
                                     <Link to="/contact" style={{ color: "rgb(255,211,51)" }}>   <li className="nav-item nav-link">Contact</li> </Link>
 

@@ -21,5 +21,7 @@
     margin: auto;
     padding-top: 3.5rem !important ;
     height: 200px;
+    display: flex;
+    justify-content: center;
 }
 

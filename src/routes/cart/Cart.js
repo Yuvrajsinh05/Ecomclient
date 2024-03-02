@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CustomerCart, Payment } from '../../requests/adminreq';
 import { useSelector } from 'react-redux';
-import { Loader } from '../../components/Loader/loader';
 import { CircularProgress } from '@mui/material';
 import styles from "./cart.module.css"
 
@@ -16,8 +15,6 @@ function Cart() {
     const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
     const [cartData, setCartData] = useState([])
     const [totalAmont, setTotalAmont] = useState(0)
-    const [totalSingleAmount, setTotalSingleAmount] = useState(0)
-    const [totalSingleAmountArray, setTotalAmountArray] = useState([])
     const [cartItems, setCartitems] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
@@ -39,18 +36,15 @@ function Cart() {
         setIsLoading(true)
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         setCartData(getcart?.data)
-        setCartitems(getcart?.data?.items)
+        // setCartitems(getcart?.data?.items)
         let addmount = 0
         let totalamount = getcart?.data?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
-        setIsLoading(false)
-
+        // setIsLoading(false)
     }
 
     async function handleCartrmv(dlt) {
         let Fltitems = cartData.items.filter((data, key) => data?._id != dlt._id)
-
-        // Prepare newTemp with modified data
         let newTemp = Fltitems.map(data => ({
             product_id: data._id,
             product_name: data.name || data?.model,
@@ -59,20 +53,13 @@ function Cart() {
             quantity: data.quantity,
             price: data.price
         }));
-
-        console.log("Fltitems.", newTemp)
-        const data = {
-            items: newTemp
-        }
-        let updateItems = await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
+        const data = { items: newTemp }
+        await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
         getcustomercart()
     }
 
-
-
     return (
         <>
-            {/* <Header /> */}
             <div className="container-fluid">
                 <div className="row px-xl-5">
                     <div className="col-12">
@@ -84,13 +71,12 @@ function Cart() {
                     </div>
                 </div>
             </div>
-
             <div className="container-fluid">
                 <div className="row px-xl-5">
                     <div className="col-lg-8 table-responsive mb-5">
                         <table className="table table-light table-borderless table-hover text-center mb-0">
                             <colgroup>
-                                <col style={{ width: '10%' }} /> {/* Adjust the width as needed */}
+                                <col style={{ width: '10%' }} />
                                 <col style={{ width: '20%' }} />
                                 <col style={{ width: '20%' }} />
                                 <col style={{ width: '20%' }} />
@@ -114,16 +100,13 @@ function Cart() {
                                 ))}
                             </tbody> : (
                                 <tbody>
-                                
-                                    <tr>
+                                    <tr style={{ border: '2px solid red' }}>
                                         <td width={100} colSpan="100" className={styles.spinnerContainer}>
-                                        {!isLoading ?<h4>No Cart Items Selected Yet</h4>  :  <CircularProgress />}  
+                                            {!isLoading ? <h4>No Cart Items Selected Yet</h4> : <CircularProgress />}
                                         </td>
                                     </tr>
                                 </tbody>)}
-
                         </table>
-
                     </div>
                     <div className="col-lg-4">
                         <form className="mb-30" action="">
@@ -157,15 +140,11 @@ function Cart() {
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
 
 function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
-
-
-
     const [counter, setCounter] = useState(cart?.quantity || 0)
     function handleraddcounter(e) {
         e.preventDefault();
@@ -181,16 +160,14 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
             let count = parseInt(counter)
             count--
             setCounter(count)
-            // updatequantity()
         } else {
-            alert("fuck you dumb!!!")
+            alert("Cart empty!!!")
         }
     }
 
     useEffect(() => {
         updatequantity()
     }, [counter])
-
 
     async function updatequantity() {
         let body = {
@@ -203,8 +180,6 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
         getcustomercart()
     }
 
-
-    console.log("cart.,...", cart)
     return (
         <>
             <tr>
@@ -232,4 +207,5 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
         </>
     )
 }
+
 export default Cart
