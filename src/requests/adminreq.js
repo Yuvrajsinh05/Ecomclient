@@ -29,7 +29,8 @@ export const ProductCalls = {
     getallmobiles : `${baseUrl}/admin/mobiles`,
     getallComputers : `${baseUrl}/admin/computer&Accessories`,
     getallFashion : `${baseUrl}/admin/fashion`,
-    getMultplieProducesWithIds : `${baseUrl}/admin/fetchProductsWithIds`
+    getMultplieProducesWithIds : `${baseUrl}/admin/fetchProductsWithIds`,
+    filterProducts : `${baseUrl}/admin/filterProducts`,
 }
 
 export const CustomerCart = {

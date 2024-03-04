@@ -16,6 +16,9 @@ function Shop() {
   const [displaydata, setDisplaydata] = useState([])
   const [filter, setFilter] = useState([])
   const [isLoader, setIsLoader] = useState(false)
+  const [category, setCategory] = useState("")
+  const [subcategory, setSubcategory] = useState("")
+  const [displaydataClone, setDisplaydataClone] = useState("")
   const location = useLocation();
   const navigate = useNavigate()
 
@@ -37,13 +40,17 @@ function Shop() {
     setIsLoader(true)
     let categoryName = location?.state?.state2?.Categories
     let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
+    console.log("categoryName.....", categoryName, SubcategoryName)
     if (categoryName && SubcategoryName) {
       const encodedStr = encodeURIComponent(SubcategoryName);
       const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
 
       let FetchFilters = await getApiCall(url)
       let FetchProducts = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${categoryName}/${encodeURI(SubcategoryName)}`)
+      setCategory(categoryName)
+      setSubcategory(SubcategoryName)
       setDisplaydata(FetchProducts?.data)
+      setDisplaydataClone(FetchProducts?.data)
       setFilter(FetchFilters?.data[0])
     }
     setIsLoader(false)
@@ -72,7 +79,7 @@ function Shop() {
       <div className="container-fluid">
         <div className="row px-xl-5">
 
-          <Filterby filter={filter} />
+          <Filterby filter={filter} category={category} setDisplaydata={setDisplaydata} displaydataClone={displaydataClone} subcategory={subcategory} />
 
           <div className="col-lg-9 col-md-8">
             <div className="row pb-3">
@@ -135,9 +142,9 @@ function Shop() {
                 <DisplayProduct displaydata={displaydata} />
               ) : (
                 !isLoader ? (
-                  <h4>No Product For This Category</h4>
+                  <h4 style={{ textAlign: 'center', marginTop: '15rem' }}>No Product For This Filter</h4>
                 ) : (
-                  <div style={{margin:'auto' , textAlign:'center', paddingTop:'6.5rem', height:'250px'}}>
+                  <div style={{ margin: 'auto', textAlign: 'center', paddingTop: '6.5rem', height: '250px' }}>
                     <CircularProgress color="inherit" />
 
                   </div>
