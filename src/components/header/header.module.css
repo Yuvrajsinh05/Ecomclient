@@ -1,0 +1,21 @@
+.header {
+    /* background-color: #333; */
+    /* color: #fff; */
+    color: black;
+    padding: 10px;
+    overflow: hidden; /* Hide any overflow */
+}
+
+.scrolling_text {
+    animation: scroll_left 25s linear infinite; /* Adjust the animation duration and timing function */
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+@keyframes scroll_left {
+    0% {
+        transform: translateX(100%); /* Start off-screen to the right */
+    }
+    100% {
+        transform: translateX(-100%); /* Move to the left */
+    }
+}

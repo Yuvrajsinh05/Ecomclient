@@ -190,18 +190,11 @@ export const Login = ({ setLogin }) => {
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="text-center mb-3 ">
           <p>Sign in with:</p>
-          {/* <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-facebook-f  Faicon "></i>
-          </button> */}
 
           <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1">
             <i className="fab fa-google Faicon"></i>
           </button>
 
-
-          {/* <button type="button" className="btn btn-link btn-floating mx-1">
-            <i className="fab fa-twitter Faicon"></i>
-          </button> */}
 
           <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1">
             <i className="fab fa-github Faicon"></i>

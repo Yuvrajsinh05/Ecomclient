@@ -5,22 +5,23 @@ import { FilterHead } from "./Filterhead"
 import { Link, useNavigate } from 'react-router-dom';
 import { Categories } from '../../requests/adminreq'
 import { useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../routes/login/loginSlice";
+import styles from "./header.module.css"
 
 export const Header = () => {
 
     const [categories, setCategories] = useState([])
     const location = useLocation()
 
+
     useEffect(() => {
         getCategories()
     }, [])
 
-
     const getCategories = async () => {
         let res = await getApiCall(Categories.getAllcategories)
-        if(Array.isArray(res)){
+        if (Array?.isArray(res)) {
             setCategories(res)
         }
     }
@@ -28,57 +29,40 @@ export const Header = () => {
     return (
 
         <>
-        {location.pathname !== '/' && (
-            <>
-                <ConfigHead />
-                <FilterHead categories={categories} />
-            
-            </>
-        )}
-    </>
+            {location.pathname !== '/' && (
+                <>
+                    <ConfigHead />
+                    <FilterHead categories={categories} />
+
+                </>
+            )}
+        </>
     )
 }
 
 export function ConfigHead() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    const userName = useSelector(state => state?.login?.user?.Userdata?.Name)
 
     return (
         <>
             <div className="container-fluid">
                 <div className="row bg-secondary py-1 px-xl-5">
-                    <div className="col-lg-6 d-none d-lg-block">
-                        <div className="d-inline-flex align-items-center h-100 uperNavItems">
-                            <Link to="/" className="text-body mr-3">Yuvraj</Link>
-                            <Link to="/" className="text-body list-none mr-3">Contact</Link>
-                            <Link to="/" className="text-body mr-3">Help</Link>
-                            <Link to="/" className="text-body mr-3">FAQs</Link>
+                    <div className="col-lg-9 d-none d-lg-block">
+                        <div className=" h-100 ">
+                            <div class={styles.header}>
+                                <div class={styles.scrolling_text}>As a developer, I am actively engaged in the enhancement of this platform. Please note that this environment is intended solely for educational purposes. Continuous learning is integral to our journey, as we strive to achieve excellence and innovation ThankYou! 😊</div>
+                            </div>
                         </div>
                     </div>
-                    <div className="col-lg-6 text-center text-lg-right">
+                    <div className="col-lg-3  text-center text-lg-right">
                         <div className="d-inline-flex align-items-center">
                             <div className="btn-group">
                                 <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My Account</button>
                                 <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" onClick={()=>navigate('/profile')} type="button">My Profile</button>
-                                    <button className="dropdown-item" onClick={()=>dispatch(logout(),navigate('/'))} type="button">Log Out</button>
-                                </div>
-                            </div>
-                            <div className="btn-group mx-2">
-                                <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">USD</button>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">EUR</button>
-                                    <button className="dropdown-item" type="button">GBP</button>
-                                    <button className="dropdown-item" type="button">CAD</button>
-                                </div>
-                            </div>
-                            <div className="btn-group">
-                                <button type="button" className="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">EN</button>
-                                <div className="dropdown-menu dropdown-menu-right">
-                                    <button className="dropdown-item" type="button">FR</button>
-                                    <button className="dropdown-item" type="button">AR</button>
-                                    <button className="dropdown-item" type="button">RU</button>
+                                    <button className="dropdown-item" onClick={() => navigate('/profile')} type="button">My Profile</button>
+                                    <button className="dropdown-item" onClick={() => dispatch(logout(), navigate('/'))} type="button">Log Out</button>
                                 </div>
                             </div>
                         </div>
@@ -114,8 +98,7 @@ export function ConfigHead() {
                         </form>
                     </div>
                     <div className="col-lg-4 col-6 text-right">
-                        <p className="m-0">Customer Service</p>
-                        <h5 className="m-0">+012 345 6789</h5>
+                 <p className="m-0">Hey ,<b>{userName}</b></p>
                     </div>
                 </div>
             </div>

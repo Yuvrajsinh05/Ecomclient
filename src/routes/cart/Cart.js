@@ -36,11 +36,11 @@ function Cart() {
         setIsLoading(true)
         const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
         setCartData(getcart?.data)
-        // setCartitems(getcart?.data?.items)
+        setCartitems(getcart?.data?.items)
         let addmount = 0
         let totalamount = getcart?.data?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
-        // setIsLoading(false)
+        setIsLoading(false)
     }
 
     async function handleCartrmv(dlt) {
@@ -100,8 +100,8 @@ function Cart() {
                                 ))}
                             </tbody> : (
                                 <tbody>
-                                    <tr style={{ border: '2px solid red' }}>
-                                        <td width={100} colSpan="100" className={styles.spinnerContainer}>
+                                    <tr>
+                                        <td style={{display:'table-cell',textAlign:'center'}} width={100} colSpan="100" className={styles.spinnerContainer}>
                                             {!isLoading ? <h4>No Cart Items Selected Yet</h4> : <CircularProgress />}
                                         </td>
                                     </tr>
@@ -109,14 +109,6 @@ function Cart() {
                         </table>
                     </div>
                     <div className="col-lg-4">
-                        <form className="mb-30" action="">
-                            <div className="input-group">
-                                <input type="text" className="form-control border-0 p-4" placeholder="Coupon Code" />
-                                <div className="input-group-append">
-                                    <button className="btn btn-primary">Apply Coupon</button>
-                                </div>
-                            </div>
-                        </form>
                         <h5 className="section-title position-relative text-uppercase mb-3"><span className="bg-secondary pr-3">Cart Summary</span></h5>
                         <div className="bg-light p-30 mb-5">
                             <div className="border-bottom pb-2">
@@ -176,7 +168,7 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
             "CustomerId": CustomerId
         }
 
-        const updateQuantity = await postApiCall(CustomerCart.updatequantity, body)
+        await postApiCall(CustomerCart.updatequantity, body)
         getcustomercart()
     }
 

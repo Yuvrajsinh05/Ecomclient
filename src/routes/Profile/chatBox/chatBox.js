@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect, useMemo } from "react"
 import styles from "./profile.module.css"
 import io from 'socket.io-client';
-import { postApiCall } from "../../../requests/requests";
-import { AdvanceApis } from "../../../requests/adminreq";
+import { getApiCall, postApiCall } from "../../../requests/requests";
+import { AdvanceApis, UserAuth } from "../../../requests/adminreq";
 import { baseUrl } from "../../../requests/adminreq";
 import { useDispatch } from "react-redux";
 import { logout } from "../../login/loginSlice";
@@ -54,6 +54,26 @@ export const ChatMessageBox = ({ UserName }) => {
         setMessages([...message, { bot: replymes.MessageToSocket }]);
     })
 
+
+    // async function handleUserDelete(){
+    //     const alertCheck = confirm("Are Sure Want to Delete This Account?")
+    //     console.log("alertCheck",alertCheck)
+    //     // const deleteUser = await getApiCall(UserAuth.DeleteUser)
+    // }
+
+    const handleUserDelete = async () => {
+        const alertCheck = window.confirm("Are you sure you want to delete this account?");
+        if (alertCheck) {
+            try {
+                const deleteUser = await getApiCall(UserAuth.DeleteUser);
+                console.log("User deleted successfully!" ,deleteUser);
+            } catch (error) {
+                console.error("Error deleting user:", error);
+            }
+        } else {
+            console.log("Deletion cancelled by user.");
+        }
+    };
 
     return (
         <>
@@ -125,7 +145,7 @@ export const ChatMessageBox = ({ UserName }) => {
 
                     </div>
                 )}
-                <div className={styles.ButtonDiv}><button className={styles.actionBtn}>Delete Account</button></div>
+                <div className={styles.ButtonDiv}><button onClick={handleUserDelete} className={styles.actionBtn}>Delete Account</button></div>
                 <div className={styles.ButtonDiv}>
                     <button onClick={() => {
                         dispatch(logout());

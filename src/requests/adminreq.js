@@ -10,6 +10,8 @@ export const UserAuth = {
     isGithubLogin: `${baseUrl}/admin/isGithubLogin`,
     userDetials : `${baseUrl}/admin/userDetails`,
     userOrders : `${baseUrl}/admin/orders`,
+    ContactEcom : `${baseUrl}/admin/contact`,
+    DeleteUser : `${baseUrl}/admin/deleteUser`,
     
 }
 
