@@ -52,8 +52,9 @@ function DisplayItem({prods}) {
               </Link>
             </div>
           </div>
-          <div className="text-center py-4">
-            <Link className="h6 text-decoration-none text-truncate" to="">
+
+          <div  className="text-center py-4">
+            <Link style={{display:'list-item' ,padding:'0.3rem'}} className="h6 text-decoration-none text-truncate" to="">
               {prods?.name || prods?.model}
             </Link>
             <div className="d-flex align-items-center justify-content-center mt-2">

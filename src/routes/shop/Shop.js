@@ -114,26 +114,6 @@ function Shop() {
                         </Link>
                       </div>
                     </div>
-                    <div className="btn-group ml-2">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-light dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        Showing
-                      </button>
-                      <div className="dropdown-menu dropdown-menu-right">
-                        <Link className="dropdown-item" to="#">
-                          10
-                        </Link>
-                        <Link className="dropdown-item" to="#">
-                          20
-                        </Link>
-                        <Link className="dropdown-item" to="#">
-                          30
-                        </Link>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>

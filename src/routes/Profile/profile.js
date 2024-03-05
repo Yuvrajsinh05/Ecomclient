@@ -18,12 +18,13 @@ export default function UserProfile() {
     const [userOrders, setUserOrders] = useState([])
     const navigate = useNavigate()
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; 
+    const itemsPerPage = 5;
     const totalPages = Math.ceil(userOrders?.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = userOrders.slice(indexOfFirstItem, indexOfLastItem);
     const onPageChange = pageNumber => setCurrentPage(pageNumber);
+
 
 
 
@@ -65,7 +66,7 @@ export default function UserProfile() {
                             <div className={styles.user_icon}>
                                 {UserDetails?.Image ?
                                     <img
-                                        src="https://images.pexels.com/photos/15591933/pexels-photo-15591933.jpeg"
+                                        src={UserDetails?.Image}
                                         alt=""
                                     />
                                     :
@@ -76,36 +77,41 @@ export default function UserProfile() {
                     </div>
                     <div className={styles.order_details}>
                         <h3>Order Details</h3>
-                        <table className={styles.tableSizer}>
-                            <thead>
-                                <tr>
-                                    <th><b>Order ID</b></th>
-                                    <th><b>Items</b> </th>
-                                    <th><b>Amount</b></th>
-                                    <th><b>OrderStatus</b> </th>
-                                    <th><b>Payment</b></th>
-                                    <th><b>CreatedAt</b></th>
-                                    <th><b>time</b></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {currentItems?.map((order, key) => {
-                                    return (
-                                        <>
-                                            <tr>
-                                                <td >{order?.razorOrderId}</td>
-                                                <td >{integerToWords(order?.items?.length)}</td>
-                                                <td>{order?.total_price}</td>
-                                                <td>{order?.orderStatus}</td>
-                                                <td>{order?.paymentStatus}</td>
-                                                <td>{formatDate(order?.date)}</td>
-                                                <td>{formatTime(order?.date)}</td>
-                                            </tr>
-                                        </>
-                                    )
-                                })}
-                            </tbody>
-                        </table>
+                        {userOrders.length == 0 ?
+                            <>
+                                <h6>No Orders Found</h6>
+                            </>
+                            : <table className={styles.tableSizer}>
+                                <thead>
+                                    <tr>
+                                        <th><b>Order ID</b></th>
+                                        <th><b>Items</b> </th>
+                                        <th><b>Amount</b></th>
+                                        <th><b>OrderStatus</b> </th>
+                                        <th><b>Payment</b></th>
+                                        <th><b>CreatedAt</b></th>
+                                        <th><b>time</b></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {currentItems?.map((order, key) => {
+                                        return (
+                                            <>
+                                                <tr>
+                                                    <td >{order?.razorOrderId}</td>
+                                                    <td >{integerToWords(order?.items?.length)}</td>
+                                                    <td>{order?.total_price}</td>
+                                                    <td>{order?.orderStatus}</td>
+                                                    <td>{order?.paymentStatus}</td>
+                                                    <td>{formatDate(order?.date)}</td>
+                                                    <td>{formatTime(order?.date)}</td>
+                                                </tr>
+                                            </>
+                                        )
+                                    })}
+                                </tbody>
+                            </table>}
+
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
                     </div>
                 </div>
@@ -118,7 +124,7 @@ export default function UserProfile() {
 const UserProfileSection = ({ UserName }) => {
     return (
         <>
-             <ChatMessageBox UserName={UserName}/>
+            <ChatMessageBox UserName={UserName} />
         </>
     );
 };

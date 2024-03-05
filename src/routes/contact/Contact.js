@@ -24,6 +24,11 @@ function Contact() {
     setSubmitting(true);
     try {
         console.log(UserAuth.ContactEcom)
+        if(!formData.name || !formData.email || !formData.subject || !formData.message){
+          alert("Fileds Missing!!")
+          setSubmitting(false);
+          return;
+        }
       const response = await postApiCall(UserAuth.ContactEcom , formData);
       alert('Form submitted successfully.',response);
       navigate('/');

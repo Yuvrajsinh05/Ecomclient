@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 import { getApiCall, postApiCall } from "../../../requests/requests";
 import { AdvanceApis, UserAuth } from "../../../requests/adminreq";
 import { baseUrl } from "../../../requests/adminreq";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../login/loginSlice";
 import { useNavigate } from "react-router-dom";
 
@@ -14,6 +14,8 @@ export const ChatMessageBox = ({ UserName }) => {
     const messagesEndRef = useRef(null);
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const UserDetails = useSelector(state => state?.login?.user?.Userdata)
+
     const [isChating, setIsChating] = useState(false)
     const [newMessage, setNewMessage] = useState("")
     const [message, setMessages] = useState([{ bot: "Hey How May I Help You !" }])
@@ -43,6 +45,7 @@ export const ChatMessageBox = ({ UserName }) => {
         return io(baseUrl);
     }, []);
 
+    console.log("socket",socket.id)
     useEffect(() => {
         return () => {
             socket.disconnect();
@@ -66,7 +69,9 @@ export const ChatMessageBox = ({ UserName }) => {
         if (alertCheck) {
             try {
                 const deleteUser = await getApiCall(UserAuth.DeleteUser);
-                console.log("User deleted successfully!" ,deleteUser);
+                console.log("User deleted successfully!", deleteUser);
+                dispatch(logout());
+                navigate('/');
             } catch (error) {
                 console.error("Error deleting user:", error);
             }
@@ -92,7 +97,14 @@ export const ChatMessageBox = ({ UserName }) => {
                                     <div className={styles.messageBoxChatRight}>
 
                                         <div style={{ flex: '1.2', padding: '0.5rem', textAlign: 'right' }}>{mess?.user}</div>
-                                        <div style={{ flex: '0.1', padding: '0.5rem' }}><img style={{ width: '30px', height: '30px', borderRadius: '50%' }} src="https://i.ibb.co/k5Nn1Yx/Whats-App-Image-2023-06-18-at-11-50-49-PM.jpg" /></div>
+                                        <div style={{ flex: '0.1', padding: '0.5rem' }}>
+
+                                            {
+                                                UserDetails.Image ? <img style={{ width: '30px', height: '30px', borderRadius: '50%' }} src={UserDetails.Image} /> : <span className={styles.innerFontSpelling}>{UserDetails?.Name[0]?.toUpperCase()}{UserDetails?.Name[UserDetails?.Name.length - 1]?.toUpperCase()}</span>
+                                            }
+
+
+                                        </div>
                                     </div>
                                 </>
                             )
