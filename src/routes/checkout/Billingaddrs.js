@@ -40,6 +40,7 @@ function Billingaddrs() {
         let verify = await postApiCall(Payment.paymentVerify, data)
     }
 
+    console.log('subtotal',subtotal)
     const handleCheckout = async (value) => {
         if(!Array.isArray(cartProducts) || cartProducts.length==0){return alert("Your Cart Is Empty")}
         let valid = validateForm(form);

@@ -65,7 +65,7 @@ function OpenShop() {
 
           {/* <Filterby  filter={filter}/> */}
 
-          <div className="col-lg-12  col-md-8">
+          <div className="col-lg-12">
             <div className="row pb-3">
               <div className="col-12 pb-1">
                 <div className="d-flex align-items-center justify-content-between mb-4">

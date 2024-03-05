@@ -12,3 +12,27 @@
     height:300px;
     margin: auto;
   }
+
+  .product_container {
+    height: 320px;
+    margin-top: 1.5rem ;
+    padding-bottom: 1px;
+}
+
+@media only screen and (min-width: 1200px) {
+    .product_container {
+        width: 16.666%; /* 1/6 for 6 products */
+    }
+}
+
+@media only screen and (max-width: 1199px) and (min-width: 768px) {
+    .product_container {
+        width: 25%; /* 1/4 for 4 products */
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .product_container {
+        width: 50%; /* 1/2 for 2 products */
+    }
+}

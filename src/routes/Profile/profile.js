@@ -44,10 +44,7 @@ export default function UserProfile() {
     return (
         <>
             <div className={styles.mainContainer}>
-                <div className={styles.containerOne}>
-                    <UserProfileSection UserName={UserDetails?.Name} />
-                </div>
-                <div className={styles.container}>
+            <div className={styles.container}>
                     <h2>User Profile</h2>
                     <div className={styles.user_details}>
                         <div>
@@ -115,6 +112,10 @@ export default function UserProfile() {
                         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
                     </div>
                 </div>
+                <div className={styles.containerOne}>
+                    <UserProfileSection UserName={UserDetails?.Name} />
+                </div>
+            
             </div>
         </>
     )

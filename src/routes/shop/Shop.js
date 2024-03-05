@@ -7,7 +7,7 @@ import DisplayProduct from "./DisplayProducts";
 import { Header } from "../../components/header/header";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
-import { ProdcutsWrtCate } from "../../requests/adminreq";
+import { ProdcutsWrtCate, ProductCalls } from "../../requests/adminreq";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 
@@ -43,7 +43,8 @@ function Shop() {
     console.log("categoryName.....", categoryName, SubcategoryName)
     if (categoryName && SubcategoryName) {
       const encodedStr = encodeURIComponent(SubcategoryName);
-      const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
+      // const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
+      const url = `${ProductCalls.filterDetials}?str=${encodedStr}`;
 
       let FetchFilters = await getApiCall(url)
       let FetchProducts = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${categoryName}/${encodeURI(SubcategoryName)}`)

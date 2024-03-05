@@ -1,6 +1,6 @@
 
-export const baseUrl = 'http://localhost:8670'
-// export const baseUrl ='https://ecombackend-303e.onrender.com'
+// export const baseUrl = 'http://localhost:8670'
+export const baseUrl ='https://ecombackend-303e.onrender.com'
 
 export const UserAuth = {
     login: `${baseUrl}/admin/login` , 
@@ -31,6 +31,7 @@ export const ProductCalls = {
     getallFashion : `${baseUrl}/admin/fashion`,
     getMultplieProducesWithIds : `${baseUrl}/admin/fetchProductsWithIds`,
     filterProducts : `${baseUrl}/admin/filterProducts`,
+    filterDetials : `${baseUrl}/admin/getFilterDetails`
 }
 
 export const CustomerCart = {
