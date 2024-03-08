@@ -37,16 +37,9 @@ function OpenShop() {
 
 
   async function fungetApiCall() {
-    // let categoryName = location?.state?.state2?.Categories
-    // let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
-    // if(categoryName && SubcategoryName ){
-
     let FetchProducts = await getApiCall(`${ProductCalls.getallProducts}?idNameFashion=${location.state}`)
     setDisplaydata(FetchProducts?.data)
-    // setFilter(location?.state?.state1)
   }
-  // }
-
 
   return (
     <>
@@ -72,7 +65,7 @@ function OpenShop() {
 
           {/* <Filterby  filter={filter}/> */}
 
-          <div className="col-lg-12  col-md-8">
+          <div className="col-lg-12">
             <div className="row pb-3">
               <div className="col-12 pb-1">
                 <div className="d-flex align-items-center justify-content-between mb-4">

@@ -1,6 +1,6 @@
 
-const baseUrl = 'http://localhost:8670'
-// const baseUrl = 'https://node-ecom-j08j.onrender.com'
+export const baseUrl = 'http://localhost:8670'
+// export const baseUrl ='https://ecombackend-303e.onrender.com'
 
 export const UserAuth = {
     login: `${baseUrl}/admin/login` , 
@@ -8,7 +8,10 @@ export const UserAuth = {
     isVerifiedRegister: `${baseUrl}/admin/isVerifiedRegister`,
     isGoogleLogin: `${baseUrl}/admin/isGoogleLogin`,
     isGithubLogin: `${baseUrl}/admin/isGithubLogin`,
-    userDetials : `${baseUrl}/admin/userDetails`
+    userDetials : `${baseUrl}/admin/userDetails`,
+    userOrders : `${baseUrl}/admin/orders`,
+    ContactEcom : `${baseUrl}/admin/contact`,
+    DeleteUser : `${baseUrl}/admin/deleteUser`,
     
 }
 
@@ -26,7 +29,9 @@ export const ProductCalls = {
     getallmobiles : `${baseUrl}/admin/mobiles`,
     getallComputers : `${baseUrl}/admin/computer&Accessories`,
     getallFashion : `${baseUrl}/admin/fashion`,
-    getMultplieProducesWithIds : `${baseUrl}/admin/fetchProductsWithIds`
+    getMultplieProducesWithIds : `${baseUrl}/admin/fetchProductsWithIds`,
+    filterProducts : `${baseUrl}/admin/filterProducts`,
+    filterDetials : `${baseUrl}/admin/getFilterDetails`
 }
 
 export const CustomerCart = {
@@ -55,4 +60,10 @@ export const dashboardClothing = {
     MensCloth : `${baseUrl}admin/Fashion/Men's%20Clothing`,
     WomensCloth : `${baseUrl}/admin/Fashion/Women's%20Clothing`,
     Kids :`${baseUrl}/admin/Fashion/Children's%20Clothing`
+}
+
+
+
+export const AdvanceApis = {
+    SendMSGToDiscord:`${baseUrl}/admin/sendMessage`
 }

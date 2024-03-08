@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { likeProductAsync } from '../../fetures/likedProductsSlice';
 import { useDispatch ,useSelector } from 'react-redux';
+import styles from "./openshop.module.css"
 // impor
 
 
@@ -38,7 +39,7 @@ const handleLikeProduct = async () => {
 
   return (
     <>
-      <div style={{height:'320px'}} className="col-lg-2 col-md-4 col-sm-4 pb-1" >
+      <div style={{height:'320px'}} className={styles.product_container} >
         <div  className="product-item bg-light mb-4">
           <div className="product-img position-relative overflow-hidden">
             <img

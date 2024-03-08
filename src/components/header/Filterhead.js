@@ -12,9 +12,9 @@ export function FilterHead({ categories }) {
     const [storedData, setStoredData] = useState([])
     const navigate = useNavigate()
     const likedProducts = useSelector(state => { return state?.likedProducts }); // Assuming 'likedProducts' is your slice name
-    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
+    const CustomerCart = useSelector(state => { return state?.login?.user?.CartItems });
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -41,17 +41,7 @@ export function FilterHead({ categories }) {
         setStoredData(likedProducts.likedProducts)
     }, [likedProducts])
 
-    useEffect(() => {
-        getcustomercart()
-    }, [])
 
-
-    async function getcustomercart() {
-        const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
-        setCartData(getcart?.data);
-    }
-
-    console.log("isOpen", isOpen)
     return (
         <>
             <div className="container-fluid bg-dark mb-30">
@@ -81,13 +71,6 @@ export function FilterHead({ categories }) {
                             <div className="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div className="navbar-nav mr-auto py-0" id="navItems">
                                     <Link to="/OpenShop" style={{ color: "rgb(255,211,51)" }}>  <li className="nav-item nav-link">Shop</li>  </Link>
-                                    {/* <div className="nav-item dropdown">
-                                        <a href="#" className="nav-link dropdown-toggle" data-toggle="dropdown" style={{ color: "rgb(245,245,245)" }}>Pages <i className="fa fa-angle-down mt-1"></i></a>
-                                        <div className="dropdown-menu bg-primary rounded-0 border-0 m-0">
-                                            <Link to="/shoppingcart" >   <li className="dropdown-item" >Shopping Cart</li> </Link>
-                                            <Link to="/checkout">  <li className="dropdown-item">Checkout</li>  </Link>
-                                        </div>
-                                    </div> */}
                                     <Link to="/shoppingcart" style={{ color: "rgb(255,211,51)" }}>   <li className="nav-item nav-link">Shopping Cart</li> </Link>
                                     <Link to="/contact" style={{ color: "rgb(255,211,51)" }}>   <li className="nav-item nav-link">Contact</li> </Link>
 
@@ -99,7 +82,7 @@ export function FilterHead({ categories }) {
                                     </p>
                                     <p onClick={() => { navigate("/shoppingcart") }} className="btn px-0 ml-3">
                                         <i className="fas fa-shopping-cart text-primary"></i>
-                                        <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{cartData?.items?.length || 0}</span>
+                                        <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{CustomerCart?.length || 0}</span>
                                     </p>
                                 </div>
                             </div>

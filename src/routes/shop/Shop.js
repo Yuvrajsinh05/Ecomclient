@@ -7,7 +7,7 @@ import DisplayProduct from "./DisplayProducts";
 import { Header } from "../../components/header/header";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
-import { ProdcutsWrtCate } from "../../requests/adminreq";
+import { ProdcutsWrtCate, ProductCalls } from "../../requests/adminreq";
 import { useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 
@@ -16,6 +16,9 @@ function Shop() {
   const [displaydata, setDisplaydata] = useState([])
   const [filter, setFilter] = useState([])
   const [isLoader, setIsLoader] = useState(false)
+  const [category, setCategory] = useState("")
+  const [subcategory, setSubcategory] = useState("")
+  const [displaydataClone, setDisplaydataClone] = useState("")
   const location = useLocation();
   const navigate = useNavigate()
 
@@ -39,11 +42,15 @@ function Shop() {
     let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
     if (categoryName && SubcategoryName) {
       const encodedStr = encodeURIComponent(SubcategoryName);
-      const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
+      // const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
+      const url = `${ProductCalls.filterDetials}?str=${encodedStr}`;
 
       let FetchFilters = await getApiCall(url)
       let FetchProducts = await getApiCall(`${ProdcutsWrtCate.getProductsById}/${categoryName}/${encodeURI(SubcategoryName)}`)
+      setCategory(categoryName)
+      setSubcategory(SubcategoryName)
       setDisplaydata(FetchProducts?.data)
+      setDisplaydataClone(FetchProducts?.data)
       setFilter(FetchFilters?.data[0])
     }
     setIsLoader(false)
@@ -72,7 +79,7 @@ function Shop() {
       <div className="container-fluid">
         <div className="row px-xl-5">
 
-          <Filterby filter={filter} />
+          <Filterby filter={filter} category={category} setDisplaydata={setDisplaydata} displaydataClone={displaydataClone} subcategory={subcategory} />
 
           <div className="col-lg-9 col-md-8">
             <div className="row pb-3">
@@ -107,26 +114,6 @@ function Shop() {
                         </Link>
                       </div>
                     </div>
-                    <div className="btn-group ml-2">
-                      <button
-                        type="button"
-                        className="btn btn-sm btn-light dropdown-toggle"
-                        data-toggle="dropdown"
-                      >
-                        Showing
-                      </button>
-                      <div className="dropdown-menu dropdown-menu-right">
-                        <Link className="dropdown-item" to="#">
-                          10
-                        </Link>
-                        <Link className="dropdown-item" to="#">
-                          20
-                        </Link>
-                        <Link className="dropdown-item" to="#">
-                          30
-                        </Link>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -135,9 +122,9 @@ function Shop() {
                 <DisplayProduct displaydata={displaydata} />
               ) : (
                 !isLoader ? (
-                  <h4>No Product For This Category</h4>
+                  <h4 style={{ textAlign: 'center', marginTop: '15rem' }}>No Product For This Filter</h4>
                 ) : (
-                  <div style={{margin:'auto' , textAlign:'center', paddingTop:'6.5rem', height:'250px'}}>
+                  <div style={{ margin: 'auto', textAlign: 'center', paddingTop: '6.5rem', height: '250px' }}>
                     <CircularProgress color="inherit" />
 
                   </div>

@@ -15,8 +15,6 @@ export const CategoriesComp = () => {
 
     const getCategories = async () => {
         let temp = await getApiCall(Categories.getAllcategories)
-
-        console.log("categories.js-----19",temp)
         if(Array.isArray(temp) && temp.length!=0){
             setCategories(temp)
         }

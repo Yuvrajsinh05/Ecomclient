@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CustomerCart, Payment } from '../../requests/adminreq';
-import { useSelector } from 'react-redux';
-import { Loader } from '../../components/Loader/loader';
+import { useDispatch, useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
 import styles from "./cart.module.css"
+import { fetchUserFromStorage } from '../login/loginSlice';
 
 
 function Cart() {
@@ -16,10 +16,9 @@ function Cart() {
     const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
     const [cartData, setCartData] = useState([])
     const [totalAmont, setTotalAmont] = useState(0)
-    const [totalSingleAmount, setTotalSingleAmount] = useState(0)
-    const [totalSingleAmountArray, setTotalAmountArray] = useState([])
     const [cartItems, setCartitems] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
 
@@ -44,13 +43,10 @@ function Cart() {
         let totalamount = getcart?.data?.items?.map((it, key) => addmount += it?.price * it?.quantity)
         setTotalAmont(addmount?.toFixed(2))
         setIsLoading(false)
-
     }
 
     async function handleCartrmv(dlt) {
         let Fltitems = cartData.items.filter((data, key) => data?._id != dlt._id)
-
-        // Prepare newTemp with modified data
         let newTemp = Fltitems.map(data => ({
             product_id: data._id,
             product_name: data.name || data?.model,
@@ -59,20 +55,14 @@ function Cart() {
             quantity: data.quantity,
             price: data.price
         }));
-
-        console.log("Fltitems.", newTemp)
-        const data = {
-            items: newTemp
-        }
-        let updateItems = await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
+        dispatch(fetchUserFromStorage())
+        const data = { items: newTemp }
+        await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
         getcustomercart()
     }
 
-
-
     return (
         <>
-            {/* <Header /> */}
             <div className="container-fluid">
                 <div className="row px-xl-5">
                     <div className="col-12">
@@ -84,13 +74,12 @@ function Cart() {
                     </div>
                 </div>
             </div>
-
             <div className="container-fluid">
                 <div className="row px-xl-5">
                     <div className="col-lg-8 table-responsive mb-5">
                         <table className="table table-light table-borderless table-hover text-center mb-0">
                             <colgroup>
-                                <col style={{ width: '10%' }} /> {/* Adjust the width as needed */}
+                                <col style={{ width: '10%' }} />
                                 <col style={{ width: '20%' }} />
                                 <col style={{ width: '20%' }} />
                                 <col style={{ width: '20%' }} />
@@ -114,26 +103,15 @@ function Cart() {
                                 ))}
                             </tbody> : (
                                 <tbody>
-                                
                                     <tr>
-                                        <td width={100} colSpan="100" className={styles.spinnerContainer}>
-                                        {!isLoading ?<h4>No Cart Items Selected Yet</h4>  :  <CircularProgress />}  
+                                        <td style={{display:'table-cell',textAlign:'center'}} width={100} colSpan="100" className={styles.spinnerContainer}>
+                                            {!isLoading ? <h4>No Cart Items Selected Yet</h4> : <CircularProgress />}
                                         </td>
                                     </tr>
                                 </tbody>)}
-
                         </table>
-
                     </div>
                     <div className="col-lg-4">
-                        <form className="mb-30" action="">
-                            <div className="input-group">
-                                <input type="text" className="form-control border-0 p-4" placeholder="Coupon Code" />
-                                <div className="input-group-append">
-                                    <button className="btn btn-primary">Apply Coupon</button>
-                                </div>
-                            </div>
-                        </form>
                         <h5 className="section-title position-relative text-uppercase mb-3"><span className="bg-secondary pr-3">Cart Summary</span></h5>
                         <div className="bg-light p-30 mb-5">
                             <div className="border-bottom pb-2">
@@ -157,16 +135,13 @@ function Cart() {
                     </div>
                 </div>
             </div>
-
         </>
     )
 }
 
 function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
-
-
-
     const [counter, setCounter] = useState(cart?.quantity || 0)
+    const dispatch = useDispatch()
     function handleraddcounter(e) {
         e.preventDefault();
         let count = parseInt(counter)
@@ -181,16 +156,14 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
             let count = parseInt(counter)
             count--
             setCounter(count)
-            // updatequantity()
         } else {
-            alert("fuck you dumb!!!")
+            alert("Cart empty!!!")
         }
     }
 
     useEffect(() => {
         updatequantity()
     }, [counter])
-
 
     async function updatequantity() {
         let body = {
@@ -199,12 +172,10 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
             "CustomerId": CustomerId
         }
 
-        const updateQuantity = await postApiCall(CustomerCart.updatequantity, body)
+        await postApiCall(CustomerCart.updatequantity, body)
         getcustomercart()
     }
 
-
-    console.log("cart.,...", cart)
     return (
         <>
             <tr>
@@ -232,4 +203,5 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
         </>
     )
 }
+
 export default Cart
