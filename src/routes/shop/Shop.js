@@ -40,7 +40,6 @@ function Shop() {
     setIsLoader(true)
     let categoryName = location?.state?.state2?.Categories
     let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
-    console.log("categoryName.....", categoryName, SubcategoryName)
     if (categoryName && SubcategoryName) {
       const encodedStr = encodeURIComponent(SubcategoryName);
       // const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;

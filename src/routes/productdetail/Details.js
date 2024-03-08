@@ -5,9 +5,10 @@ import { Header } from '../../components/header/header';
 import { useNavigate } from "react-router-dom";
 import { CustomerCart, ProdcutsWrtCate } from '../../requests/adminreq';
 import { Link } from "react-router-dom"
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
 import styles from "./details.module.css"
+import { fetchUserFromStorage } from '../login/loginSlice';
 
 function Details() {
     const isAuthenticated = useSelector(state => state.login.isAuthenticated);
@@ -16,11 +17,7 @@ function Details() {
     const [proDetail, setProDetail] = useState([])
     const [counter, setCounter] = useState(1)
     const navigate = useNavigate()
-
-
-
-    console.log("proDetail", proDetail)
-
+    const dispatch = useDispatch()
 
     useEffect(() => {
         getProdDetail()
@@ -49,6 +46,7 @@ function Details() {
         }
         let addCart = await postApiCall(`${CustomerCart.createcart}?id=${CustomerId}`, data)
         if (addCart.status == 200) {
+            dispatch(fetchUserFromStorage())
             navigate('/shoppingcart')
         }
     }

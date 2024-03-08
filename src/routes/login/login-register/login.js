@@ -191,12 +191,12 @@ export const Login = ({ setLogin }) => {
         <div className="text-center mb-3 ">
           <p>Sign in with:</p>
 
-          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1">
+          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1  text-center" style={{display:'contents'}}>
             <i className="fab fa-google Faicon"></i>
           </button>
 
 
-          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1">
+          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1" style={{display:'contents'}}>
             <i className="fab fa-github Faicon"></i>
           </button>
         </div>
@@ -216,20 +216,6 @@ export const Login = ({ setLogin }) => {
 
         </div>
 
-        {/* <!-- 2 column grid layout --> */}
-        <div className="row mb-4">
-          <div className="col-md-6 d-flex justify-content-center">
-            {/* <!-- Checkbox --> */}
-            <div className="form-check mb-3 mb-md-0">
-              <input className="form-check-input" type="checkbox" value="" id="loginCheck" defaultChecked={true} />
-              <label className="form-check-label" htmlFor="loginCheck"> Remember me </label>
-            </div>
-          </div>
-
-          <div className="col-md-6 d-flex justify-content-center">
-            <Link href="">Forgot password?</Link>
-          </div>
-        </div>
         <button type="submit" className="btn btn-primary btn-block mb-4">Log in</button>
         <div className="text-center">
           <p>Not a member? <Link href="" onClick={() => setLogin(false)}>Register</Link></p>

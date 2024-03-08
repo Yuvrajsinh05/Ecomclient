@@ -36,14 +36,10 @@ export const Register = ({setLogin}) => {
         };
         try {
             const loginPostApiRes = await fetch(UserAuth.register, requestsType);
-            // console.log("loginpostapi",loginPostApiRes)
             const jsonLoginPostApiRes = await loginPostApiRes.json();
             if(jsonLoginPostApiRes?.status == 500){
                 alert(jsonLoginPostApiRes.message)
             }
-            
-
-            console.log("jsonLoginPostApiRescaledcales",jsonLoginPostApiRes)
         } catch (error) {
             alert("something", error)
         }

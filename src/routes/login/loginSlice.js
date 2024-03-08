@@ -12,6 +12,9 @@ const loadUserFromStorage = async (dispatch) => { // Pass dispatch as an argumen
     try {
       // If token exists, attempt to fetch user data
       const fetchedUser = await getUserDetail();
+      if(fetchedUser.error){
+        dispatch(logout())
+      }
       dispatch(likeProductAsync(false , fetchedUser?.Userdata?.savedProducts  , fetchedUser?.Userdata?._id ));
       return fetchedUser;
     } catch (error) {

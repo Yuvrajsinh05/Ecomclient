@@ -27,12 +27,12 @@ export default function Carousel() {
                 <div className="col-lg-8">
                     <div id="header-carousel" className="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
                         <ol className="carousel-indicators">
-                            {sliders.map((slider, index) => (
+                            {sliders?.map((slider, index) => (
                                 <li key={index} data-target="#header-carousel" data-slide-to={index} className={index === 0 ? "active" : ""}></li>
                             ))}
                         </ol>
                         <div className="carousel-inner">
-                            {sliders.map((slider, index) => (
+                            {sliders?.map((slider, index) => (
                                 <div key={index} className={`carousel-item position-relative ${index === 0 ? "active" : ""}`} style={{ height: "430px" }}>
                                     <img className="position-absolute w-100 h-100" src={slider.imageUrl || Images.carousel_1} alt={`Carousel Image ${index}`} style={{ objectFit: "cover" }} />
                                     <div className="carousel-caption d-flex flex-column align-items-center justify-content-center">
@@ -48,7 +48,7 @@ export default function Carousel() {
                     </div>
                 </div>
                 <div className="col-lg-4">
-                    {sliders.slice(0, 2).map((offer, index) => (
+                    {sliders?.slice(0, 2)?.map((offer, index) => (
                         <div key={index} className="product-offer mb-30" style={{ height: "200px" }}>
                             <img className="img-fluid" src={index === 0 ? Images.offer_1 : Images.offer_2} alt={`Offer Image ${index}`} />
                             <div className="offer-text">

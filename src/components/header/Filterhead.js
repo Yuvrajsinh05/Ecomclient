@@ -12,7 +12,7 @@ export function FilterHead({ categories }) {
     const [storedData, setStoredData] = useState([])
     const navigate = useNavigate()
     const likedProducts = useSelector(state => { return state?.likedProducts }); // Assuming 'likedProducts' is your slice name
-    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
+    const CustomerCart = useSelector(state => { return state?.login?.user?.CartItems });
 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef(null);
@@ -41,17 +41,7 @@ export function FilterHead({ categories }) {
         setStoredData(likedProducts.likedProducts)
     }, [likedProducts])
 
-    useEffect(() => {
-        getcustomercart()
-    }, [])
 
-
-    async function getcustomercart() {
-        const getcart = await getApiCall(`${CustomerCart.getCartById}?id=${CustomerId}`)
-        setCartData(getcart?.data);
-    }
-
-    console.log("isOpen", isOpen)
     return (
         <>
             <div className="container-fluid bg-dark mb-30">
@@ -92,7 +82,7 @@ export function FilterHead({ categories }) {
                                     </p>
                                     <p onClick={() => { navigate("/shoppingcart") }} className="btn px-0 ml-3">
                                         <i className="fas fa-shopping-cart text-primary"></i>
-                                        <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{cartData?.items?.length || 0}</span>
+                                        <span className="badge text-secondary border border-secondary rounded-circle" style={{ paddingBottom: "2px" }}>{CustomerCart?.length || 0}</span>
                                     </p>
                                 </div>
                             </div>

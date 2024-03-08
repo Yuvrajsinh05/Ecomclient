@@ -51,8 +51,8 @@ export function ConfigHead() {
                 <div className="row bg-secondary py-1 px-xl-5">
                     <div className="col-lg-9 d-none d-lg-block">
                         <div className=" h-100 ">
-                            <div class={styles.header}>
-                                <div class={styles.scrolling_text}>As a developer, I am actively engaged in the enhancement of this platform. Please note that this environment is intended solely for educational purposes. Continuous learning is integral to our journey, as we strive to achieve excellence and innovation ThankYou! 😊</div>
+                            <div className={styles.header}>
+                                <div className={styles.scrolling_text}>As a developer, I am actively engaged in the enhancement of this platform. Please note that this environment is intended solely for educational purposes. Continuous learning is integral to our journey, as we strive to achieve excellence and innovation ThankYou! 😊</div>
                             </div>
                         </div>
                     </div>

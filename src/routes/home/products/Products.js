@@ -31,7 +31,7 @@ export const Products = () => {
         temp = temp.sort(() => Math.random() - 0.5);
 
         // Ensure uniqueness while selecting the first 8 elements
-        displayFeatures = Array.from(new Set(temp)).slice(0, 12);
+        displayFeatures = Array?.from(new Set(temp))?.slice(0, 12);
     
         setFeaturedProds(temp);
         setDisplayFeatd(displayFeatures);

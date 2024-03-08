@@ -23,7 +23,6 @@ function Contact() {
     e.preventDefault();
     setSubmitting(true);
     try {
-        console.log(UserAuth.ContactEcom)
         if(!formData.name || !formData.email || !formData.subject || !formData.message){
           alert("Fileds Missing!!")
           setSubmitting(false);
@@ -33,7 +32,6 @@ function Contact() {
       alert('Form submitted successfully.',response);
       navigate('/');
     } catch (error) {
-      console.error('Error submitting form:', error);
       alert('An error occurred while submitting the form.');
     }
     setSubmitting(false);

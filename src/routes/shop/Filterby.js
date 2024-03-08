@@ -23,8 +23,6 @@ function Filterby({ filter, subcategory, category, setDisplaydata, displaydataCl
     setSelectedPrices([])
   }, [filter])
 
-
-  console.log("selectedPrices",selectedPrices)
   useEffect(() => {
     if (selectedPrices.length == Object.keys(Range).length) {
       if (selectedPrices.length == 0) return;
@@ -33,7 +31,6 @@ function Filterby({ filter, subcategory, category, setDisplaydata, displaydataCl
     setIsAllPrice(false)
   }, [selectedPrices])
 
-  console.log("selectedPrices", selectedPrices,displaydataClone)
   useEffect(() => {
     if (selectedBrands.length == Object.keys(Brands).length) {
       if (selectedBrands.length == 0) return;
@@ -64,7 +61,6 @@ function Filterby({ filter, subcategory, category, setDisplaydata, displaydataCl
     }
 
     const filterProducts = await postApiCall(ProductCalls.filterProducts, body)
-    console.log("filterProducts", filterProducts)
     setDisplaydata(filterProducts.data)
 
   }

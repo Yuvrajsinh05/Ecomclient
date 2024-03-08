@@ -7,7 +7,6 @@ import { Link } from "react-router-dom"
 
 export const Login_register = () => {
     const [login, setLogin] = useState(true)
-    // console.log("login component")
     return (
         <div className="row">
             <div className="col-lg-6 col-md-8 col-sm-12 container-login">

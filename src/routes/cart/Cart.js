@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { CustomerCart, Payment } from '../../requests/adminreq';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CircularProgress } from '@mui/material';
 import styles from "./cart.module.css"
+import { fetchUserFromStorage } from '../login/loginSlice';
 
 
 function Cart() {
@@ -17,6 +18,7 @@ function Cart() {
     const [totalAmont, setTotalAmont] = useState(0)
     const [cartItems, setCartitems] = useState([])
     const [isLoading, setIsLoading] = useState(false)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
 
@@ -53,6 +55,7 @@ function Cart() {
             quantity: data.quantity,
             price: data.price
         }));
+        dispatch(fetchUserFromStorage())
         const data = { items: newTemp }
         await postApiCall(`${CustomerCart.UpdateCartById}?id=${CustomerId}`, data)
         getcustomercart()
@@ -138,6 +141,7 @@ function Cart() {
 
 function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
     const [counter, setCounter] = useState(cart?.quantity || 0)
+    const dispatch = useDispatch()
     function handleraddcounter(e) {
         e.preventDefault();
         let count = parseInt(counter)

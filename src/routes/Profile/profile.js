@@ -22,7 +22,7 @@ export default function UserProfile() {
     const totalPages = Math.ceil(userOrders?.length / itemsPerPage);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = userOrders.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = userOrders?.slice(indexOfFirstItem, indexOfLastItem);
     const onPageChange = pageNumber => setCurrentPage(pageNumber);
 
 

@@ -45,7 +45,6 @@ export const ChatMessageBox = ({ UserName }) => {
         return io(baseUrl);
     }, []);
 
-    console.log("socket",socket.id)
     useEffect(() => {
         return () => {
             socket.disconnect();
@@ -56,13 +55,6 @@ export const ChatMessageBox = ({ UserName }) => {
     socket.on('reply', (replymes) => {
         setMessages([...message, { bot: replymes.MessageToSocket }]);
     })
-
-
-    // async function handleUserDelete(){
-    //     const alertCheck = confirm("Are Sure Want to Delete This Account?")
-    //     console.log("alertCheck",alertCheck)
-    //     // const deleteUser = await getApiCall(UserAuth.DeleteUser)
-    // }
 
     const handleUserDelete = async () => {
         const alertCheck = window.confirm("Are you sure you want to delete this account?");
@@ -89,12 +81,12 @@ export const ChatMessageBox = ({ UserName }) => {
 
                 <div ref={messagesEndRef} className={styles.MessageOverFLowCheck}>
 
-                    {message.map((mess, index) => {
+                    {message?.map((mess, index) => {
 
                         if (mess.user) {
                             return (
                                 <>
-                                    <div className={styles.messageBoxChatRight}>
+                                    <div key={index} className={styles.messageBoxChatRight}>
 
                                         <div style={{ flex: '1.2', padding: '0.5rem', textAlign: 'right' }}>{mess?.user}</div>
                                         <div style={{ flex: '0.1', padding: '0.5rem' }}>
@@ -110,7 +102,7 @@ export const ChatMessageBox = ({ UserName }) => {
                             )
                         } else {
                             return (
-                                <div className={styles.messageBoxChatLeft}>
+                                <div key={index} className={styles.messageBoxChatLeft}>
                                     <div style={{ flex: '0.1', padding: '0.5rem' }}><img style={{ width: '30px', height: '30px', borderRadius: '50%' }} src="https://i.ibb.co/k5Nn1Yx/Whats-App-Image-2023-06-18-at-11-50-49-PM.jpg" /></div>
                                     <div style={{ flex: '1.2', padding: '0.5rem' }}>{mess?.bot}</div>
                                 </div>

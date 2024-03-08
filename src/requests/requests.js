@@ -12,6 +12,9 @@ export async function getApiCall(url) {
   
       const response = await fetch(url, requestType);
       const responseJson = await response.json();
+      if(responseJson.error){
+         console.log("err",responseJson.error)
+      }
       return await responseJson;
     } catch (error) {
       return false;

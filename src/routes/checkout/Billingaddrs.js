@@ -30,23 +30,23 @@ function Billingaddrs() {
         getCustomerCart()
     }, [])
 
-    async function paymentVerification(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
 
+
+    async function paymentVerification(razorpay_payment_id, razorpay_order_id, razorpay_signature) {
         const data = {
             razorpay_payment_id,
             razorpay_order_id,
             razorpay_signature
         }
-        let verify = await postApiCall(Payment.paymentVerify, data)
+       await postApiCall(Payment.paymentVerify, data)
     }
 
-    console.log('subtotal',subtotal)
     const handleCheckout = async (value) => {
         if(!Array.isArray(cartProducts) || cartProducts.length==0){return alert("Your Cart Is Empty")}
         let valid = validateForm(form);
         if(!valid) return;
         let OrderAmount = {
-            amount: subtotal
+            amount: Math.round(subtotal)
         }
 
         let OrderProducts = {
@@ -58,19 +58,21 @@ function Billingaddrs() {
             ...OrderProducts
         }
         const consekey = await postApiCall(Payment.doPay, data)
+        const OrderID = consekey?.order?.id
+        if(!OrderID){
+            return alert("Plase Try Later Server Load")
+        }
         const getKey = await getApiCall(Payment.getKey)
         var options = {
             key: getKey.key, // Enter the Key ID generated from the Dashboard
-            amount: subtotal * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            amount:  Math.round(subtotal) * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: "INR",
-            name: "Acme Corp",
+            name: "Ecoco LTD",
             description: "Test Transaction",
             image: "https://example.com/your_logo",
-            order_id: consekey?.data?.order?.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            order_id: OrderID, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
             handler: async function (response) {
-                let res = await response
-                console.log("res",res)
-                paymentVerification(response.razorpay_payment_id, response.razorpay_order_id, response.razorpay_signature)
+                paymentVerification(response.razorpay_payment_id,OrderID, response.razorpay_signature)
             },
             // callback_url: Payment.paymentVerify ,
             prefill: {
@@ -129,31 +131,31 @@ function Billingaddrs() {
                         <div className="bg-light p-30 mb-5">
                             <div className="row">
                                 <div className="col-md-6 form-group">
-                                    <label for={'fName'}>First Name</label>
+                                    <label htmlFor={'fName'}>First Name</label>
                                     <input className="form-control" style={errors?.fName ? { border: '1px solid red' } : {}} id='fName' type="text" onChange={handleChage} placeholder="John" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'lName'}>Last Name</label>
+                                    <label htmlFor={'lName'}>Last Name</label>
                                     <input className="form-control" style={errors?.lName ? { border: '1px solid red' } : {}} id='lName' type="text" onChange={handleChage} placeholder="Doe" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'Email'}>E-mail</label>
+                                    <label htmlFor={'Email'}>E-mail</label>
                                     <input className="form-control" style={errors?.Email ? { border: '1px solid red' } : {}} id='Email' type="text" onChange={handleChage} placeholder="example@email.com" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'PhoneNo'}>Mobile No</label>
+                                    <label htmlFor={'PhoneNo'}>Mobile No</label>
                                     <input className="form-control" style={errors?.PhoneNo ? { border: '1px solid red' } : {}} id='PhoneNo' type="text" onChange={handleChage} placeholder="+123 456 789" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'AdrsLine1'}>Address Line 1</label>
+                                    <label htmlFor={'AdrsLine1'}>Address Line 1</label>
                                     <input className="form-control" style={errors?.AdrsLine1 ? { border: '1px solid red' } : {}} id='AdrsLine1' type="text" onChange={handleChage} placeholder="123 Street" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'AdrsLine2'}>Address Line 2</label>
+                                    <label htmlFor={'AdrsLine2'}>Address Line 2</label>
                                     <input className="form-control" style={errors?.AdrsLine2 ? { border: '1px solid red' } : {}} id='AdrsLine2' type="text" onChange={handleChage} placeholder="123 Street" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'Country'}>Country</label>
+                                    <label htmlFor={'Country'}>Country</label>
                                     <select id='Country' style={errors?.Country ? { border: '1px solid red' } : {}} onChange={handleChage} className="custom-select">
                                         <option value={"United States"}>United States</option>
                                         <option value={"Afghanistan"}>Afghanistan</option>
@@ -162,15 +164,15 @@ function Billingaddrs() {
                                     </select>
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'City'}>City</label>
+                                    <label htmlFor={'City'}>City</label>
                                     <input className="form-control" id='City' style={errors?.City ? { border: '1px solid red' } : {}} type="text" onChange={handleChage} placeholder="New York" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'State'}>State</label>
+                                    <label htmlFor={'State'}>State</label>
                                     <input className="form-control" type="text" style={errors?.State ? { border: '1px solid red' } : {}} id='State' onChange={handleChage} placeholder="New York" />
                                 </div>
                                 <div className="col-md-6 form-group">
-                                    <label for={'Pin'}>Pin Code</label>
+                                    <label htmlFor={'Pin'}>Pin Code</label>
                                     <input className="form-control" type="text" style={errors?.Pin ? { border: '1px solid red' } : {}} id='Pin' onChange={handleChage} placeholder="123" />
                                 </div>
                             </div>
@@ -211,24 +213,7 @@ function Billingaddrs() {
                         <div className="mb-5">
                             <h5 className="section-title position-relative text-uppercase mb-3"><span className="bg-secondary pr-3">Payment</span></h5>
                             <div className="bg-light p-30">
-                                {/* <div className="form-group">
-                                    <div className="custom-control custom-radio">
-                                        <input type="radio" className="custom-control-input" name="payment" id="paypal" />
-                                        <label className="custom-control-label" for="paypal">Paypal</label>
-                                    </div>
-                                </div> */}
-                                {/* <div className="form-group">
-                                    <div className="custom-control custom-radio">
-                                        <input type="radio" className="custom-control-input" name="payment" id="directcheck" />
-                                        <label className="custom-control-label" for="directcheck">Direct Check</label>
-                                    </div>
-                                </div>
-                                <div className="form-group mb-4">
-                                    <div className="custom-control custom-radio">
-                                        <input type="radio" className="custom-control-input" name="payment" id="banktransfer" />
-                                        <label className="custom-control-label" for="banktransfer">Bank Transfer</label>
-                                    </div>
-                                </div> */}
+             
                                 <button onClick={() => handleCheckout()} className="btn btn-block btn-primary font-weight-bold py-3">Place Order</button>
                             </div>
                         </div>
