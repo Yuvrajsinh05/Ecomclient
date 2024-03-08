@@ -13,18 +13,18 @@ import axios from 'axios';
 export const Login = ({ setLogin }) => {
   const dispatch = useDispatch()
   const stateStore = useSelector(state => state)
-  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
+  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
   const [useremail, setUseremail] = useState("")
   const [userpwd, setUserPwd] = useState("")
   const [anything, setAnything] = useState("")
   const navigate = useNavigate();
 
-  useEffect(()=>{
-   if(stateStore.login.isAuthenticated){
-    const fetchRoute = localStorage.getItem('lastRoute')
-    navigate(fetchRoute)
-   }
-  },[stateStore])
+  useEffect(() => {
+    if (stateStore.login.isAuthenticated) {
+      const fetchRoute = localStorage.getItem('lastRoute')
+      navigate(fetchRoute)
+    }
+  }, [stateStore])
   function handleSubmit(e) {
     e.preventDefault();
     loginPostApiCall(useremail, userpwd);
@@ -52,7 +52,7 @@ export const Login = ({ setLogin }) => {
       if (loginPostApiRes.status === 200) {
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
         dispatch(loginSuccess(jsonLoginPostApiRes))
-        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts , CustomerId))
+        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts, CustomerId))
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
@@ -64,10 +64,10 @@ export const Login = ({ setLogin }) => {
       alert("check you connection", error)
     }
   }
-  
 
 
-  const clientId = '850331087777-lhbkstmsqvlr01vnqqh4pq5r22uv8vkt.apps.googleusercontent.com';
+
+  const clientId = process.env.CLIENTID;
 
   const login = useGoogleLogin({
     clientId,
@@ -114,12 +114,12 @@ export const Login = ({ setLogin }) => {
       try {
         const loginPostApiRes = await fetch(UserAuth.isGoogleLogin, requestsType);
         const jsonLoginPostApiRes = await loginPostApiRes.json();
-    
+
         setAnything(jsonLoginPostApiRes)
         if (jsonLoginPostApiRes.status === 200) {
           localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
           localStorage.setItem("ecomuserId", jsonLoginPostApiRes.Userdata._id);
-          dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts ,CustomerId))
+          dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts, CustomerId))
           dispatch(loginSuccess(jsonLoginPostApiRes))
           setTimeout(() => {
             navigate("/dashboard");
@@ -156,19 +156,19 @@ export const Login = ({ setLogin }) => {
     var savedProducts = getUrlParameter('savedProducts');
 
     const PayLoad = {
-      token : token ,
-      user :{
+      token: token,
+      user: {
         name: name,
         email: email,
         _id: UserId,
-        savedProducts:savedProducts.split(',')
+        savedProducts: savedProducts.split(',')
       }
     }
     if (token || name || email || UserId) {
       localStorage.setItem("ecomtoken", token);
       localStorage.setItem("user", name);
 
-      dispatch(likeProductAsync(false, savedProducts.split(','),CustomerId))
+      dispatch(likeProductAsync(false, savedProducts.split(','), CustomerId))
       dispatch(loginSuccess(PayLoad))
       setTimeout(() => {
         navigate("/dashboard");
@@ -191,12 +191,12 @@ export const Login = ({ setLogin }) => {
         <div className="text-center mb-3 ">
           <p>Sign in with:</p>
 
-          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1  text-center" style={{display:'contents'}}>
+          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1  text-center" style={{ display: 'contents' }}>
             <i className="fab fa-google Faicon"></i>
           </button>
 
 
-          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1" style={{display:'contents'}}>
+          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1" style={{ display: 'contents' }}>
             <i className="fab fa-github Faicon"></i>
           </button>
         </div>

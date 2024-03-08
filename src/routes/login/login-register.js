@@ -23,7 +23,7 @@ export const Login_register = () => {
 
                 {/* <!-- Pills content --> */}
                 <div className="tab-content">
-                    <GoogleOAuthProvider clientId="1001055247183-29hb4bg0ga12tq5656ftjdo31b3f3msv.apps.googleusercontent.com">
+                    <GoogleOAuthProvider clientId={process.env.OAUTHCLIENTID}>
 
                         {login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
                     </GoogleOAuthProvider>
