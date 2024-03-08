@@ -1,6 +1,6 @@
 
-export const baseUrl = 'http://localhost:8670'
-// export const baseUrl ='https://ecombackend-303e.onrender.com'
+// export const baseUrl = 'http://localhost:8670'
+export const baseUrl ='https://ecombackend-303e.onrender.com'
 
 export const UserAuth = {
     login: `${baseUrl}/admin/login` , 
@@ -12,6 +12,8 @@ export const UserAuth = {
     userOrders : `${baseUrl}/admin/orders`,
     ContactEcom : `${baseUrl}/admin/contact`,
     DeleteUser : `${baseUrl}/admin/deleteUser`,
+    clientKey : `${baseUrl}/admin/getclientkey`,
+    oauthclientkey : `${baseUrl}/admin/oauthclientkey`,
     
 }
 

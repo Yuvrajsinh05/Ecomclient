@@ -7,6 +7,7 @@ import { UserAuth } from "../../../requests/adminreq";
 import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
 import axios from 'axios';
+import { getApiCall } from "../../../requests/requests";
 
 
 
@@ -17,6 +18,7 @@ export const Login = ({ setLogin }) => {
   const [useremail, setUseremail] = useState("")
   const [userpwd, setUserPwd] = useState("")
   const [anything, setAnything] = useState("")
+  const [clientId, setCLientId] = useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,8 +68,16 @@ export const Login = ({ setLogin }) => {
   }
 
 
+  useEffect(()=>{
+      fetchKey()
+  },[])
 
-  const clientId = process.env.CLIENTID;
+  async function fetchKey(){
+    const KeyId = await axios.get(UserAuth.clientKey)
+    setCLientId(KeyId?.ClientKey)
+
+  }
+
 
   const login = useGoogleLogin({
     clientId,
@@ -181,7 +191,6 @@ export const Login = ({ setLogin }) => {
       window.location.href = response.data.reDirect
     }
   }
-
 
 
   // async function
