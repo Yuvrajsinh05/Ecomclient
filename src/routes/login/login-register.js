@@ -16,6 +16,7 @@ export const Login_register = () => {
     },[])
     async function getKeyOuth(){
         const outhkey = await axios.get(UserAuth.oauthclientkey)
+        console.log("otuehkeu",outhkey.data.OAUTHCLIENTID)
         setOauthKey(outhkey.data.OAUTHCLIENTID)
     }
     return (
@@ -34,10 +35,12 @@ export const Login_register = () => {
 
                 {/* <!-- Pills content --> */}
                 <div className="tab-content">
-                    <GoogleOAuthProvider clientId={OuthKey}>
+                    {console.log("OuthKey",OuthKey)}
+                    {OuthKey &&         <GoogleOAuthProvider clientId={OuthKey}>
 
-                        {login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
-                    </GoogleOAuthProvider>
+{login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
+</GoogleOAuthProvider>   }
+            
                 </div>
                 {/* <!-- Pills content --> */}
             </div>
