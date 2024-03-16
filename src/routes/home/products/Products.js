@@ -3,6 +3,7 @@ import { getApiCall } from "../../../requests/requests";
 import { ProductCalls, dashboardClothing } from "../../../requests/adminreq";
 import { Link ,Outlet} from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./openshop.module.css"
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
 
 export const Products = () => {
@@ -72,7 +73,7 @@ function FeaturedCard({fpro}) {
       };
     return (
         <>
-            <div className="col-lg-2 col-md-4 col-sm-6 pb-1">
+              <div style={{height:'320px'}} className={styles.product_container} >
                 <div className="product-item bg-light mb-4">
                     <div className="product-img position-relative overflow-hidden">
                         <img style={{height:"200px"}} className="img-fluid w-100" src={fpro?.image} alt="" />

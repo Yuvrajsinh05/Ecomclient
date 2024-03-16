@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from '@react-oauth/google';
 import { useDispatch, useSelector } from 'react-redux'
-import { loginSuccess } from "../loginSlice";
+import { loginSuccess, logout } from "../loginSlice";
 import { UserAuth } from "../../../requests/adminreq";
 import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
@@ -20,6 +20,7 @@ export const Login = ({ setLogin }) => {
   const [anything, setAnything] = useState("")
   const [clientId, setCLientId] = useState("")
   const navigate = useNavigate();
+  // const dispatch  = useDispatch()
 
   useEffect(() => {
     if (stateStore.login.isAuthenticated) {
@@ -29,6 +30,11 @@ export const Login = ({ setLogin }) => {
   }, [stateStore])
   function handleSubmit(e) {
     e.preventDefault();
+    if(!useremail || !userpwd){
+        dispatch(logout())
+        alert("Fill Credentials First")
+        return;
+    }
     loginPostApiCall(useremail, userpwd);
   }
 

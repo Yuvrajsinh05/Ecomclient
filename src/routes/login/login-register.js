@@ -49,14 +49,14 @@ export const Login_register = () => {
                     {OuthKey ? <GoogleOAuthProvider clientId={OuthKey}>
                         {login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
 
-                    </GoogleOAuthProvider> : 
-                    <>
-                                        <h4>Wait a while Backend server is restarting it's stop in Inactivity....</h4>
-                        <p><b>{"RenderFreeServices"}</b> 😕</p>
-                        <p><b>{"Can check pending api calls in network-manager"}</b> 🕵️‍♂️</p>
+                    </GoogleOAuthProvider> :
+                        <>
+                            <h4>Wait a while Backend server is restarting it's stop in Inactivity....</h4>
+                            <p><b>{"RenderFreeServices"}</b> 😕</p>
+                            <p><b>{"Can check pending api calls in network-manager"}</b> 🕵️‍♂️</p>
 
-                    </>
-                 }
+                        </>
+                    }
 
                 </div>
                 {/* <!-- Pills content --> */}
