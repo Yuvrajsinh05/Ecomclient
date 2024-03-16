@@ -169,7 +169,7 @@ export const Login = ({ setLogin }) => {
     const PayLoad = {
       token: token,
       user: {
-        name: name,
+        Name: name,
         email: email,
         _id: UserId,
         savedProducts: savedProducts.split(',')

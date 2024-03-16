@@ -12,6 +12,7 @@ const loadUserFromStorage = async (dispatch) => { // Pass dispatch as an argumen
     try {
       // If token exists, attempt to fetch user data
       const fetchedUser = await getUserDetail();
+
       if(fetchedUser.error){
          dispatch(logout())
         localStorage.clear()

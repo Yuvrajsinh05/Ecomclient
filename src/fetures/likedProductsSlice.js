@@ -16,7 +16,7 @@ export const likeProductAsync = (productId, InitialSavedIds ,CustomerId) => asyn
         userId: CustomerId,
       } ,{headers});
 
-      dispatch(likeProduct({ "savedProduct": response.data.savedProducts }));
+      dispatch(likeProduct({ "savedProduct": response?.data?.savedProducts }));
     } else {
       dispatch(likeProduct({ "savedProduct": InitialSavedIds }))
     }
@@ -36,7 +36,12 @@ const likedProductsSlice = createSlice({
     // Synchronous action to handle liking a product
     likeProduct: (state, action) => {
       const { savedProduct } = action.payload;
-      state.likedProducts = [...savedProduct];
+      if (Array.isArray(savedProduct)) {
+        state.likedProducts = [...savedProduct];
+      } else {
+        console.error('Saved product is not an array:', savedProduct);
+        // Handle the error or set a default value for state.likedProducts
+      }
     },
   },
 });

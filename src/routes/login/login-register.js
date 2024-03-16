@@ -9,16 +9,27 @@ import { UserAuth } from "../../requests/adminreq";
 
 export const Login_register = () => {
     const [login, setLogin] = useState(true)
-    const [OuthKey , setOauthKey] = useState("")
+    const [OuthKey, setOauthKey] = useState("")
 
-    useEffect(()=>{
+    useEffect(() => {
         getKeyOuth()
-    },[])
-    async function getKeyOuth(){
-        const outhkey = await axios.get(UserAuth.oauthclientkey)
-        console.log("otuehkeu",outhkey.data.OAUTHCLIENTID)
-        setOauthKey(outhkey.data.OAUTHCLIENTID)
+    }, [])
+
+    async function getKeyOuth() {
+        console.log("eventFuknccall")
+        try {
+            const outhkey = await axios.get(UserAuth.oauthclientkey)
+            console.log("outhkeycolacola", outhkey)
+            console.log("otuehkeu", outhkey.data.OAUTHCLIENTID)
+            setOauthKey(outhkey.data.OAUTHCLIENTID)
+        } catch (err) {
+            console.log("Err", err)
+        }
+
+
     }
+
+    console.log("OuthKey", OuthKey)
     return (
         <div className="row">
             <div className="col-lg-6 col-md-8 col-sm-12 container-login">
@@ -35,12 +46,18 @@ export const Login_register = () => {
 
                 {/* <!-- Pills content --> */}
                 <div className="tab-content">
-                    {console.log("OuthKey",OuthKey)}
-                    {OuthKey &&         <GoogleOAuthProvider clientId={OuthKey}>
+                    {OuthKey ? <GoogleOAuthProvider clientId={OuthKey}>
+                        {login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
 
-{login ? <Login setLogin={setLogin} /> : <Register setLogin={setLogin} />}
-</GoogleOAuthProvider>   }
-            
+                    </GoogleOAuthProvider> : 
+                    <>
+                                        <h4>Wait a while Backend server is restarting it's stop in Inactivity....</h4>
+                        <p><b>{"RenderFreeServices"}</b> 😕</p>
+                        <p><b>{"Can check pending api calls in network-manager"}</b> 🕵️‍♂️</p>
+
+                    </>
+                 }
+
                 </div>
                 {/* <!-- Pills content --> */}
             </div>
