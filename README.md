@@ -2,6 +2,7 @@
 
 Welcome to our awesome e-commerce project built with ReactJS and fueled by curiosity! This project encompasses a range of features aimed at providing a comprehensive learning experience. Let's dive into what makes it cool:
 
+- chat model works on these Model : 'https://i.ibb.co/nm9YgTJ/Socket-Id1.png'
 ## Features
 
 - **User Authentication:** Seamlessly handle user login, registration, deletion, and provide options for login via Google and GitHub for added convenience.
