@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function FilterbyBrand({ Brands, setSelectedBrands, selectedBrands }) {
   const [sumCount, setSumCount] = useState(0);
@@ -46,7 +46,7 @@ function FilterbyBrand({ Brands, setSelectedBrands, selectedBrands }) {
             <label className="custom-control-label" htmlFor="brand-all">
               All Brand
             </label>
-            <span style={{ color: 'black' }} className="badge border text-dark font-weight-normal">{sumCount}</span>
+            <span style={{ color: "black" }} className="badge border text-dark font-weight-normal">{sumCount}</span>
           </div>
 
           {Brands && Object.entries(Brands)?.map(([brand, count], index) => (

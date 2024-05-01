@@ -1,3 +1,4 @@
+import React from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../fetures/likedProductsSlice"
@@ -5,7 +6,7 @@ import { likeProductAsync } from "../../fetures/likedProductsSlice"
 function DisplayProduct({ displaydata }) {
   return (
     <>
-      {displaydata?.map((prods,index) => {
+      {displaydata?.map((prods) => {
         return (
           <DisplayItem prods={prods} key={prods._id} />
         )
@@ -27,7 +28,7 @@ function DisplayItem({prods}) {
     try {
       await dispatch(likeProductAsync(prods._id , [] ,CustomerId));
     } catch (error) {
-      console.error('Error liking product:', error);
+      console.error("Error liking product:", error);
       // Handle errors or display an error message
     }
   };
@@ -54,7 +55,7 @@ function DisplayItem({prods}) {
           </div>
 
           <div  className="text-center py-4">
-            <Link style={{display:'list-item' ,padding:'0.3rem'}} className="h6 text-decoration-none text-truncate" to="">
+            <Link style={{display:"list-item" ,padding:"0.3rem"}} className="h6 text-decoration-none text-truncate" to="">
               {prods?.name || prods?.model}
             </Link>
             <div className="d-flex align-items-center justify-content-center mt-2">

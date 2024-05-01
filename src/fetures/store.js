@@ -1,5 +1,5 @@
 // store.js
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from "@reduxjs/toolkit";
 import loginReducer, { fetchUserFromStorage } from "../routes/login/loginSlice";
 // import likedProductsReducer from "../path-to-your-likedProducts-slice";
 import likedProductsReducer from "./likedProductsSlice"

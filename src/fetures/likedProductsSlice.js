@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { CustomerCart } from '../requests/adminreq';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+import { CustomerCart } from "../requests/adminreq";
 
 // Action creator using Redux Thunk
 export const likeProductAsync = (productId, InitialSavedIds ,CustomerId) => async (dispatch) => {
@@ -22,13 +22,13 @@ export const likeProductAsync = (productId, InitialSavedIds ,CustomerId) => asyn
     }
 
   } catch (error) {
-    console.error('Error liking product:', error);
+    console.error("Error liking product:", error);
     // Handle errors or dispatch another action to handle the error
   }
 };
 
 const likedProductsSlice = createSlice({
-  name: 'likedProducts',
+  name: "likedProducts",
   initialState: {
     likedProducts: [], // You can initialize this with data from the server if needed
   },

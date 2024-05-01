@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-// import Filterby from "./Filterby";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApiCall } from "../../requests/requests";
 import DisplayProduct from "./DisplayProducts";
-import { Header } from "../../components/header/header";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
-import CircularProgress from '@mui/material/CircularProgress';
-import { ProdcutsWrtCate, ProductCalls } from "../../requests/adminreq";
+import CircularProgress from "@mui/material/CircularProgress";
+import { ProductCalls } from "../../requests/adminreq";
 import { useSelector } from "react-redux";
-import styles from './openshop.module.css';
-import  LinearProgress  from "@mui/material/LinearProgress";
+import styles from "./openshop.module.css";
+
 
 function OpenShop() {
   const isAuthenticated = useSelector(state => state.login.isAuthenticated);
@@ -24,7 +22,7 @@ function OpenShop() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/')
+      navigate("/")
     }
   }, [])
 
@@ -124,7 +122,7 @@ function OpenShop() {
 
               {Array.isArray(displaydata) && displaydata.length != 0 ? <DisplayProduct displaydata={displaydata || []} /> :
                 <div className={styles.centerLoader}>
-                   <b><CircularProgress color="inherit" /></b>  
+                  <b><CircularProgress color="inherit" /></b>  
 
                 </div>
               }

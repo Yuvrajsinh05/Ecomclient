@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useGoogleLogin } from '@react-oauth/google';
-import { useDispatch, useSelector } from 'react-redux'
+import { useGoogleLogin } from "@react-oauth/google";
+import { useDispatch, useSelector } from "react-redux"
 import { loginSuccess } from "../loginSlice";
 import { UserAuth } from "../../../requests/adminreq";
 import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
-import axios from 'axios';
-import { getApiCall } from "../../../requests/requests";
+import axios from "axios";
+
 
 
 
@@ -17,13 +18,12 @@ export const Login = ({ setLogin }) => {
   const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
   const [useremail, setUseremail] = useState("")
   const [userpwd, setUserPwd] = useState("")
-  const [anything, setAnything] = useState("")
   const [clientId, setCLientId] = useState("")
   const navigate = useNavigate();
 
   useEffect(() => {
     if (stateStore.login.isAuthenticated) {
-      const fetchRoute = localStorage.getItem('lastRoute')
+      const fetchRoute = localStorage.getItem("lastRoute")
       navigate(fetchRoute)
     }
   }, [stateStore])
@@ -50,7 +50,6 @@ export const Login = ({ setLogin }) => {
     try {
       const loginPostApiRes = await fetch(UserAuth.login, requestsType);
       const jsonLoginPostApiRes = await loginPostApiRes.json();
-      setAnything(jsonLoginPostApiRes)
       if (loginPostApiRes.status === 200) {
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
         dispatch(loginSuccess(jsonLoginPostApiRes))
@@ -68,11 +67,11 @@ export const Login = ({ setLogin }) => {
   }
 
 
-  useEffect(()=>{
-      fetchKey()
-  },[])
+  useEffect(() => {
+    fetchKey()
+  }, [])
 
-  async function fetchKey(){
+  async function fetchKey() {
     const KeyId = await axios.get(UserAuth.clientKey)
     setCLientId(KeyId?.ClientKey)
 
@@ -87,61 +86,54 @@ export const Login = ({ setLogin }) => {
   });
 
   const handleLogin = async () => {
-    const response = await login();
+    await login();
   };
 
 
 
 
   async function fetchGoogleUserInfo(access_token) {
-    console.log("Acces",access_token)
-    const userinfoEndpoint = 'https://www.googleapis.com/oauth2/v3/userinfo';
+    console.log("Acces", access_token)
+    const userinfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
+    const response = await fetch(userinfoEndpoint, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch user information");
+    }
 
+    const userData = await response.json();
+    const loginPayload = {
+      email: userData.email,
+      email_verified: userData.email_verified,
+      name: userData.name,
+      picture: userData.picture,
+      sub: userData.sub
+    };
+    const requestsType = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loginPayload),
+    };
     try {
-      const response = await fetch(userinfoEndpoint, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Failed to fetch user information');
-      }
+      const loginPostApiRes = await fetch(UserAuth.isGoogleLogin, requestsType);
+      const jsonLoginPostApiRes = await loginPostApiRes.json();
 
-      const userData = await response.json();
-      const loginPayload = {
-        email: userData.email,
-        email_verified: userData.email_verified,
-        name: userData.name,
-        picture: userData.picture,
-        sub: userData.sub
-      };
-      const requestsType = {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(loginPayload),
-      };
-      try {
-        const loginPostApiRes = await fetch(UserAuth.isGoogleLogin, requestsType);
-        const jsonLoginPostApiRes = await loginPostApiRes.json();
-
-        setAnything(jsonLoginPostApiRes)
-        if (jsonLoginPostApiRes.status === 200) {
-          localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
-          localStorage.setItem("ecomuserId", jsonLoginPostApiRes.Userdata._id);
-          dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts, CustomerId))
-          dispatch(loginSuccess(jsonLoginPostApiRes))
-          setTimeout(() => {
-            navigate("/dashboard");
-          }, 1000);
-        }
-      } catch (err) {
-        console.log("Login Err:137", err)
+      if (jsonLoginPostApiRes.status === 200) {
+        localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
+        localStorage.setItem("ecomuserId", jsonLoginPostApiRes.Userdata._id);
+        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts, CustomerId))
+        dispatch(loginSuccess(jsonLoginPostApiRes))
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 1000);
       }
-    } catch (error) {
-      // console.error('Error fetching user information:', error);
-      throw error;
+    } catch (err) {
+      console.log("Login Err:137", err)
     }
   }
 
@@ -152,19 +144,19 @@ export const Login = ({ setLogin }) => {
   }, [])
 
   function getUrlParameter(name) {
-    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    name = name.replace(/\[/, "\\[").replace(/\]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
     var results = regex.exec(window.location.search);
-    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-  };
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
 
   function validUrl() {
     if (!window.location.search) return;
-    var token = getUrlParameter('token');
-    var name = getUrlParameter('name');
-    var email = getUrlParameter('email');
-    var UserId = getUrlParameter('_id');
-    var savedProducts = getUrlParameter('savedProducts');
+    var token = getUrlParameter("token");
+    var name = getUrlParameter("name");
+    var email = getUrlParameter("email");
+    var UserId = getUrlParameter("_id");
+    var savedProducts = getUrlParameter("savedProducts");
 
     const PayLoad = {
       token: token,
@@ -172,14 +164,14 @@ export const Login = ({ setLogin }) => {
         name: name,
         email: email,
         _id: UserId,
-        savedProducts: savedProducts.split(',')
+        savedProducts: savedProducts.split(",")
       }
     }
     if (token || name || email || UserId) {
       localStorage.setItem("ecomtoken", token);
       localStorage.setItem("user", name);
 
-      dispatch(likeProductAsync(false, savedProducts.split(','), CustomerId))
+      dispatch(likeProductAsync(false, savedProducts.split(","), CustomerId))
       dispatch(loginSuccess(PayLoad))
       setTimeout(() => {
         navigate("/dashboard");
@@ -201,12 +193,12 @@ export const Login = ({ setLogin }) => {
         <div className="text-center mb-3 ">
           <p>Sign in with:</p>
 
-          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1  text-center" style={{ display: 'contents' }}>
+          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1  text-center" style={{ display: "contents" }}>
             <i className="fab fa-google Faicon"></i>
           </button>
 
 
-          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1" style={{ display: 'contents' }}>
+          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1" style={{ display: "contents" }}>
             <i className="fab fa-github Faicon"></i>
           </button>
         </div>

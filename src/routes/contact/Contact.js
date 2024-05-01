@@ -1,17 +1,16 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { UserAuth } from '../../requests/adminreq';
-import { postApiCall } from '../../requests/requests';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { UserAuth } from "../../requests/adminreq";
+import { postApiCall } from "../../requests/requests";
 
 function Contact() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: ""
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -23,16 +22,16 @@ function Contact() {
     e.preventDefault();
     setSubmitting(true);
     try {
-        if(!formData.name || !formData.email || !formData.subject || !formData.message){
-          alert("Fileds Missing!!")
-          setSubmitting(false);
-          return;
-        }
+      if(!formData.name || !formData.email || !formData.subject || !formData.message){
+        alert("Fileds Missing!!")
+        setSubmitting(false);
+        return;
+      }
       const response = await postApiCall(UserAuth.ContactEcom , formData);
-      alert('Form submitted successfully.',response);
-      navigate('/');
+      alert("Form submitted successfully.",response);
+      navigate("/");
     } catch (error) {
-      alert('An error occurred while submitting the form.');
+      alert("An error occurred while submitting the form.");
     }
     setSubmitting(false);
   };
@@ -81,7 +80,7 @@ function Contact() {
                 </div>
                 <div>
                   <button className="btn btn-primary py-2 px-4" type="submit" disabled={submitting}>
-                    {submitting ? 'Submitting...' : 'Send Message'}
+                    {submitting ? "Submitting..." : "Send Message"}
                   </button>
                 </div>
               </form>

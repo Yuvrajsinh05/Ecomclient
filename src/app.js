@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Route, Routes, BrowserRouter, useLocation } from "react-router-dom"; // Import useLocation here
 import Contact from "./routes/contact/Contact";
-import PaymentSuccess from "./routes/home/paymentsuccess/paymentsuccess";
 import Home from "./routes/home/home";
 import Cart from "./routes/cart/Cart";
 import Checkout from "./routes/checkout/Checkout";
@@ -14,7 +13,7 @@ import { Provider } from "react-redux";
 import { Liked } from "./routes/liked/liked";
 import { Header } from "./components/header/header";
 import UserProfile from "./routes/Profile/profile";
-import Footer from "./components/footer/Footer";
+// import { Footer } from "./components/footer/Footer";
 
 // ErrorBoundary functional component to catch errors within its child components
 function ErrorBoundary(props) {
@@ -54,9 +53,9 @@ function App() {
 
 function AppContent() {
   const location = useLocation();
-  
+
   useEffect(() => {
-    if(location.pathname=='/') return;
+    if (location.pathname == "/") return;
     localStorage.setItem("lastRoute", location.pathname);
   }, [location]);
 
@@ -75,7 +74,7 @@ function AppContent() {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/profile" element={<UserProfile />} />
       </Routes>
-      <Footer/>
+      {/* <Footer /> */}
     </ErrorBoundary>
   );
 }
