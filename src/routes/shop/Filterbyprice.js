@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 function Filterbyprice({ Range, setSelectedPrices, selectedPrices, isAllPrice, setIsAllPrice }) {
   const [sumCount, setSumCount] = useState(0); // Initialize sumCount as a number
@@ -48,7 +48,7 @@ function Filterbyprice({ Range, setSelectedPrices, selectedPrices, isAllPrice, s
             <label className="custom-control-label" htmlFor="price-all">
               All Price
             </label>
-            <span style={{ color: 'black' }} className="badge border text-dark font-weight-normal">{sumCount}</span>
+            <span style={{ color: "black" }} className="badge border text-dark font-weight-normal">{sumCount}</span>
           </div>
 
           {/* Render checkboxes for each price range */}

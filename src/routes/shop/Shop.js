@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getApiCall } from "../../requests/requests";
 import DisplayProduct from "./DisplayProducts";
-import { Header } from "../../components/header/header";
 import { Link } from "react-router-dom"
 import { useLocation } from "react-router-dom";
 import { ProdcutsWrtCate, ProductCalls } from "../../requests/adminreq";
@@ -24,7 +23,7 @@ function Shop() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/')
+      navigate("/")
     }
   }, [])
 
@@ -42,7 +41,7 @@ function Shop() {
     let SubcategoryName = location?.state?.state1?.type || location?.state?.state1?.Name
     if (categoryName && SubcategoryName) {
       const encodedStr = encodeURIComponent(SubcategoryName);
-      // const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
+      // Const url = `http://localhost:8670/admin/getFilterDetails?str=${encodedStr}`;
       const url = `${ProductCalls.filterDetials}?str=${encodedStr}`;
 
       let FetchFilters = await getApiCall(url)
@@ -122,9 +121,9 @@ function Shop() {
                 <DisplayProduct displaydata={displaydata} />
               ) : (
                 !isLoader ? (
-                  <h4 style={{ textAlign: 'center', marginTop: '15rem' }}>No Product For This Filter</h4>
+                  <h4 style={{ textAlign: "center", marginTop: "15rem" }}>No Product For This Filter</h4>
                 ) : (
-                  <div style={{ margin: 'auto', textAlign: 'center', paddingTop: '6.5rem', height: '250px' }}>
+                  <div style={{ margin: "auto", textAlign: "center", paddingTop: "6.5rem", height: "250px" }}>
                     <CircularProgress color="inherit" />
 
                   </div>

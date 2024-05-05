@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import FilterbyBrand from './FilterbyBrand'
-import Filterbyprice from './Filterbyprice'
-import Filterbysize from './Filterbysize'
-import { getApiCall, postApiCall } from '../../requests/requests'
-import { ProductCalls } from '../../requests/adminreq'
+import React, { useEffect, useState } from "react"
+import FilterbyBrand from "./FilterbyBrand"
+import Filterbyprice from "./Filterbyprice"
+import {  postApiCall } from "../../requests/requests"
+import { ProductCalls } from "../../requests/adminreq"
 
 function Filterby({ filter, subcategory, category, setDisplaydata, displaydataClone }) {
   const [Brands, setBrands] = useState([])

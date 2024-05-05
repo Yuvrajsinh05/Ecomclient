@@ -1,19 +1,19 @@
-// loginSlice.js
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { UserAuth } from '../../requests/adminreq';
-import { getApiCall } from '../../requests/requests';
-// import  likeProductAsync  from '../../features/likedProductsSlice'; // Corrected import path
-import { likeProductAsync } from '../../fetures/likedProductsSlice';
+// LoginSlice.js
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { UserAuth } from "../../requests/adminreq";
+import { getApiCall } from "../../requests/requests";
+// Import  likeProductAsync  from '../../features/likedProductsSlice'; // Corrected import path
+import { likeProductAsync } from "../../fetures/likedProductsSlice";
 
 // Function to load user from local storage
 const loadUserFromStorage = async (dispatch) => { // Pass dispatch as an argument
-  const storedToken = localStorage.getItem('ecomtoken');
+  const storedToken = localStorage.getItem("ecomtoken");
   if (storedToken) {
     try {
       // If token exists, attempt to fetch user data
       const fetchedUser = await getUserDetail();
       if(fetchedUser.error){
-         dispatch(logout())
+        dispatch(logout())
         localStorage.clear()
         return;
       }
@@ -21,7 +21,7 @@ const loadUserFromStorage = async (dispatch) => { // Pass dispatch as an argumen
       return fetchedUser;
     } catch (error) {
       // Handle error if user data cannot be fetched
-      console.error('Error fetching user data:', error);
+      console.error("Error fetching user data:", error);
       return null;
     }
   } else {
@@ -36,7 +36,7 @@ async function getUserDetail() {
 
 // Thunk to fetch user data
 export const fetchUserFromStorage = createAsyncThunk(
-  'login/fetchUser',
+  "login/fetchUser",
   async (arg, { dispatch }) => { // Destructure dispatch from the second argument
     return await loadUserFromStorage(dispatch);
   }
@@ -50,7 +50,7 @@ const initialState = {
 };
 
 const loginSlice = createSlice({
-  name: 'login',
+  name: "login",
   initialState,
   reducers: {
     // Action to handle successful login
@@ -58,14 +58,14 @@ const loginSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
       state.isLoading = false;
-      localStorage.setItem('ecomtoken', action.payload.token);
+      localStorage.setItem("ecomtoken", action.payload.token);
     },
     // Action to handle logout
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
       state.isLoading = false;
-      localStorage.removeItem('ecomtoken');
+      localStorage.removeItem("ecomtoken");
     },
   },
   extraReducers: (builder) => {

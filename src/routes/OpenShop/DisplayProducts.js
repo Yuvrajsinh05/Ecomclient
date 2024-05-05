@@ -1,15 +1,16 @@
+import React from "react";
 import { Link } from "react-router-dom"
-import { likeProductAsync } from '../../fetures/likedProductsSlice';
-import { useDispatch ,useSelector } from 'react-redux';
+import { likeProductAsync } from "../../fetures/likedProductsSlice";
+import { useDispatch ,useSelector } from "react-redux";
 import styles from "./openshop.module.css"
-// impor
+// Impor
 
 
 
 function DisplayProduct({ displaydata }) {
   return (
     <>
-      {displaydata?.map((prods,index) => {
+      {displaydata?.map((prods) => {
         return (
           <DisplayItem prods={prods} key={prods._id} />
         )
@@ -24,22 +25,22 @@ export default DisplayProduct
 
 
 function DisplayItem({prods}) {
-// const dispatch = useDispatch()
-const dispatch = useDispatch();
-const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
+// Const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
 
-const handleLikeProduct = async () => {
-  try {
-    await dispatch(likeProductAsync(prods._id , [] ,CustomerId));
-  } catch (error) {
-    console.error('Error liking product:', error);
+  const handleLikeProduct = async () => {
+    try {
+      await dispatch(likeProductAsync(prods._id , [] ,CustomerId));
+    } catch (error) {
+      console.error("Error liking product:", error);
     // Handle errors or display an error message
-  }
-};
+    }
+  };
 
   return (
     <>
-      <div style={{height:'320px'}} className={styles.product_container} >
+      <div style={{height:"320px"}} className={styles.product_container} >
         <div  className="product-item bg-light mb-4">
           <div className="product-img position-relative overflow-hidden">
             <img
@@ -58,7 +59,7 @@ const handleLikeProduct = async () => {
             </div>
           </div>
           <div className="text-center py-4">
-            <Link className="h6 text-decoration-none text-truncate" style={{display:'block'}} to="">
+            <Link className="h6 text-decoration-none text-truncate" style={{display:"block"}} to="">
               {prods?.name || prods?.model}
             </Link>
             <div className="d-flex align-items-center justify-content-center mt-2">

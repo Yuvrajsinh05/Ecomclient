@@ -1,187 +1,186 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
-import { getApiCall, postApiCall } from '../../requests/requests';
-import { Header } from '../../components/header/header';
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom";
+import { getApiCall, postApiCall } from "../../requests/requests";
 import { useNavigate } from "react-router-dom";
-import { CustomerCart, ProdcutsWrtCate } from '../../requests/adminreq';
+import { CustomerCart, ProdcutsWrtCate } from "../../requests/adminreq";
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from 'react-redux';
-import { CircularProgress } from '@mui/material';
+import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress } from "@mui/material";
 import styles from "./details.module.css"
-import { fetchUserFromStorage } from '../login/loginSlice';
+import { fetchUserFromStorage } from "../login/loginSlice";
 
 function Details() {
-    const isAuthenticated = useSelector(state => state.login.isAuthenticated);
-    const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
-    const { productId } = useParams();
-    const [proDetail, setProDetail] = useState([])
-    const [counter, setCounter] = useState(1)
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
+  const isAuthenticated = useSelector(state => state.login.isAuthenticated);
+  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
+  const { productId } = useParams();
+  const [proDetail, setProDetail] = useState([])
+  const [counter, setCounter] = useState(1)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-    useEffect(() => {
-        getProdDetail()
-    }, [])
+  useEffect(() => {
+    getProdDetail()
+  }, [])
 
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate('/')
-        }
-    }, [])
-
-    const getProdDetail = async () => {
-        let res = await getApiCall(`${ProdcutsWrtCate.getProductDetailById}/${productId}`)
-        setProDetail(res?.data[0])
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/")
     }
+  }, [])
 
-    async function handlecartmenu(e) {
-        e.preventDefault();
-        let data = {
-            product_id: productId,
-            product_name: proDetail?.name,
-            quantity: counter,
-            price: proDetail?.price,
-            Prodcategory: proDetail?.category,
-            Prodtype: proDetail?.type
-        }
-        let addCart = await postApiCall(`${CustomerCart.createcart}?id=${CustomerId}`, data)
-        if (addCart.status == 200) {
-            dispatch(fetchUserFromStorage())
-            navigate('/shoppingcart')
-        }
+  const getProdDetail = async () => {
+    let res = await getApiCall(`${ProdcutsWrtCate.getProductDetailById}/${productId}`)
+    setProDetail(res?.data[0])
+  }
+
+  async function handlecartmenu(e) {
+    e.preventDefault();
+    let data = {
+      product_id: productId,
+      product_name: proDetail?.name,
+      quantity: counter,
+      price: proDetail?.price,
+      Prodcategory: proDetail?.category,
+      Prodtype: proDetail?.type
     }
-
-
-
-    const handleraddcounter = (e) => {
-        e.preventDefault();
-        let count = parseInt(counter)
-        count++
-        setCounter(count)
+    let addCart = await postApiCall(`${CustomerCart.createcart}?id=${CustomerId}`, data)
+    if (addCart.status == 200) {
+      dispatch(fetchUserFromStorage())
+      navigate("/shoppingcart")
     }
-    const handlermvcounter = (e) => {
-        e.preventDefault();
-        if (counter > 0) {
-            let count = parseInt(counter)
-            count--
-            setCounter(count)
-        } else {
-            alert("fuck you dumb!!!")
-        }
+  }
+
+
+
+  const handleraddcounter = (e) => {
+    e.preventDefault();
+    let count = parseInt(counter)
+    count++
+    setCounter(count)
+  }
+  const handlermvcounter = (e) => {
+    e.preventDefault();
+    if (counter > 0) {
+      let count = parseInt(counter)
+      count--
+      setCounter(count)
+    } else {
+      alert("fuck you dumb!!!")
     }
-    return (
-        <>
-            {/* <Header /> */}
-            <div className="container-fluid">
-                <div className="row px-xl-5">
-                    <div className="col-12">
-                        <nav className="breadcrumb bg-light mb-30">
-                            <Link className="breadcrumb-item text-dark" to="#">Home</Link>
-                            <Link className="breadcrumb-item text-dark" to="#">Shop</Link>
-                            <span className="breadcrumb-item active">Shop Detail</span>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-            <div className="container-fluid pb-5">
-                {proDetail.length == 0 ? (<>
-                    <div className={styles.centerLoader}>
-                        <b><CircularProgress color="inherit" /></b>
+  }
+  return (
+    <>
+      {/* <Header /> */}
+      <div className="container-fluid">
+        <div className="row px-xl-5">
+          <div className="col-12">
+            <nav className="breadcrumb bg-light mb-30">
+              <Link className="breadcrumb-item text-dark" to="#">Home</Link>
+              <Link className="breadcrumb-item text-dark" to="#">Shop</Link>
+              <span className="breadcrumb-item active">Shop Detail</span>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <div className="container-fluid pb-5">
+        {proDetail.length == 0 ? (<>
+          <div className={styles.centerLoader}>
+            <b><CircularProgress color="inherit" /></b>
                          
+          </div>
+        </>) :
+
+          (
+            <>
+              <div className="row px-xl-5">
+                <div className="col-lg-5 mb-30">
+                  <div id="product-carousel" className="carousel slide" data-ride="carousel">
+                    <div className="carousel-inner bg-light">
+                      <div className="carousel-item active">
+                        <img className="w-100" style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="carousel" />
+                      </div>
+                      <div className="carousel-item">
+                        <img className="w-100 " style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="carousel" />
+                      </div>
+                      <div className="carousel-item">
+                        <img className="w-100" style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="carousel" />
+                      </div>
+                      <div className="carousel-item">
+                        <img className="w-100" style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="carousel" />
+                      </div>
                     </div>
-                </>) :
+                    <Link className="carousel-control-prev" to="#product-carousel" data-slide="prev">
+                      <i className="fa fa-2x fa-angle-left text-dark"></i>
+                    </Link>
+                    <Link className="carousel-control-next" to="#product-carousel" data-slide="next">
+                      <i className="fa fa-2x fa-angle-right text-dark"></i>
+                    </Link>
+                  </div>
+                </div>
 
-                    (
-                        <>
-                            <div className="row px-xl-5">
-                                <div className="col-lg-5 mb-30">
-                                    <div id="product-carousel" className="carousel slide" data-ride="carousel">
-                                        <div className="carousel-inner bg-light">
-                                            <div className="carousel-item active">
-                                                <img className="w-100" style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="Image" />
-                                            </div>
-                                            <div className="carousel-item">
-                                                <img className="w-100 " style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="Image" />
-                                            </div>
-                                            <div className="carousel-item">
-                                                <img className="w-100" style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="Image" />
-                                            </div>
-                                            <div className="carousel-item">
-                                                <img className="w-100" style={{ height: "500px" }} src={proDetail?.image || proDetail?.imageUrl} alt="Image" />
-                                            </div>
-                                        </div>
-                                        <Link className="carousel-control-prev" to="#product-carousel" data-slide="prev">
-                                            <i className="fa fa-2x fa-angle-left text-dark"></i>
-                                        </Link>
-                                        <Link className="carousel-control-next" to="#product-carousel" data-slide="next">
-                                            <i className="fa fa-2x fa-angle-right text-dark"></i>
-                                        </Link>
-                                    </div>
-                                </div>
+                <div className="col-lg-7 h-auto mb-30">
+                  <div className="h-100 bg-light p-30">
+                    <h3>{proDetail?.name || proDetail?.model}</h3>
+                    <div className="d-flex mb-3">
+                      <div className="text-primary mr-2">
+                        <small className="fas fa-star"></small>
+                        <small className="fas fa-star"></small>
+                        <small className="fas fa-star"></small>
+                        <small className="fas fa-star-half-alt"></small>
+                        <small className="far fa-star"></small>
+                      </div>
+                      <small className="pt-1">(99 Reviews)</small>
+                    </div>
+                    <h3 className="font-weight-semi-bold mb-4">₹{proDetail?.price}</h3>
+                    <p className="mb-4">{proDetail?.description}</p>
 
-                                <div className="col-lg-7 h-auto mb-30">
-                                    <div className="h-100 bg-light p-30">
-                                        <h3>{proDetail?.name || proDetail?.model}</h3>
-                                        <div className="d-flex mb-3">
-                                            <div className="text-primary mr-2">
-                                                <small className="fas fa-star"></small>
-                                                <small className="fas fa-star"></small>
-                                                <small className="fas fa-star"></small>
-                                                <small className="fas fa-star-half-alt"></small>
-                                                <small className="far fa-star"></small>
-                                            </div>
-                                            <small className="pt-1">(99 Reviews)</small>
-                                        </div>
-                                        <h3 className="font-weight-semi-bold mb-4">₹{proDetail?.price}</h3>
-                                        <p className="mb-4">{proDetail?.description}</p>
+                    <form onSubmit={(e) => handlecartmenu(e)}>
+                      <div className="d-flex align-items-center mb-4 pt-2">
+                        <div className="input-group quantity mr-3" style={{ width: "130px" }}>
+                          <div className="input-group-btn">
+                            <button className="btn btn-primary btn-minus" onClick={(e) => handlermvcounter(e)}>
+                              <i className="fa fa-minus"></i>
+                            </button>
+                          </div>
+                          <p className="form-control bg-secondary border-0 text-center" >{counter}</p>
+                          <div className="input-group-btn">
+                            <button className="btn btn-primary btn-plus" onClick={(e) => handleraddcounter(e)}>
+                              <i className="fa fa-plus"></i>
+                            </button>
+                          </div>
+                        </div>
 
-                                        <form onSubmit={(e) => handlecartmenu(e)}>
-                                            <div className="d-flex align-items-center mb-4 pt-2">
-                                                <div className="input-group quantity mr-3" style={{ width: "130px" }}>
-                                                    <div className="input-group-btn">
-                                                        <button className="btn btn-primary btn-minus" onClick={(e) => handlermvcounter(e)}>
-                                                            <i className="fa fa-minus"></i>
-                                                        </button>
-                                                    </div>
-                                                    <p className="form-control bg-secondary border-0 text-center" >{counter}</p>
-                                                    <div className="input-group-btn">
-                                                        <button className="btn btn-primary btn-plus" onClick={(e) => handleraddcounter(e)}>
-                                                            <i className="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <button className="btn btn-primary px-3" type="submit"><i className="fa fa-shopping-cart mr-1" ></i> Add To
+                      </div>
+                      <button className="btn btn-primary px-3" type="submit"><i className="fa fa-shopping-cart mr-1" ></i> Add To
                                                 Cart</button>
-                                        </form>
+                    </form>
 
-                                        <div className="d-flex pt-2">
-                                            <strong className="text-dark mr-2">Share on:</strong>
-                                            <div className="d-inline-flex">
-                                                <Link className="text-dark px-2" to="">
-                                                    <i className="fab fa-facebook-f"></i>
-                                                </Link>
-                                                <Link className="text-dark px-2" to="">
-                                                    <i className="fab fa-twitter"></i>
-                                                </Link>
-                                                <Link className="text-dark px-2" to="">
-                                                    <i className="fab fa-linkedin-in"></i>
-                                                </Link>
-                                                <Link className="text-dark px-2" to="">
-                                                    <i className="fab fa-pinterest"></i>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </>
-                    )
+                    <div className="d-flex pt-2">
+                      <strong className="text-dark mr-2">Share on:</strong>
+                      <div className="d-inline-flex">
+                        <Link className="text-dark px-2" to="">
+                          <i className="fab fa-facebook-f"></i>
+                        </Link>
+                        <Link className="text-dark px-2" to="">
+                          <i className="fab fa-twitter"></i>
+                        </Link>
+                        <Link className="text-dark px-2" to="">
+                          <i className="fab fa-linkedin-in"></i>
+                        </Link>
+                        <Link className="text-dark px-2" to="">
+                          <i className="fab fa-pinterest"></i>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )
 
-                }
+        }
 
-                {/* <div className="row px-xl-5">
+        {/* <div className="row px-xl-5">
                     <div className="col">
                         <div className="bg-light p-30">
                             <div className="nav nav-tabs mb-4">
@@ -289,9 +288,9 @@ function Details() {
                         </div>
                     </div>
                 </div> */}
-            </div>
-        </>
-    )
+      </div>
+    </>
+  )
 }
 
 export default Details

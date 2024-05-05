@@ -1,8 +1,8 @@
+import React from "react"
 import { useEffect, useState } from "react"
-import { Header } from "../../components/header/header"
-import { getApiCall, getApiCallWithBody } from "../../requests/requests"
+import { getApiCall } from "../../requests/requests"
 import { ProductCalls } from "../../requests/adminreq"
-import { useLocation, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 import { likeProductAsync } from "../../fetures/likedProductsSlice"
 
@@ -12,7 +12,6 @@ import { likeProductAsync } from "../../fetures/likedProductsSlice"
 
 export const Liked = () => {
   const [displaydata, setDisplaydata] = useState([])
-  const location = useLocation()
   const likedProducts = useSelector(state => { return state?.likedProducts });
 
 
@@ -108,7 +107,7 @@ export const Liked = () => {
               </div>
 
 
-              {displaydata?.map((prods, index) => {
+              {displaydata?.map((prods) => {
                 return (
                   <DisplayItem prods={prods} key={prods._id} />
                 )
@@ -127,21 +126,21 @@ export const Liked = () => {
 
 
 function DisplayItem({ prods }) {
-  // const dispatch = useDispatch()
+  // Const dispatch = useDispatch()
   const dispatch = useDispatch();
   const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
   const handleLikeProduct = async () => {
     try {
       await dispatch(likeProductAsync(prods?._id , [] , CustomerId));
     } catch (error) {
-      console.error('Error liking product:', error);
+      console.error("Error liking product:", error);
       // Handle errors or display an error message
     }
   };
 
   return (
     <>
-      <div style={{ height: '320px' }} className="col-lg-2 col-md-4 col-sm-4 pb-1" >
+      <div style={{ height: "320px" }} className="col-lg-2 col-md-4 col-sm-4 pb-1" >
         <div className="product-item bg-light mb-4">
           <div className="product-img position-relative overflow-hidden">
             <img

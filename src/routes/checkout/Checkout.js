@@ -1,10 +1,10 @@
-import React from 'react'
-import Billingaddrs from './Billingaddrs'
+import React from "react"
+import Billingaddrs from "./Billingaddrs"
 import { Link } from "react-router-dom"
 import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 function Checkout() {
   const location = useLocation()
@@ -12,7 +12,7 @@ function Checkout() {
   const navigate = useNavigate()
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate('/')
+      navigate("/")
     }
   }, [])
 

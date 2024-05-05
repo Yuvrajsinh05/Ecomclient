@@ -25,7 +25,7 @@ export function useGetApiCall(url) {
           dispatch(logout());
           return;
         }else{
-            return await responseJson;
+          return await responseJson;
         }
 
         // Handle successful response
@@ -42,4 +42,4 @@ export function useGetApiCall(url) {
 }
 
 // Usage:
-// useApiCall(url);
+// UseApiCall(url);

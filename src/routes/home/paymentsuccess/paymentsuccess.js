@@ -1,36 +1,36 @@
-import { Box, Heading, Text, VStack } from '@chakra-ui/react'
-import React from 'react'
+import { Box, Heading, Text, VStack } from "@chakra-ui/react"
+import React from "react"
 import { useSearchParams } from "react-router-dom"
-import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 const PaymentSuccess = () => {
 
-    const seachQuery = useSearchParams()[0]
-    const navigate =useNavigate();
-    const referenceNum = seachQuery.get("reference")
+  const seachQuery = useSearchParams()[0]
+  const navigate =useNavigate();
+  const referenceNum = seachQuery.get("reference")
 
-    useEffect(()=>{
-        if(window.localStorage.ecomtoken){
-          return true;
-        }else{
-         navigate('/')
-        }
-   },[])
+  useEffect(()=>{
+    if(window.localStorage.ecomtoken){
+      return true;
+    }else{
+      navigate("/")
+    }
+  },[])
 
-    return (
-        <Box>
-            <VStack h="100vh" justifyContent={"center"}>
+  return (
+    <Box>
+      <VStack h="100vh" justifyContent={"center"}>
 
-                <Heading textTransform={"uppercase"}> Order Successfull</Heading>
+        <Heading textTransform={"uppercase"}> Order Successfull</Heading>
 
-                <Text>
+        <Text>
                     Reference No.{referenceNum}
-                </Text>
+        </Text>
 
-            </VStack>
-        </Box>
-    )
+      </VStack>
+    </Box>
+  )
 }
 
 export default PaymentSuccess
