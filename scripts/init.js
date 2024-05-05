@@ -8,8 +8,8 @@
 "use strict";
 
 // Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
+// Ignoring them. In the future, promise rejections that are not handled will
+// Terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", err => {
   throw err;
 });
@@ -65,14 +65,14 @@ function tryGitCommit(appPath) {
     return true;
   } catch (e) {
     // We couldn't commit in already initialized git repo,
-    // maybe the commit author config is not set.
+    // Maybe the commit author config is not set.
     // In the future, we might supply our own committer
-    // like Ember CLI does, but for now, let's just
-    // remove the Git files to avoid a half-done state.
+    // Like Ember CLI does, but for now, let's just
+    // Remove the Git files to avoid a half-done state.
     console.warn("Git commit not created", e);
     console.warn("Removing .git directory...");
     try {
-      // unlinkSync() doesn't work on directories.
+      // UnlinkSync() doesn't work on directories.
       fs.removeSync(path.join(appPath, ".git"));
     } catch (removeErr) {
       // Ignore.
@@ -169,7 +169,7 @@ module.exports = function (
   const templatePackageToMerge = ["dependencies", "scripts"];
 
   // Keys from templatePackage that will be added to appPackage,
-  // replacing any existing entries.
+  // Replacing any existing entries.
   const templatePackageToReplace = Object.keys(templatePackage).filter(key => {
     return (
       !templatePackageBlacklist.includes(key) &&
@@ -240,7 +240,7 @@ module.exports = function (
     return;
   }
 
-  // modifies README.md commands based on user used package manager.
+  // Modifies README.md commands based on user used package manager.
   if (useYarn) {
     try {
       const readme = fs.readFileSync(path.join(appPath, "README.md"), "utf8");
@@ -312,7 +312,7 @@ module.exports = function (
   }
 
   // Install react and react-dom for backward compatibility with old CRA cli
-  // which doesn't install react and react-dom along with react-scripts
+  // Which doesn't install react and react-dom along with react-scripts
   if (!isReactInstalled(appPackage)) {
     args = args.concat(["react", "react-dom"]);
   }
@@ -354,7 +354,7 @@ module.exports = function (
 
   // Display the most elegant way to cd.
   // This needs to handle an undefined originalDirectory for
-  // backward compatibility with old global-cli's.
+  // Backward compatibility with old global-cli's.
   let cdpath;
   if (originalDirectory && path.join(originalDirectory, appName) === appPath) {
     cdpath = appName;

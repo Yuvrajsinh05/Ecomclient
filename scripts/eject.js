@@ -8,8 +8,8 @@
 "use strict";
 
 // Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
+// Ignoring them. In the future, promise rejections that are not handled will
+// Terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", err => {
   throw err;
 });
@@ -121,9 +121,9 @@ prompts({
     return files.concat(
       fs
         .readdirSync(path.join(ownPath, folder))
-        // set full path
+        // Set full path
         .map(file => path.join(ownPath, folder, file))
-        // omit dirs from file list
+        // Omit dirs from file list
         .filter(file => fs.lstatSync(file).isFile())
     );
   }, []);
@@ -278,14 +278,14 @@ prompts({
       );
     } catch (e) {
       // It's not essential that this succeeds, the TypeScript user should
-      // be able to re-create these types with ease.
+      // Be able to re-create these types with ease.
     }
   }
 
   // "Don't destroy what isn't ours"
   if (ownPath.indexOf(appPath) === 0) {
     try {
-      // remove react-scripts and react-scripts binaries from app node_modules
+      // Remove react-scripts and react-scripts binaries from app node_modules
       Object.keys(ownPackage.bin).forEach(binKey => {
         fs.removeSync(path.join(appPath, "node_modules", ".bin", binKey));
       });
@@ -306,7 +306,7 @@ prompts({
     if (process.platform === "win32") {
       // https://github.com/facebook/create-react-app/pull/3806#issuecomment-357781035
       // Yarn is diligent about cleaning up after itself, but this causes the react-scripts.cmd file
-      // to be deleted while it is running. This trips Windows up after the eject completes.
+      // To be deleted while it is running. This trips Windows up after the eject completes.
       // We'll read the batch file and later "write it back" to match npm behavior.
       try {
         windowsCmdFileContent = fs.readFileSync(windowsCmdFilePath);

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import { likeProductAsync } from "../../fetures/likedProductsSlice";
 import { useDispatch ,useSelector } from "react-redux";
 import styles from "./openshop.module.css"
-// impor
+// Impor
 
 
 
@@ -25,7 +25,7 @@ export default DisplayProduct
 
 
 function DisplayItem({prods}) {
-// const dispatch = useDispatch()
+// Const dispatch = useDispatch()
   const dispatch = useDispatch();
   const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
 

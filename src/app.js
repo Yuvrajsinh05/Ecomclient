@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import { Liked } from "./routes/liked/liked";
 import { Header } from "./components/header/header";
 import UserProfile from "./routes/Profile/profile";
-// import { Footer } from "./components/footer/Footer";
+
 
 // ErrorBoundary functional component to catch errors within its child components
 function ErrorBoundary(props) {

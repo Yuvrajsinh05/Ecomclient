@@ -1,8 +1,8 @@
-// loginSlice.js
+// LoginSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { UserAuth } from "../../requests/adminreq";
 import { getApiCall } from "../../requests/requests";
-// import  likeProductAsync  from '../../features/likedProductsSlice'; // Corrected import path
+// Import  likeProductAsync  from '../../features/likedProductsSlice'; // Corrected import path
 import { likeProductAsync } from "../../fetures/likedProductsSlice";
 
 // Function to load user from local storage

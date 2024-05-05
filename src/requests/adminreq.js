@@ -1,5 +1,5 @@
 
-// export const baseUrl = 'http://localhost:8670'
+// Export const baseUrl = 'http://localhost:8670'
 export const baseUrl ="https://ecombackend-303e.onrender.com"
 
 export const UserAuth = {
@@ -37,8 +37,8 @@ export const ProductCalls = {
 }
 
 export const CustomerCart = {
-  getCartById :`${baseUrl}/admin/getcarts`, //admin/getcarts?id=641c677662885f4087a59307'
-  UpdateCartById :`${baseUrl}/admin/updateItems`, //admin/UpdateCartById?id=641c677662885f4087a59307'
+  getCartById :`${baseUrl}/admin/getcarts`, //Admin/getcarts?id=641c677662885f4087a59307'
+  UpdateCartById :`${baseUrl}/admin/updateItems`, //Admin/UpdateCartById?id=641c677662885f4087a59307'
   createcart:`${baseUrl}/admin/createcart`,
   updatequantity:`${baseUrl}/admin/updatequantity`,
   savedProducts:`${baseUrl}/admin/savedProducts`,

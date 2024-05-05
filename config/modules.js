@@ -29,7 +29,7 @@ function getAdditionalModulePaths(options = {}) {
   const baseUrlResolved = path.resolve(paths.appPath, baseUrl);
 
   // We don't need to do anything if `baseUrl` is set to `node_modules`. This is
-  // the default behavior.
+  // The default behavior.
   if (path.relative(paths.appNodeModules, baseUrlResolved) === "") {
     return null;
   }
@@ -41,9 +41,9 @@ function getAdditionalModulePaths(options = {}) {
 
   // If the path is equal to the root directory we ignore it here.
   // We don't want to allow importing from the root directly as source files are
-  // not transpiled outside of `src`. We do allow importing them with the
-  // absolute path (e.g. `src/Components/Button.js`) but we set that up with
-  // an alias.
+  // Not transpiled outside of `src`. We do allow importing them with the
+  // Absolute path (e.g. `src/Components/Button.js`) but we set that up with
+  // An alias.
   if (path.relative(paths.appPath, baseUrlResolved) === "") {
     return null;
   }
@@ -114,14 +114,14 @@ function getModules() {
 
   // If there's a tsconfig.json we assume it's a
   // TypeScript project and set up the config
-  // based on tsconfig.json
+  // Based on tsconfig.json
   if (hasTsConfig) {
     const ts = require(resolve.sync("typescript", {
       basedir: paths.appNodeModules,
     }));
     config = ts.readConfigFile(paths.appTsConfig, ts.sys.readFile).config;
     // Otherwise we'll check if there is jsconfig.json
-    // for non TS projects.
+    // For non TS projects.
   } else if (hasJsConfig) {
     config = require(paths.appJsConfig);
   }

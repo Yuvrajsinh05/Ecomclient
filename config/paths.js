@@ -19,10 +19,10 @@ const resolveApp = relativePath => path.resolve(appDirectory, relativePath);
 
 // We use `PUBLIC_URL` environment variable or "homepage" field to infer
 // "public path" at which the app is served.
-// webpack needs to know it to put the right <script> hrefs into HTML even in
-// single-page apps that may serve index.html for nested URLs like /todos/42.
+// Webpack needs to know it to put the right <script> hrefs into HTML even in
+// Single-page apps that may serve index.html for nested URLs like /todos/42.
 // We can't use a relative path in HTML because we don't want to load something
-// like /todos/42/static/js/bundle.7289d.js. We have to know the root.
+// Like /todos/42/static/js/bundle.7289d.js. We have to know the root.
 const publicUrlOrPath = getPublicUrlOrPath(
   process.env.NODE_ENV === "development",
   require(resolveApp("package.json")).homepage,
@@ -58,7 +58,7 @@ const resolveModule = (resolveFn, filePath) => {
   return resolveFn(`${filePath}.js`);
 };
 
-// config after eject: we're in ./config/
+// Config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
@@ -83,7 +83,7 @@ module.exports = {
 // @remove-on-eject-begin
 const resolveOwn = relativePath => path.resolve(__dirname, "..", relativePath);
 
-// config before eject: we're in ./node_modules/react-scripts/config/
+// Config before eject: we're in ./node_modules/react-scripts/config/
 module.exports = {
   dotenv: resolveApp(".env"),
   appPath: resolveApp("."),
@@ -116,7 +116,7 @@ const reactScriptsLinked =
   fs.existsSync(reactScriptsPath) &&
   fs.lstatSync(reactScriptsPath).isSymbolicLink();
 
-// config before publish: we're in ./packages/react-scripts/config/
+// Config before publish: we're in ./packages/react-scripts/config/
 if (
   !reactScriptsLinked &&
   __dirname.indexOf(path.join("packages", "react-scripts", "config")) !== -1

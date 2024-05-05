@@ -115,7 +115,7 @@ function verifyTypeScriptSetup() {
 
   const compilerOptions = {
     // These are suggested values and will be set when not present in the
-    // tsconfig.json
+    // Tsconfig.json
     // 'parsedValue' matches the output value from ts.parseJsonConfigFileContent()
     target: {
       parsedValue: ts.ScriptTarget.ES5,
@@ -183,7 +183,7 @@ function verifyTypeScriptSetup() {
 
     // Get TS to parse and resolve any "extends"
     // Calling this function also mutates the tsconfig above,
-    // adding in "include" and "exclude", but the compilerOptions remain untouched
+    // Adding in "include" and "exclude", but the compilerOptions remain untouched
     let result;
     parsedTsConfig = immer(readTsConfig, config => {
       result = ts.parseJsonConfigFileContent(
@@ -250,7 +250,7 @@ function verifyTypeScriptSetup() {
     }
   }
 
-  // tsconfig will have the merged "include" and "exclude" by this point
+  // Tsconfig will have the merged "include" and "exclude" by this point
   if (parsedTsConfig.include == null) {
     appTsConfig = immer(appTsConfig, config => {
       config.include = ["src"];

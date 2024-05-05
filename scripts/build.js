@@ -13,8 +13,8 @@ process.env.BABEL_ENV = "production";
 process.env.NODE_ENV = "production";
 
 // Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
+// Ignoring them. In the future, promise rejections that are not handled will
+// Terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", err => {
   throw err;
 });
@@ -58,7 +58,7 @@ const writeStatsJson = argv.indexOf("--stats") !== -1;
 const config = configFactory("production");
 
 // We require that you explicitly set browsers and do not fall back to
-// browserslist defaults.
+// Browserslist defaults.
 const { checkBrowsers } = require("react-dev-utils/browsersHelper");
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
@@ -68,7 +68,7 @@ checkBrowsers(paths.appPath, isInteractive)
   })
   .then(previousFileSizes => {
     // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash
+    // If you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
     copyPublicFolder();
@@ -172,7 +172,7 @@ function build(previousFileSizes) {
       }
       if (messages.errors.length) {
         // Only keep the first error. Others are often indicative
-        // of the same problem, but confuse the reader with noise.
+        // Of the same problem, but confuse the reader with noise.
         if (messages.errors.length > 1) {
           messages.errors.length = 1;
         }

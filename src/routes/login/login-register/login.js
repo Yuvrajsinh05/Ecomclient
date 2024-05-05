@@ -1,37 +1,35 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 import { loginSuccess } from "../loginSlice";
 import { UserAuth } from "../../../requests/adminreq";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { likeProductAsync } from "../../../fetures/likedProductsSlice";
 import axios from "axios";
 
-
-
-
 export const Login = ({ setLogin }) => {
-  const dispatch = useDispatch()
-  const stateStore = useSelector(state => state)
-  const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id });
-  const [useremail, setUseremail] = useState("")
-  const [userpwd, setUserPwd] = useState("")
-  const [clientId, setCLientId] = useState("")
+  const dispatch = useDispatch();
+  const stateStore = useSelector((state) => state);
+  const CustomerId = useSelector((state) => {
+    return state?.login?.user?.Userdata?._id;
+  });
+  const [useremail, setUseremail] = useState("");
+  const [userpwd, setUserPwd] = useState("");
+  const [clientId, setCLientId] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     if (stateStore.login.isAuthenticated) {
-      const fetchRoute = localStorage.getItem("lastRoute")
-      navigate(fetchRoute)
+      const fetchRoute = localStorage.getItem("lastRoute");
+      navigate(fetchRoute);
     }
-  }, [stateStore])
+  }, [stateStore]);
   function handleSubmit(e) {
     e.preventDefault();
     loginPostApiCall(useremail, userpwd);
   }
-
 
   async function loginPostApiCall(email, pswd) {
     const loginPayload = {
@@ -52,35 +50,38 @@ export const Login = ({ setLogin }) => {
       const jsonLoginPostApiRes = await loginPostApiRes.json();
       if (loginPostApiRes.status === 200) {
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
-        dispatch(loginSuccess(jsonLoginPostApiRes))
-        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts, CustomerId))
+        dispatch(loginSuccess(jsonLoginPostApiRes));
+        dispatch(
+          likeProductAsync(
+            false,
+            jsonLoginPostApiRes?.Userdata?.savedProducts,
+            CustomerId
+          )
+        );
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
       }
       if (loginPostApiRes.status == 401) {
-        alert("Invalid authorization")
+        alert("Invalid authorization");
       }
     } catch (error) {
-      alert("check you connection", error)
+      alert("check you connection", error);
     }
   }
 
-
   useEffect(() => {
-    fetchKey()
-  }, [])
+    fetchKey();
+  }, []);
 
   async function fetchKey() {
-    const KeyId = await axios.get(UserAuth.clientKey)
-    setCLientId(KeyId?.ClientKey)
-
+    const KeyId = await axios.get(UserAuth.clientKey);
+    setCLientId(KeyId?.ClientKey);
   }
-
 
   const login = useGoogleLogin({
     clientId,
-    onSuccess: tokenResponse => {
+    onSuccess: (tokenResponse) => {
       fetchGoogleUserInfo(tokenResponse.access_token);
     },
   });
@@ -89,11 +90,7 @@ export const Login = ({ setLogin }) => {
     await login();
   };
 
-
-
-
   async function fetchGoogleUserInfo(access_token) {
-    console.log("Acces", access_token)
     const userinfoEndpoint = "https://www.googleapis.com/oauth2/v3/userinfo";
     const response = await fetch(userinfoEndpoint, {
       headers: {
@@ -110,7 +107,7 @@ export const Login = ({ setLogin }) => {
       email_verified: userData.email_verified,
       name: userData.name,
       picture: userData.picture,
-      sub: userData.sub
+      sub: userData.sub,
     };
     const requestsType = {
       method: "POST",
@@ -126,28 +123,34 @@ export const Login = ({ setLogin }) => {
       if (jsonLoginPostApiRes.status === 200) {
         localStorage.setItem("ecomtoken", jsonLoginPostApiRes.token);
         localStorage.setItem("ecomuserId", jsonLoginPostApiRes.Userdata._id);
-        dispatch(likeProductAsync(false, jsonLoginPostApiRes?.Userdata?.savedProducts, CustomerId))
-        dispatch(loginSuccess(jsonLoginPostApiRes))
+        dispatch(
+          likeProductAsync(
+            false,
+            jsonLoginPostApiRes?.Userdata?.savedProducts,
+            CustomerId
+          )
+        );
+        dispatch(loginSuccess(jsonLoginPostApiRes));
         setTimeout(() => {
           navigate("/dashboard");
         }, 1000);
       }
     } catch (err) {
-      console.log("Login Err:137", err)
+      console.log("Login Err:137", err);
     }
   }
 
-
-
   useEffect(() => {
-    validUrl()
-  }, [])
+    validUrl();
+  }, []);
 
   function getUrlParameter(name) {
     name = name.replace(/\[/, "\\[").replace(/\]/, "\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
     var results = regex.exec(window.location.search);
-    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    return results === null
+      ? ""
+      : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
 
   function validUrl() {
@@ -164,41 +167,49 @@ export const Login = ({ setLogin }) => {
         name: name,
         email: email,
         _id: UserId,
-        savedProducts: savedProducts.split(",")
-      }
-    }
+        savedProducts: savedProducts.split(","),
+      },
+    };
     if (token || name || email || UserId) {
       localStorage.setItem("ecomtoken", token);
       localStorage.setItem("user", name);
 
-      dispatch(likeProductAsync(false, savedProducts.split(","), CustomerId))
-      dispatch(loginSuccess(PayLoad))
+      dispatch(likeProductAsync(false, savedProducts.split(","), CustomerId));
+      dispatch(loginSuccess(PayLoad));
       setTimeout(() => {
         navigate("/dashboard");
       }, 1000);
     }
   }
   async function handleGithubLogin() {
-    const response = await axios.get(UserAuth.isGithubLogin)
+    const response = await axios.get(UserAuth.isGithubLogin);
     if (response.data.reDirect) {
-      window.location.href = response.data.reDirect
+      window.location.href = response.data.reDirect;
     }
   }
 
-
-  // async function
+  // Async function
   return (
     <div className="tab-pane fade show active" id="pills-login">
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className="text-center mb-3 ">
           <p>Sign in with:</p>
 
-          <button type="button" onClick={() => handleLogin()} className="btn btn-link btn-floating mx-1  text-center" style={{ display: "contents" }}>
+          <button
+            type="button"
+            onClick={() => handleLogin()}
+            className="btn btn-link btn-floating mx-1  text-center"
+            style={{ display: "contents" }}
+          >
             <i className="fab fa-google Faicon"></i>
           </button>
 
-
-          <button type="button" onClick={handleGithubLogin} className="btn btn-link btn-floating mx-1" style={{ display: "contents" }}>
+          <button
+            type="button"
+            onClick={handleGithubLogin}
+            className="btn btn-link btn-floating mx-1"
+            style={{ display: "contents" }}
+          >
             <i className="fab fa-github Faicon"></i>
           </button>
         </div>
@@ -206,23 +217,43 @@ export const Login = ({ setLogin }) => {
         <p className="text-center">or:</p>
 
         {/* <!-- Email input --> */}
-        <label className="form-label" htmlFor="loginName">Email or username</label>
+        <label className="form-label" htmlFor="loginName">
+          Email or username
+        </label>
         <div className="form-outline mb-4">
-          <input type="email" id="loginName" onChange={(e) => setUseremail(e.target.value)} className="form-control" />
+          <input
+            type="email"
+            id="loginName"
+            onChange={(e) => setUseremail(e.target.value)}
+            className="form-control"
+          />
         </div>
 
         {/* <!-- Password input --> */}
-        <label className="form-label" htmlFor="loginPassword">Password</label>
+        <label className="form-label" htmlFor="loginPassword">
+          Password
+        </label>
         <div className="form-outline mb-4">
-          <input type="password" id="loginPassword" onChange={(e) => setUserPwd(e.target.value)} className="form-control" />
-
+          <input
+            type="password"
+            id="loginPassword"
+            onChange={(e) => setUserPwd(e.target.value)}
+            className="form-control"
+          />
         </div>
 
-        <button type="submit" className="btn btn-primary btn-block mb-4">Log in</button>
+        <button type="submit" className="btn btn-primary btn-block mb-4">
+          Log in
+        </button>
         <div className="text-center">
-          <p>Not a member? <Link href="" onClick={() => setLogin(false)}>Register</Link></p>
+          <p>
+            Not a member?{" "}
+            <Link href="" onClick={() => setLogin(false)}>
+              Register
+            </Link>
+          </p>
         </div>
       </form>
     </div>
-  )
-}
+  );
+};

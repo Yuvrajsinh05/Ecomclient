@@ -14,8 +14,8 @@ process.env.NODE_ENV = "test";
 process.env.PUBLIC_URL = "";
 
 // Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
+// Ignoring them. In the future, promise rejections that are not handled will
+// Terminate the Node.js process with a non-zero exit code.
 process.on("unhandledRejection", err => {
   throw err;
 });
@@ -114,13 +114,13 @@ let resolvedEnv;
 try {
   resolvedEnv = resolveJestDefaultEnvironment(`jest-environment-${env}`);
 } catch (e) {
-  // ignore
+  // Ignore
 }
 if (!resolvedEnv) {
   try {
     resolvedEnv = resolveJestDefaultEnvironment(env);
   } catch (e) {
-    // ignore
+    // Ignore
   }
 }
 const testEnvironment = resolvedEnv || env;

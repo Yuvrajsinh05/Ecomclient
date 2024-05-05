@@ -45,7 +45,7 @@ const likedProductsSlice = createSlice({
 export const { likeProduct } = likedProductsSlice.actions;
 
 // Export the asynchronous action creator
-// export { likeProductAsync };
+// Export { likeProductAsync };
 
 // Export the reducer
 export default likedProductsSlice.reducer;

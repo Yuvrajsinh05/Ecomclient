@@ -14,7 +14,7 @@ import styles from "./openshop.module.css";
 function OpenShop() {
   const isAuthenticated = useSelector(state => state.login.isAuthenticated);
   const [displaydata, setDisplaydata] = useState([])
-  // const [filter, setFilter] = useState([])
+  // Const [filter, setFilter] = useState([])
   const location = useLocation();
   const navigate = useNavigate()
 

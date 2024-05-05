@@ -17,7 +17,7 @@ export const Register = ({ setLogin }) => {
       alert("fill all details")
     } else (
       setfoundOtpMatch(true)
-      // setfoundOtpMatch(false )
+      // SetfoundOtpMatch(false )
     )
 
   }

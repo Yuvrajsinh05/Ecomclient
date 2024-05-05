@@ -144,7 +144,7 @@ function Cartcomponent({ cart, handleCartrmv, getcustomercart, CustomerId }) {
     let count = parseInt(counter)
     count++
     setCounter(count)
-    // updatequantity()
+    // Updatequantity()
   }
 
   function handlermvcounter(e) {

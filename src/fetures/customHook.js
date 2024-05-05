@@ -42,4 +42,4 @@ export function useGetApiCall(url) {
 }
 
 // Usage:
-// useApiCall(url);
+// UseApiCall(url);

@@ -26,16 +26,16 @@ if (!NODE_ENV) {
 const dotenvFiles = [
   `${paths.dotenv}.${NODE_ENV}.local`,
   // Don't include `.env.local` for `test` environment
-  // since normally you expect tests to produce the same
-  // results for everyone
+  // Since normally you expect tests to produce the same
+  // Results for everyone
   NODE_ENV !== "test" && `${paths.dotenv}.local`,
   `${paths.dotenv}.${NODE_ENV}`,
   paths.dotenv,
 ].filter(Boolean);
 
 // Load environment variables from .env* files. Suppress warnings using silent
-// if this file is missing. dotenv will never modify any environment variables
-// that have already been set.  Variable expansion is supported in .env files.
+// If this file is missing. dotenv will never modify any environment variables
+// That have already been set.  Variable expansion is supported in .env files.
 // https://github.com/motdotla/dotenv
 // https://github.com/motdotla/dotenv-expand
 dotenvFiles.forEach(dotenvFile => {
@@ -65,7 +65,7 @@ process.env.NODE_PATH = (process.env.NODE_PATH || "")
   .join(path.delimiter);
 
 // Grab NODE_ENV and REACT_APP_* environment variables and prepare them to be
-// injected into the application via DefinePlugin in webpack configuration.
+// Injected into the application via DefinePlugin in webpack configuration.
 const REACT_APP = /^REACT_APP_/i;
 
 function getClientEnvironment(publicUrl) {
@@ -83,13 +83,13 @@ function getClientEnvironment(publicUrl) {
         // Useful for resolving the correct path to static assets in `public`.
         // For example, <img src={process.env.PUBLIC_URL + '/img/logo.png'} />.
         // This should only be used as an escape hatch. Normally you would put
-        // images into the `src` and `import` them in code to get their paths.
+        // Images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
         // We support configuring the sockjs pathname during development.
         // These settings let a developer run multiple simultaneous projects.
         // They are used as the connection `hostname`, `pathname` and `port`
-        // in webpackHotDevClient. They are used as the `sockHost`, `sockPath`
-        // and `sockPort` options in webpack-dev-server.
+        // In webpackHotDevClient. They are used as the `sockHost`, `sockPath`
+        // And `sockPort` options in webpack-dev-server.
         WDS_SOCKET_HOST: process.env.WDS_SOCKET_HOST,
         WDS_SOCKET_PATH: process.env.WDS_SOCKET_PATH,
         WDS_SOCKET_PORT: process.env.WDS_SOCKET_PORT,

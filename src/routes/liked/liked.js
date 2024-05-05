@@ -126,7 +126,7 @@ export const Liked = () => {
 
 
 function DisplayItem({ prods }) {
-  // const dispatch = useDispatch()
+  // Const dispatch = useDispatch()
   const dispatch = useDispatch();
   const CustomerId = useSelector(state => { return state?.login?.user?.Userdata?._id});
   const handleLikeProduct = async () => {

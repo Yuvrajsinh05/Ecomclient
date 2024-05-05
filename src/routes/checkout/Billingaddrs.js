@@ -74,7 +74,7 @@ function Billingaddrs() {
       handler: async function (response) {
         paymentVerification(response.razorpay_payment_id,OrderID, response.razorpay_signature)
       },
-      // callback_url: Payment.paymentVerify ,
+      // Callback_url: Payment.paymentVerify ,
       prefill: {
         "name": form.fName + " " + form.lName,
         "email": form.Email,

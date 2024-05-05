@@ -14,7 +14,7 @@ const modules = require("../../config/modules");
 
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
-  // an absolute filename into configuration after ejecting.
+  // An absolute filename into configuration after ejecting.
   const setupTestsMatches = paths.testsSetup.match(/src[/\\]setupTests\.(.+)/);
   const setupTestsFileExtension =
     (setupTestsMatches && setupTestsMatches[1]) || "js";
@@ -95,10 +95,10 @@ module.exports = (resolve, rootDir, isEjecting) => {
     supportedKeys.forEach(key => {
       if (Object.prototype.hasOwnProperty.call(overrides, key)) {
         if (Array.isArray(config[key]) || typeof config[key] !== "object") {
-          // for arrays or primitive types, directly override the config key
+          // For arrays or primitive types, directly override the config key
           config[key] = overrides[key];
         } else {
-          // for object types, extend gracefully
+          // For object types, extend gracefully
           config[key] = Object.assign({}, config[key], overrides[key]);
         }
 
